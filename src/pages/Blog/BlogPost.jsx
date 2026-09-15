@@ -104,7 +104,7 @@ export default function BlogPost() {
         const lang = newlineIndex !== -1 ? segment.slice(0, newlineIndex).trim() : segment.trim();
         const code = newlineIndex !== -1 ? segment.slice(newlineIndex + 1) : '';
 
-        return <CodeBlock code="{code}" isDark="{isDark}" key="{segmentIndex}" lang="{lang}"/>;
+        return <CodeBlock code={code} isDark={isDark} key={segmentIndex} lang={lang} />;
       }
 
       return segment
@@ -178,8 +178,15 @@ export default function BlogPost() {
           <p className="text-sm mb-6 text-slate-400 leading-relaxed">
             {t.blog.notFound || 'The requested transmission article could not be loaded from syslog.'}
           </p>
-          <Link ${ 'bg-emerald-500 'bg-emerald-600 : ? className="{`inline-flex" font-bold gap-2 hover:bg-emerald-400' hover:bg-emerald-700' isDark items-center px-5 py-2.5 rounded-xl text-black text-white text-xs to="/blog" tracking-wider transition-all uppercase }`}>
-            <ArrowLeft size="{16}"/>
+          <Link
+            to="/blog"
+            className={`inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-wider font-mono rounded-xl transition-all duration-200 ${
+              isDark
+                ? 'bg-primary text-black hover:bg-primary-dim hover:shadow-[0_0_15px_rgba(16,185,129,0.35)]'
+                : 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-[0_0_15px_rgba(5,150,105,0.3)]'
+            }`}
+          >
+            <ArrowLeft size={16} />
             {t.blog.backToBlog}
           </Link>
         </div>
@@ -217,8 +224,15 @@ export default function BlogPost() {
       <div className="relative mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8">
 
         {/* TOP BACK BUTTON */}
-        <Link ${ 'text-emerald-400 'text-emerald-700 : ? className="{`inline-flex" data-aos="fade-down" font-bold gap-2 hover:text-emerald-300' hover:text-emerald-800' hover:underline isDark items-center mb-8 text-xs to="/blog" tracking-wider transition-colors uppercase }`}>
-          <ArrowLeft className="h-4 w-4"/>
+        <Link
+          to="/blog"
+          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+            isDark
+              ? 'text-primary border-primary/30 bg-primary/10 hover:bg-primary/20 hover:shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+              : 'text-primary-dim border-primary-dim/30 bg-primary-dim/10 hover:bg-primary-dim/20'
+          }`}
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
           {t.blog.backToBlog}
         </Link>
 
@@ -353,7 +367,14 @@ export default function BlogPost() {
 
         {/* BOTTOM RETURN TRIGGER */}
         <div className="mt-10 text-center">
-          <Link ${ 'border-emerald-300 'border-emerald-500/40 : ? bg-black bg-white border className="{`inline-flex" font-bold gap-2 hover:bg-emerald-50 hover:bg-emerald-950/40' hover:border-emerald-300 hover:border-emerald-500 isDark items-center px-6 py-3 rounded-xl shadow-xs' sm:text-sm text-emerald-400 text-emerald-800 text-xs to="/blog" tracking-wider transition-all uppercase }`}>
+          <Link
+            to="/blog"
+            className={`inline-flex items-center gap-2 border px-6 py-3 rounded-xl shadow-xs text-xs sm:text-sm font-bold uppercase tracking-wider transition-all ${
+              isDark
+                ? 'border-emerald-500/40 bg-black text-emerald-400 hover:bg-emerald-950/40 hover:border-emerald-500'
+                : 'border-emerald-300 bg-white text-emerald-800 hover:bg-emerald-50 hover:border-emerald-300'
+            }`}
+          >
             <ArrowLeft className="h-4 w-4"/>
             {t.blog.backToBlog}
           </Link>
