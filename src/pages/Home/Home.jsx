@@ -138,7 +138,7 @@ export default function Home() {
                   {t.hero.viewProjects}
                   <ArrowRight size={18} />
                 </Link>
-                <a href="/NgetMeas_CV.pdf" download className="btn-outline inline-flex items-center gap-2">
+                <a href="/CV_NgetMeas.pdf" download="CV_NgetMeas.pdf" className="btn-outline inline-flex items-center gap-2">
                   <Download size={18} />
                   {t.hero.downloadCV}
                 </a>

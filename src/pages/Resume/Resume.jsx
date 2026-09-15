@@ -123,7 +123,7 @@ export default function Resume() {
             {t.resume.subtitle}
           </p>
           <a
-            href="/NgetMeas_CV.pdf"
+            href="/CV_NgetMeas.pdf" download="CV_NgetMeas.pdf"
             download
             className={`no-print btn-primary inline-flex items-center gap-2`}
           >
