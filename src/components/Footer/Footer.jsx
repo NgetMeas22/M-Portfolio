@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Heart } from 'lucide-react';
+import { Mail, Heart, Terminal } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { useTheme } from '../../hooks/useTheme.jsx';
@@ -26,20 +26,23 @@ function Footer() {
     <footer
       className={`border-t transition-colors duration-300 ${
         theme === 'dark'
-          ? 'bg-[#0a0a0f] border-white/10 text-gray-300'
+          ? 'bg-[#0a0a0a] border-white/5 text-gray-400'
           : 'bg-gray-50 border-gray-200 text-gray-700'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
-            <h3
-              className={`text-xl font-bold mb-3 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}
-            >
-              NGET MEAS
-            </h3>
+            <div className="flex items-center gap-2 mb-3">
+              <Terminal className={`w-5 h-5 ${theme === 'dark' ? 'text-primary' : 'text-green-600'}`} />
+              <h3
+                className={`text-xl font-bold font-mono ${
+                  theme === 'dark' ? 'text-gray-200' : 'text-gray-900'
+                }`}
+              >
+                NGET MEAS
+              </h3>
+            </div>
             <p className="text-sm leading-relaxed max-w-xs">
               {t.footer.description}
             </p>
@@ -47,8 +50,8 @@ function Footer() {
 
           <div>
             <h4
-              className={`text-sm font-semibold uppercase tracking-wider mb-4 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
+              className={`text-sm font-semibold uppercase tracking-wider mb-4 font-mono ${
+                theme === 'dark' ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.footer.quickLinks}
@@ -60,8 +63,8 @@ function Footer() {
                     to={link.path}
                     className={`text-sm transition-colors duration-200 ${
                       theme === 'dark'
-                        ? 'text-gray-400 hover:text-cyan-400'
-                        : 'text-gray-500 hover:text-blue-600'
+                        ? 'text-gray-400 hover:text-primary'
+                        : 'text-gray-500 hover:text-green-600'
                     }`}
                   >
                     {t.nav[link.key]}
@@ -73,8 +76,8 @@ function Footer() {
 
           <div>
             <h4
-              className={`text-sm font-semibold uppercase tracking-wider mb-4 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
+              className={`text-sm font-semibold uppercase tracking-wider mb-4 font-mono ${
+                theme === 'dark' ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.footer.connect}
@@ -89,8 +92,8 @@ function Footer() {
                   aria-label={label}
                   className={`p-2.5 rounded-lg transition-all duration-200 ${
                     theme === 'dark'
-                      ? 'bg-white/5 text-gray-400 hover:bg-cyan-500/15 hover:text-cyan-400'
-                      : 'bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-600'
+                      ? 'bg-primary/5 text-gray-400 hover:bg-primary/10 hover:text-primary'
+                      : 'bg-gray-100 text-gray-500 hover:bg-green-50 hover:text-green-600'
                   }`}
                 >
                   <Icon size={20} />
@@ -104,13 +107,13 @@ function Footer() {
       <div
         className={`border-t py-6 ${
           theme === 'dark'
-            ? 'border-white/10 bg-[#07070b]'
+            ? 'border-white/5 bg-[#050505]'
             : 'border-gray-200 bg-gray-100'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
-          <p className={theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}>
-            &copy; {new Date().getFullYear()} NGET MEAS. {t.footer.copyright}
+          <p className={`font-mono ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+            &copy; {new Date().getFullYear()} <span className={theme === 'dark' ? 'text-primary' : 'text-green-600'}>NGET MEAS</span>. {t.footer.copyright}
           </p>
           <p
             className={`flex items-center gap-1 ${

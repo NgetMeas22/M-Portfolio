@@ -59,7 +59,7 @@ function BlogPost() {
             }`}
           >
             {lang && (
-              <span className={`mb-2 block text-xs uppercase tracking-wider ${isDark ? 'text-cyan-400' : 'text-blue-300'}`}>
+              <span className={`mb-2 block text-xs uppercase tracking-wider ${isDark ? 'text-primary' : 'text-green-500'}`}>
                 {lang}
               </span>
             )}
@@ -136,7 +136,7 @@ function BlogPost() {
         <Link
           to="/blog"
           className={`mb-8 inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
-            isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-500'
+            isDark ? 'text-primary hover:text-primary/80' : 'text-green-600 hover:text-green-500'
           }`}
           data-aos="fade-up"
         >
@@ -148,8 +148,8 @@ function BlogPost() {
           <div
             className={`mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
               isDark
-                ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400'
-                : 'border-blue-500/30 bg-blue-500/10 text-blue-600'
+                ? 'border-primary/30 bg-primary/10 text-primary'
+                : 'border-green-500/30 bg-green-500/10 text-green-600'
             }`}
           >
             <BookOpen className="h-3.5 w-3.5" />
@@ -165,18 +165,18 @@ function BlogPost() {
           </h1>
 
           <div className="mb-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-b pb-6 text-sm">
-            <span className={`inline-flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-              <Calendar className="h-4 w-4" />
+            <span className={`inline-flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
+              <Calendar className="h-4 w-4 text-primary" />
               {t.blog.publishedOn} {formatDate(post.date)}
             </span>
-            <span className={`inline-flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-              <Clock className="h-4 w-4" />
+            <span className={`inline-flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
+              <Clock className="h-4 w-4 text-primary" />
               {language === 'en' ? `${post.readTime} ${t.blog.readTime}` : post.readTime}
             </span>
           </div>
 
           <div className="mb-8 flex flex-wrap items-center gap-2">
-            <Tag className={`h-4 w-4 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+            <Tag className={`h-4 w-4 ${isDark ? 'text-primary' : 'text-green-600'}`} />
             {post.tags.map((tag) => (
               <span key={tag} className="tag">
                 {tag}

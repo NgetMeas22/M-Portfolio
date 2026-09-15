@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Award, Building2, Calendar, ExternalLink, Code, Globe } from 'lucide-react';
+import { Award, Building2, Calendar, Code, Globe } from 'lucide-react';
 import { certificates } from '../../data/certificates';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
@@ -9,23 +9,23 @@ import { useTheme } from '../../hooks/useTheme';
 const categoryConfig = {
   Programming: {
     icon: <Code className="h-4 w-4" />,
-    gradient: 'from-blue-500 to-cyan-500',
+    gradient: 'from-primary to-accent',
     badge: {
-      dark: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-      light: 'bg-blue-500/10 text-blue-600 border-blue-500/30'
+      dark: 'bg-primary/10 text-primary border-primary/30',
+      light: 'bg-green-500/10 text-green-700 border-green-500/30'
     }
   },
   'Web Development': {
     icon: <Globe className="h-4 w-4" />,
-    gradient: 'from-purple-500 to-pink-500',
+    gradient: 'from-emerald-500 to-green-500',
     badge: {
-      dark: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
-      light: 'bg-purple-500/10 text-purple-600 border-purple-500/30'
+      dark: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+      light: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30'
     }
   },
   Language: {
     icon: <Globe className="h-4 w-4" />,
-    gradient: 'from-green-500 to-teal-500',
+    gradient: 'from-green-400 to-primary',
     badge: {
       dark: 'bg-green-500/10 text-green-400 border-green-500/30',
       light: 'bg-green-500/10 text-green-600 border-green-500/30'
@@ -38,11 +38,7 @@ const Certificates = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      easing: 'ease-out-cubic'
-    });
+    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
   }, []);
 
   const isDark = theme === 'dark';
@@ -51,7 +47,7 @@ const Certificates = () => {
     <section
       id="certificates"
       className={`min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-        isDark ? 'bg-[#0a0a0f]' : 'bg-white'
+        isDark ? 'bg-[#0a0a0a]' : 'bg-white'
       }`}
     >
       <div className="max-w-6xl mx-auto">
@@ -59,21 +55,17 @@ const Certificates = () => {
           <div
             className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
               isDark
-                ? 'border-amber-500/30 bg-amber-500/10 text-amber-400'
-                : 'border-amber-500/30 bg-amber-500/10 text-amber-600'
+                ? 'border-primary/30 bg-primary/10 text-primary'
+                : 'border-green-500/30 bg-green-500/10 text-green-700'
             }`}
           >
             <Award className="h-3.5 w-3.5" />
             {t.certificates.title}
           </div>
-          <h1
-            className={`text-4xl sm:text-5xl font-bold mb-4 ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}
-          >
+          <h1 className="section-title text-4xl sm:text-5xl font-mono">
             {t.certificates.title}
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mx-auto mb-6 rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
           <p
             className={`text-lg max-w-2xl mx-auto ${
               isDark ? 'text-gray-400' : 'text-gray-600'
@@ -91,7 +83,7 @@ const Certificates = () => {
                 key={cert.id}
                 className={`group rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 ${
                   isDark
-                    ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-amber-500/30'
+                    ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.08)]'
                     : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
                 }`}
                 data-aos="fade-up"
@@ -100,9 +92,6 @@ const Certificates = () => {
                 <div className="flex items-start gap-4">
                   <div
                     className={`shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br ${cat.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
-                    style={{
-                      boxShadow: isDark ? `0 0 24px rgba(251,191,36,0.15)` : `0 0 24px rgba(251,146,60,0.1)`
-                    }}
                   >
                     <Award className="h-6 w-6 text-white" />
                   </div>
@@ -125,11 +114,11 @@ const Certificates = () => {
 
                 <div className="mt-4 space-y-2">
                   <div className={`flex items-center gap-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                    <Building2 className="h-4 w-4 shrink-0" />
+                    <Building2 className="h-4 w-4 shrink-0 text-primary" />
                     <span>{language === 'kh' ? cert.organizationKh : cert.organization}</span>
                   </div>
                   <div className={`flex items-center gap-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                    <Calendar className="h-4 w-4 shrink-0" />
+                    <Calendar className="h-4 w-4 shrink-0 text-primary" />
                     <span>{cert.date}</span>
                   </div>
                 </div>
@@ -148,7 +137,7 @@ const Certificates = () => {
                       isDark ? 'bg-white/5 text-slate-300' : 'bg-white text-slate-600'
                     }`}
                   >
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <Award className="h-3.5 w-3.5 text-primary" />
                     <span>{t.certificates.credentialId}: {cert.credentialId}</span>
                   </div>
                 )}

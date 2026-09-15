@@ -24,14 +24,14 @@ const filterTabs = [
 ];
 
 const gradients = [
-  'from-cyan-500 to-blue-600',
+  'from-primary to-emerald-600',
   'from-purple-500 to-pink-600',
   'from-emerald-500 to-teal-600',
   'from-orange-500 to-red-600',
   'from-indigo-500 to-purple-600',
   'from-pink-500 to-rose-600',
   'from-amber-500 to-orange-600',
-  'from-teal-500 to-cyan-600'
+  'from-teal-500 to-primary'
 ];
 
 function getGradient(index) {
@@ -95,8 +95,8 @@ function Projects() {
             <div
               className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
                 isDark
-                  ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400'
-                  : 'border-blue-500/30 bg-blue-500/10 text-blue-600'
+                  ? 'border-primary/30 bg-primary/10 text-primary'
+                  : 'border-green-500/30 bg-green-500/10 text-green-600'
               }`}
             >
               <Eye className="h-3.5 w-3.5" />
@@ -116,8 +116,8 @@ function Projects() {
             <div
               className={`relative flex items-center rounded-xl border transition-all duration-300 focus-within:ring-2 ${
                 isDark
-                  ? 'border-slate-700 bg-slate-900/50 focus-within:border-cyan-500/50 focus-within:ring-cyan-500/20'
-                  : 'border-slate-200 bg-white focus-within:border-blue-500/50 focus-within:ring-blue-500/20'
+                  ? 'border-slate-700 bg-slate-900/50 focus-within:border-primary/50 focus-within:ring-primary/20'
+                  : 'border-slate-200 bg-white focus-within:border-green-500/50 focus-within:ring-green-500/20'
               }`}
             >
               <Search
@@ -154,11 +154,11 @@ function Projects() {
                   className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-all duration-300 active:scale-95 ${
                     active
                       ? isDark
-                        ? 'border-cyan-500/40 bg-cyan-500/10 text-cyan-400 shadow-[0_0_15px_rgba(0,212,255,0.15)]'
-                        : 'border-blue-500/40 bg-blue-500/10 text-blue-600 shadow-[0_0_15px_rgba(0,102,204,0.1)]'
+                        ? 'border-primary/40 bg-primary/10 text-primary shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                        : 'border-green-500/40 bg-green-500/10 text-green-600 shadow-[0_0_15px_rgba(0,200,65,0.1)]'
                       : isDark
-                        ? 'border-slate-700 text-slate-400 hover:border-cyan-500/40 hover:text-cyan-400'
-                        : 'border-slate-200 text-slate-500 hover:border-blue-500/40 hover:text-blue-600'
+                        ? 'border-slate-700 text-slate-400 hover:border-primary/40 hover:text-primary'
+                        : 'border-slate-200 text-slate-500 hover:border-green-500/40 hover:text-green-600'
                   }`}
                 >
                   {language === 'kh' ? tab.labelKh : tab.label}
@@ -175,8 +175,8 @@ function Projects() {
                 data-aos-delay={Math.min(index * 50, 300)}
                 className={`card group flex flex-col overflow-hidden transition-all duration-300 ${
                   isDark
-                    ? 'border-slate-800 bg-slate-900/50 hover:border-cyan-500/30 hover:shadow-[0_0_30px_rgba(0,212,255,0.08)]'
-                    : 'border-slate-200 bg-white shadow-md hover:shadow-xl hover:border-blue-200'
+                    ? 'border-slate-800 bg-slate-900/50 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,65,0.08)]'
+                    : 'border-slate-200 bg-white shadow-md hover:shadow-xl hover:border-green-200'
                 }`}
                 style={{ animation: `cardIn 0.45s ease ${index * 0.05}s both` }}
               >
@@ -241,8 +241,8 @@ function Projects() {
                       to={`/projects/${project.slug}`}
                       className={`inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 ${
                         isDark
-                          ? 'bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20'
-                          : 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20'
+                          ? 'bg-primary/10 text-primary hover:bg-primary/20'
+                          : 'bg-green-500/10 text-green-600 hover:bg-green-500/20'
                       }`}
                     >
                       <Eye className="h-4 w-4" />

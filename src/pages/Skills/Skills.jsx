@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Code, Database, Server, Wrench, BookOpen, Filter } from 'lucide-react';
+import { Code, Database, Server, Wrench, BookOpen, Filter, Terminal } from 'lucide-react';
 import { skills, skillCategories, skillLevelLabels } from '../../data/skills';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
@@ -31,12 +31,12 @@ const levelStyles = {
 
 const tabStyles = {
   active: {
-    dark: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40 shadow-[0_0_15px_rgba(0,212,255,0.15)]',
-    light: 'bg-blue-500/10 text-blue-600 border-blue-500/40 shadow-[0_0_15px_rgba(0,102,204,0.1)]'
+    dark: 'bg-primary/10 text-primary border-primary/40 shadow-[0_0_15px_rgba(0,255,65,0.15)]',
+    light: 'bg-green-500/10 text-green-600 border-green-500/40 shadow-[0_0_15px_rgba(0,200,65,0.1)]'
   },
   inactive: {
-    dark: 'text-slate-400 border-slate-700 hover:border-cyan-500/40 hover:text-cyan-400',
-    light: 'text-slate-500 border-slate-200 hover:border-blue-500/40 hover:text-blue-600'
+    dark: 'text-slate-400 border-slate-700 hover:border-primary/40 hover:text-primary',
+    light: 'text-slate-500 border-slate-200 hover:border-green-500/40 hover:text-green-600'
   }
 };
 
@@ -83,11 +83,11 @@ function Skills() {
             <div
               className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
                 isDark
-                  ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400'
-                  : 'border-blue-500/30 bg-blue-500/10 text-blue-600'
+                  ? 'border-primary/30 bg-primary/10 text-primary'
+                  : 'border-green-500/30 bg-green-500/10 text-green-600'
               }`}
             >
-              <Code className="h-3.5 w-3.5" />
+              <Terminal className="h-3.5 w-3.5" />
               Technical Stack
             </div>
             <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl">
@@ -133,7 +133,11 @@ function Skills() {
                 key={skill.name}
                 data-aos="fade-up"
                 data-aos-delay={Math.min(index * 50, 300)}
-                className="card group flex flex-col gap-4"
+                className={`card group flex flex-col gap-4 ${
+                  isDark
+                    ? 'hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,65,0.08)]'
+                    : 'hover:border-green-400/30 hover:shadow-[0_0_30px_rgba(0,200,65,0.08)]'
+                }`}
                 style={{ animation: `skillCardIn 0.45s ease ${index * 0.05}s both` }}
               >
                 <div className="flex items-start">
@@ -166,8 +170,8 @@ function Skills() {
                   <span
                     className={`mt-2 inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium ${
                       isDark
-                        ? 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'
-                        : 'border-blue-500/20 bg-blue-500/5 text-blue-600'
+                        ? 'border-primary/20 bg-primary/5 text-primary'
+                        : 'border-green-500/20 bg-green-500/5 text-green-600'
                     }`}
                   >
                     {categoryIcons[skill.category]}

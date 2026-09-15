@@ -59,7 +59,7 @@ export default function Resume() {
   const sectionCard = (extra = '') =>
     `rounded-2xl p-8 mb-8 transition-all duration-300 ${
       isDark
-        ? `bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30 ${extra}`
+        ? `bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)] ${extra}`
         : `bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100 ${extra}`
     }`;
 
@@ -70,7 +70,7 @@ export default function Resume() {
     <section
       id="resume"
       className={`min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-        isDark ? 'bg-[#0a0a0f]' : 'bg-white'
+        isDark ? 'bg-[#0a0a0a]' : 'bg-white'
       }`}
     >
       <style>{`
@@ -114,7 +114,7 @@ export default function Resume() {
           >
             {t.resume.title}
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6 rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
           <p
             className={`text-lg max-w-2xl mx-auto mb-8 ${
               isDark ? 'text-gray-400' : 'text-gray-600'
@@ -135,7 +135,7 @@ export default function Resume() {
         {/* Profile Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="100">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-cyan-500 to-blue-500')}>
+            <div className={sectionIcon('from-primary to-accent')}>
               <Code className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -146,52 +146,52 @@ export default function Resume() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Code className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <Code className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Name</p>
                 <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{profile.name}</p>
               </div>
             </div>
             <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Briefcase className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <Briefcase className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Role</p>
                 <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{isKh ? profile.roleKh : profile.roleEn}</p>
               </div>
             </div>
             <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <MapPin className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <MapPin className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Location</p>
                 <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{isKh ? profile.locationKh : profile.locationEn}</p>
               </div>
             </div>
             <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Mail className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <Mail className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Email</p>
                 <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{profile.email}</p>
               </div>
             </div>
             <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Phone className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <Phone className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Phone</p>
                 <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{profile.phone}</p>
               </div>
             </div>
             <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Globe className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <Globe className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>GitHub</p>
-                <a href={profile.github} target="_blank" rel="noopener noreferrer" className={`font-semibold hover:underline ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>@NgetMeas22</a>
+                <a href={profile.github} target="_blank" rel="noopener noreferrer" className={`font-semibold hover:underline ${isDark ? 'text-primary' : 'text-green-600'}`}>@NgetMeas22</a>
               </div>
             </div>
             <div className={`flex items-center gap-3 p-3 rounded-xl sm:col-span-2 ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <LinkedInIcon size={20} className={`${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+              <LinkedInIcon size={20} className={`${isDark ? 'text-primary' : 'text-green-600'}`} />
               <div>
                 <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>LinkedIn</p>
-                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={`font-semibold hover:underline ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>NGET MEAS</a>
+                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={`font-semibold hover:underline ${isDark ? 'text-primary' : 'text-green-600'}`}>NGET MEAS</a>
               </div>
             </div>
           </div>
@@ -200,7 +200,7 @@ export default function Resume() {
         {/* Education Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="200">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-green-500 to-teal-500')}>
+            <div className={sectionIcon('from-emerald-400 to-green-500')}>
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -225,13 +225,13 @@ export default function Resume() {
                   </h3>
                   {edu.expectedGraduation && (
                     <span className={`text-sm px-3 py-1 rounded-full mt-2 sm:mt-0 inline-block w-fit ${
-                      isDark ? 'bg-cyan-500/10 text-cyan-400' : 'bg-blue-100 text-blue-700'
+                      isDark ? 'bg-primary/10 border border-primary/30 text-primary' : 'bg-green-100 text-green-700'
                     }`}>
                       {t.education.expectedGraduation}: {edu.expectedGraduation}
                     </span>
                   )}
                 </div>
-                <p className={`font-medium ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>
+                <p className={`font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
                   {isKh ? edu.institutionKh : edu.institution}
                 </p>
                 <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -250,7 +250,7 @@ export default function Resume() {
         {/* Skills Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="300">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-purple-500 to-pink-500')}>
+            <div className={sectionIcon('from-green-400 to-primary')}>
               <Code className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -275,8 +275,8 @@ export default function Resume() {
                       key={skill.name}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
                         isDark
-                          ? 'bg-white/5 border border-white/10 text-gray-300 hover:border-cyan-500/30'
-                          : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-400/30 shadow-sm'
+                          ? 'bg-white/5 border border-white/10 text-gray-300 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:border-green-400/30 shadow-sm'
                       }`}
                     >
                       <span
@@ -295,7 +295,7 @@ export default function Resume() {
         {/* Experience Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="400">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-orange-500 to-red-500')}>
+            <div className={sectionIcon('from-emerald-500 to-green-500')}>
               <Briefcase className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -316,12 +316,12 @@ export default function Resume() {
                   {isKh ? exp.titleKh : exp.title}
                 </h3>
                 <span className={`text-sm px-3 py-1 rounded-full mt-2 sm:mt-0 inline-block w-fit ${
-                  isDark ? 'bg-orange-500/10 text-orange-400' : 'bg-orange-100 text-orange-700'
+                  isDark ? 'bg-primary/10 border border-primary/30 text-primary' : 'bg-green-100 text-green-700'
                 }`}>
                   {isKh ? exp.periodKh : exp.period}
                 </span>
               </div>
-              <p className={`font-medium ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>
+              <p className={`font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
                 {isKh ? exp.companyKh : exp.company} — {isKh ? exp.typeKh : exp.type}
               </p>
               <p className={`text-sm mt-2 leading-relaxed ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -334,7 +334,7 @@ export default function Resume() {
                 <ul className="grid sm:grid-cols-2 gap-1">
                   {(isKh ? exp.responsibilitiesKh : exp.responsibilities).map((resp, i) => (
                     <li key={i} className={`text-sm flex items-start gap-2 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                      <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isDark ? 'bg-cyan-400' : 'bg-blue-500'}`} />
+                      <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isDark ? 'bg-primary' : 'bg-green-500'}`} />
                       {resp}
                     </li>
                   ))}
@@ -347,7 +347,7 @@ export default function Resume() {
         {/* Projects Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="500">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-blue-500 to-indigo-500')}>
+            <div className={sectionIcon('from-primary to-emerald-500')}>
               <Folder className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -387,7 +387,7 @@ export default function Resume() {
         {/* Certificates Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="600">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-yellow-500 to-amber-500')}>
+            <div className={sectionIcon('from-amber-500 to-yellow-500')}>
               <Award className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -409,7 +409,7 @@ export default function Resume() {
                 <h3 className={`font-bold mb-1 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
                   {isKh ? cert.titleKh : cert.title}
                 </h3>
-                <p className={`text-sm font-medium ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>
+                <p className={`text-sm font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
                   {isKh ? cert.organizationKh : cert.organization}
                 </p>
                 <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -423,7 +423,7 @@ export default function Resume() {
         {/* Languages Section */}
         <div className={sectionCard()} data-aos="fade-up" data-aos-delay="700">
           <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-emerald-500 to-green-500')}>
+            <div className={sectionIcon('from-emerald-400 to-green-400')}>
               <Globe className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -449,9 +449,9 @@ export default function Resume() {
                   </p>
                 </div>
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                  isDark ? 'bg-emerald-500/10' : 'bg-emerald-100'
+                  isDark ? 'bg-primary/10' : 'bg-green-100'
                 }`}>
-                  <Globe className={`w-6 h-6 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
+                  <Globe className={`w-6 h-6 ${isDark ? 'text-primary' : 'text-green-600'}`} />
                 </div>
               </div>
             ))}
@@ -461,7 +461,7 @@ export default function Resume() {
         {/* Contact Section */}
         <div className={`${sectionCard()} text-center`} data-aos="fade-up" data-aos-delay="800">
           <div className="flex items-center gap-3 mb-6 justify-center">
-            <div className={sectionIcon('from-blue-500 to-cyan-500')}>
+            <div className={sectionIcon('from-primary to-accent')}>
               <Mail className="w-6 h-6 text-white" />
             </div>
             <h2
@@ -475,8 +475,8 @@ export default function Resume() {
               href={`mailto:${profile.email}`}
               className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
                 isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-cyan-500/30 text-gray-300 hover:text-cyan-400'
-                  : 'bg-white border border-gray-200 hover:border-blue-400/30 text-gray-700 hover:text-blue-600 shadow-sm'
+                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
               }`}
             >
               <Mail size={18} />
@@ -486,8 +486,8 @@ export default function Resume() {
               href={`tel:${profile.phone}`}
               className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
                 isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-cyan-500/30 text-gray-300 hover:text-cyan-400'
-                  : 'bg-white border border-gray-200 hover:border-blue-400/30 text-gray-700 hover:text-blue-600 shadow-sm'
+                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
               }`}
             >
               <Phone size={18} />
@@ -499,8 +499,8 @@ export default function Resume() {
               rel="noopener noreferrer"
               className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
                 isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-cyan-500/30 text-gray-300 hover:text-cyan-400'
-                  : 'bg-white border border-gray-200 hover:border-blue-400/30 text-gray-700 hover:text-blue-600 shadow-sm'
+                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
               }`}
             >
               <GitHubIcon size={18} />
@@ -512,8 +512,8 @@ export default function Resume() {
               rel="noopener noreferrer"
               className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
                 isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-cyan-500/30 text-gray-300 hover:text-cyan-400'
-                  : 'bg-white border border-gray-200 hover:border-blue-400/30 text-gray-700 hover:text-blue-600 shadow-sm'
+                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
               }`}
             >
               <LinkedInIcon size={18} />

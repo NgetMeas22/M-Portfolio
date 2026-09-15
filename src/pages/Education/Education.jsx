@@ -9,20 +9,19 @@ import { useTheme } from '../../hooks/useTheme';
 const nodeStyles = [
   {
     icon: GraduationCap,
-    gradient: 'from-cyan-500 to-blue-600',
-    glow: 'rgba(0,212,255,0.45)',
+    gradient: 'from-primary to-accent',
+    glow: 'rgba(0,255,65,0.45)',
   },
   {
     icon: BookOpen,
-    gradient: 'from-purple-500 to-pink-600',
-    glow: 'rgba(168,85,247,0.45)',
+    gradient: 'from-emerald-400 to-green-500',
+    glow: 'rgba(0,204,51,0.45)',
   },
 ];
 
 function Education() {
   const { t, language } = useLanguage();
   const { theme } = useTheme();
-
   const isDark = theme === 'dark';
 
   useEffect(() => {
@@ -41,33 +40,31 @@ function Education() {
       </style>
 
       <section className="grid-bg relative min-h-screen overflow-hidden pt-24 pb-20">
-        <div className="mx-auto w-full max-w-5xl px-6">
-          {/* Page header */}
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
           <div className="mb-16 text-center" data-aos="fade-up">
             <div
               className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
                 isDark
-                  ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400'
-                  : 'border-blue-500/30 bg-blue-500/10 text-blue-600'
+                  ? 'border-primary/30 bg-primary/10 text-primary'
+                  : 'border-green-500/30 bg-green-500/10 text-green-700'
               }`}
             >
               <GraduationCap className="h-3.5 w-3.5" />
               {t.nav.education}
             </div>
-            <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl">
+            <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl font-mono">
               {t.education.title}
             </h1>
             <p className="section-subtitle text-lg">{t.education.subtitle}</p>
           </div>
 
-          {/* Timeline */}
           <div className="relative">
             <span
               aria-hidden="true"
               className={`absolute bottom-4 left-5 top-4 w-px md:left-1/2 md:-translate-x-1/2 ${
                 isDark
-                  ? 'bg-gradient-to-b from-cyan-500/40 via-purple-500/40 to-transparent'
-                  : 'bg-gradient-to-b from-blue-500/40 via-purple-500/40 to-transparent'
+                  ? 'bg-gradient-to-b from-primary/40 via-accent/40 to-transparent'
+                  : 'bg-gradient-to-b from-green-500/40 via-emerald-500/40 to-transparent'
               }`}
             />
 
@@ -76,14 +73,11 @@ function Education() {
                 const leftSide = index % 2 === 0;
                 const node = nodeStyles[index % nodeStyles.length];
                 const NodeIcon = node.icon;
-                const institution =
-                  language === 'kh' ? item.institutionKh : item.institution;
+                const institution = language === 'kh' ? item.institutionKh : item.institution;
                 const degree = language === 'kh' ? item.degreeKh : item.degree;
                 const status = language === 'kh' ? item.statusKh : item.status;
-                const description =
-                  language === 'kh' ? item.descriptionKh : item.description;
-                const coursework =
-                  language === 'kh' ? item.courseworkKh : item.coursework;
+                const description = language === 'kh' ? item.descriptionKh : item.description;
+                const coursework = language === 'kh' ? item.courseworkKh : item.coursework;
 
                 return (
                   <div
@@ -92,45 +86,31 @@ function Education() {
                       leftSide ? 'md:justify-start' : 'md:justify-end'
                     }`}
                   >
-                    {/* Timeline node */}
                     <div
-                      className={`absolute left-0 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${
-                        node.gradient
-                      } md:left-1/2 md:-translate-x-1/2`}
+                      className={`absolute left-0 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${node.gradient} md:left-1/2 md:-translate-x-1/2`}
                       style={{ boxShadow: `0 0 18px ${node.glow}` }}
                     >
-                      <NodeIcon className="h-5 w-5 text-white" />
+                      <NodeIcon className="h-5 w-5 text-dark-900" />
                     </div>
 
-                    {/* Card */}
                     <div className="md:w-[calc(50%_-_3.5rem)]">
                       <article
                         data-aos="fade-up"
                         data-aos-delay={index * 100}
                         className={`card group flex h-full flex-col gap-4 overflow-hidden transition-all duration-300 ${
                           isDark
-                            ? 'border-slate-800 bg-slate-900/50 hover:border-cyan-500/30 hover:shadow-[0_0_30px_rgba(0,212,255,0.08)]'
-                            : 'border-slate-200 bg-white shadow-md hover:shadow-xl hover:border-blue-200'
+                            ? 'border-slate-800 bg-slate-900/50 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,65,0.08)]'
+                            : 'border-slate-200 bg-white shadow-md hover:shadow-xl hover:border-green-200'
                         }`}
-                        style={{
-                          animation: `timelineCardIn 0.5s ease ${index * 0.08}s both`,
-                        }}
+                        style={{ animation: `timelineCardIn 0.5s ease ${index * 0.08}s both` }}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div>
-                            <h3
-                              className={`text-xl font-bold transition-colors ${
-                                isDark ? 'text-slate-100' : 'text-slate-800'
-                              }`}
-                            >
+                            <h3 className={`text-xl font-bold transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
                               {degree}
                             </h3>
-                            <div
-                              className={`mt-1.5 flex items-center gap-2 text-sm font-medium ${
-                                isDark ? 'text-slate-400' : 'text-slate-500'
-                              }`}
-                            >
-                              <MapPin className="h-4 w-4 text-cyan-500" />
+                            <div className={`mt-1.5 flex items-center gap-2 text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                              <MapPin className="h-4 w-4 text-primary" />
                               {institution}
                             </div>
                           </div>
@@ -148,34 +128,20 @@ function Education() {
 
                         {item.expectedGraduation && (
                           <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-                            <span
-                              className={`inline-flex items-center gap-1.5 font-medium ${
-                                isDark ? 'text-cyan-400' : 'text-blue-600'
-                              }`}
-                            >
+                            <span className={`inline-flex items-center gap-1.5 font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
                               <Calendar className="h-4 w-4" />
                               {t.education.expectedGraduation}: {item.expectedGraduation}
                             </span>
                           </div>
                         )}
 
-                        <p
-                          className={`border-t pt-3 text-sm leading-relaxed ${
-                            isDark
-                              ? 'border-slate-800 text-slate-400'
-                              : 'border-slate-100 text-slate-500'
-                          }`}
-                        >
+                        <p className={`border-t pt-3 text-sm leading-relaxed ${isDark ? 'border-slate-800 text-slate-400' : 'border-slate-100 text-slate-500'}`}>
                           {description}
                         </p>
 
                         <div className="mt-auto">
-                          <h4
-                            className={`mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide ${
-                              isDark ? 'text-slate-300' : 'text-slate-700'
-                            }`}
-                          >
-                            <BookOpen className="h-4 w-4 text-cyan-500" />
+                          <h4 className={`mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                            <BookOpen className="h-4 w-4 text-primary" />
                             {t.education.relevantCoursework}
                           </h4>
                           <div className="flex flex-wrap gap-1.5">
@@ -184,8 +150,8 @@ function Education() {
                                 key={i}
                                 className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
                                   isDark
-                                    ? 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'
-                                    : 'border-blue-500/20 bg-blue-500/5 text-blue-600'
+                                    ? 'border-primary/20 bg-primary/5 text-primary'
+                                    : 'border-green-500/20 bg-green-500/5 text-green-600'
                                 }`}
                               >
                                 {course}

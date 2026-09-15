@@ -29,18 +29,18 @@ const About = () => {
   }, []);
 
   const learningTags = [
-    { name: 'AI', color: 'from-purple-500 to-pink-500' },
-    { name: 'Python', color: 'from-blue-500 to-green-500' },
-    { name: 'C# .NET', color: 'from-indigo-500 to-purple-500' },
-    { name: 'Java Spring Boot', color: 'from-red-500 to-orange-500' },
+    { name: 'AI', color: 'from-emerald-500 to-green-600' },
+    { name: 'Python', color: 'from-primary to-accent' },
+    { name: 'C# .NET', color: 'from-emerald-600 to-teal-500' },
+    { name: 'Java Spring Boot', color: 'from-green-500 to-emerald-600' },
   ];
 
   const softSkills = [
-    { icon: Brain, name: t.about.problemSolving, color: 'from-blue-500 to-cyan-500' },
-    { icon: Eye, name: t.about.analyticalThinking, color: 'from-purple-500 to-pink-500' },
-    { icon: Users, name: t.about.communication, color: 'from-green-500 to-teal-500' },
-    { icon: Lightbulb, name: t.about.attentionToDetail, color: 'from-yellow-500 to-orange-500' },
-    { icon: RefreshCw, name: t.about.continuousLearning, color: 'from-red-500 to-rose-500' },
+    { icon: Brain, name: t.about.problemSolving, color: 'from-emerald-500 to-green-500' },
+    { icon: Eye, name: t.about.analyticalThinking, color: 'from-primary to-accent' },
+    { icon: Users, name: t.about.communication, color: 'from-green-500 to-emerald-500' },
+    { icon: Lightbulb, name: t.about.attentionToDetail, color: 'from-emerald-400 to-green-600' },
+    { icon: RefreshCw, name: t.about.continuousLearning, color: 'from-green-600 to-emerald-400' },
   ];
 
   const isDark = theme === 'dark';
@@ -55,14 +55,23 @@ const About = () => {
       <div className="max-w-6xl mx-auto">
         {/* Page Header */}
         <div className="text-center mb-16" data-aos="fade-up">
+          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-mono font-semibold mb-4 border ${
+            isDark
+              ? 'border-primary/30 bg-primary/10 text-primary'
+              : 'border-green-200 bg-green-50 text-green-600'
+          }`}>
+            {t.about.title}
+          </span>
           <h1
-            className={`text-4xl sm:text-5xl font-bold mb-4 ${
-              isDark ? 'text-white' : 'text-gray-900'
+            className={`text-4xl sm:text-5xl font-bold mb-4 font-mono ${
+              isDark ? 'text-gray-200' : 'text-gray-900'
             }`}
           >
             {t.about.title}
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6 rounded-full" />
+          <div className={`w-20 h-1 mx-auto mb-6 rounded-full bg-gradient-to-r ${
+            isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
+          }`} />
           <p
             className={`text-lg max-w-2xl mx-auto ${
               isDark ? 'text-gray-400' : 'text-gray-600'
@@ -76,19 +85,21 @@ const About = () => {
         <div
           className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
             isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30'
+              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
               : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
           }`}
           data-aos="fade-up"
           data-aos-delay="100"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-emerald-500 to-green-500' : 'from-green-500 to-emerald-500'
+            } flex items-center justify-center`}>
               <Code className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.whoIAm}
@@ -107,19 +118,21 @@ const About = () => {
         <div
           className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
             isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30'
+              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
               : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
           }`}
           data-aos="fade-up"
           data-aos-delay="200"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
+            } flex items-center justify-center`}>
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.education}
@@ -137,7 +150,7 @@ const About = () => {
               isDark ? 'bg-white/5' : 'bg-white'
             }`}
           >
-            <MapPin className="w-5 h-5 text-blue-500" />
+            <MapPin className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
             <span
               className={`font-medium ${
                 isDark ? 'text-gray-200' : 'text-gray-800'
@@ -152,19 +165,21 @@ const About = () => {
         <div
           className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
             isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30'
+              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
               : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
           }`}
           data-aos="fade-up"
           data-aos-delay="300"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-emerald-500 to-green-600' : 'from-green-500 to-emerald-500'
+            } flex items-center justify-center`}>
               <Code className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.developmentJourney}
@@ -183,19 +198,21 @@ const About = () => {
         <div
           className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
             isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30'
+              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
               : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
           }`}
           data-aos="fade-up"
           data-aos-delay="400"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-green-500 to-emerald-400' : 'from-green-600 to-emerald-500'
+            } flex items-center justify-center`}>
               <Target className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.careerGoal}
@@ -214,19 +231,21 @@ const About = () => {
         <div
           className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
             isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30'
+              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
               : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
           }`}
           data-aos="fade-up"
           data-aos-delay="500"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
+            } flex items-center justify-center`}>
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.currentLearning}
@@ -250,19 +269,21 @@ const About = () => {
         <div
           className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
             isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/30'
+              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
               : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
           }`}
           data-aos="fade-up"
           data-aos-delay="600"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-emerald-400 to-green-500' : 'from-green-500 to-emerald-400'
+            } flex items-center justify-center`}>
               <Lightbulb className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.interests}
@@ -280,12 +301,14 @@ const About = () => {
         {/* Soft Skills Section */}
         <div data-aos="fade-up" data-aos-delay="700">
           <div className="flex items-center gap-3 mb-8 justify-center">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
+              isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
+            } flex items-center justify-center`}>
               <Brain className="w-6 h-6 text-white" />
             </div>
             <h2
-              className={`text-2xl font-bold ${
-                isDark ? 'text-white' : 'text-gray-900'
+              className={`text-2xl font-bold font-mono ${
+                isDark ? 'text-gray-200' : 'text-gray-900'
               }`}
             >
               {t.about.softSkills}
@@ -299,7 +322,7 @@ const About = () => {
                   key={index}
                   className={`group rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 ${
                     isDark
-                      ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-blue-500/40 hover:bg-white/10'
+                      ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/40 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
                       : 'bg-white shadow-lg hover:shadow-2xl border border-gray-100'
                   }`}
                   data-aos="zoom-in"

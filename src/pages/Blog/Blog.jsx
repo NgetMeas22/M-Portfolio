@@ -31,8 +31,8 @@ function Blog() {
             <div
               className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
                 isDark
-                  ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400'
-                  : 'border-blue-500/30 bg-blue-500/10 text-blue-600'
+                  ? 'border-primary/30 bg-primary/10 text-primary'
+                  : 'border-green-500/30 bg-green-500/10 text-green-600'
               }`}
             >
               <BookOpen className="h-3.5 w-3.5" />
@@ -54,7 +54,7 @@ function Blog() {
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-medium">
                   <span
                     className={`inline-flex items-center gap-1.5 ${
-                      isDark ? 'text-slate-400' : 'text-slate-500'
+                      isDark ? 'text-gray-400' : 'text-slate-500'
                     }`}
                   >
                     <Calendar className="h-3.5 w-3.5" />
@@ -63,8 +63,8 @@ function Blog() {
                   <span
                     className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 ${
                       isDark
-                        ? 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'
-                        : 'border-blue-500/20 bg-blue-500/5 text-blue-600'
+                        ? 'border-primary/20 bg-primary/5 text-primary'
+                        : 'border-green-500/20 bg-green-500/5 text-green-600'
                     }`}
                   >
                     <Clock className="h-3.5 w-3.5" />
@@ -73,7 +73,7 @@ function Blog() {
                 </div>
 
                 <h3
-                  className={`text-xl font-bold transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:from-cyan-500 group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent ${
+                  className={`text-xl font-bold transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-accent group-hover:bg-clip-text group-hover:text-transparent ${
                     isDark ? 'text-slate-100' : 'text-slate-800'
                   }`}
                 >
@@ -95,7 +95,7 @@ function Blog() {
 
                 <div
                   className={`mt-auto flex items-center gap-2 pt-4 text-sm font-semibold ${
-                    isDark ? 'text-cyan-400' : 'text-blue-600'
+                    isDark ? 'text-primary' : 'text-green-600'
                   }`}
                 >
                   <span>{t.blog.readMore}</span>

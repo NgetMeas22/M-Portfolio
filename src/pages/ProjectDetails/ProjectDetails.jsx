@@ -27,7 +27,7 @@ export default function ProjectDetails() {
           <h1 className={`text-4xl sm:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-800'}`}>
             Project not found
           </h1>
-          <p className={`mb-8 ${isDark ? 'text-dark-100' : 'text-slate-500'}`}>
+          <p className={`mb-8 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
             The project you are looking for does not exist or has been removed.
           </p>
           <Link to="/projects" className="btn-primary inline-flex items-center gap-2">
@@ -57,7 +57,7 @@ export default function ProjectDetails() {
             <Link
               to="/projects"
               className={`inline-flex items-center gap-2 mb-8 transition-colors ${
-                isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700'
+                isDark ? 'text-primary hover:text-primary/80' : 'text-green-600 hover:text-green-700'
               }`}
             >
               <ArrowLeft size={18} />
@@ -70,8 +70,8 @@ export default function ProjectDetails() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent"
               style={{
                 backgroundImage: isDark
-                  ? 'linear-gradient(135deg, #00d4ff, #7c3aed, #10b981)'
-                  : 'linear-gradient(135deg, #0066cc, #7c3aed, #0066cc)',
+                  ? 'linear-gradient(135deg, #00ff41, #39ff14, #10b981)'
+                  : 'linear-gradient(135deg, #16a34a, #22c55e, #059669)',
               }}
             >
               {project.title}
@@ -100,12 +100,12 @@ export default function ProjectDetails() {
 
           <div data-aos="fade-up" className={sectionCard}>
             <h2 className={`flex items-center gap-3 text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-              <span className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-cyan-500/10 text-cyan-400' : 'bg-blue-100 text-blue-600'}`}>
+              <span className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-primary/10 text-primary' : 'bg-green-100 text-green-600'}`}>
                 <Lightbulb size={20} />
               </span>
               {t.projects.overview}
             </h2>
-            <p className={`leading-relaxed ${isDark ? 'text-dark-100' : 'text-slate-600'}`}>
+            <p className={`leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
               {description}
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function ProjectDetails() {
                 </span>
                 {t.projects.problem}
               </h2>
-              <p className={`leading-relaxed ${isDark ? 'text-dark-100' : 'text-slate-600'}`}>
+              <p className={`leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 {problem}
               </p>
             </div>
@@ -130,7 +130,7 @@ export default function ProjectDetails() {
                 </span>
                 {t.projects.solution}
               </h2>
-              <p className={`leading-relaxed ${isDark ? 'text-dark-100' : 'text-slate-600'}`}>
+              <p className={`leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 {solution}
               </p>
             </div>
@@ -138,7 +138,7 @@ export default function ProjectDetails() {
 
           <div data-aos="fade-up" className={sectionCard}>
             <h2 className={`flex items-center gap-3 text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-              <span className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-cyan-500/10 text-cyan-400' : 'bg-blue-100 text-blue-600'}`}>
+              <span className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-primary/10 text-primary' : 'bg-green-100 text-green-600'}`}>
                 <CheckCircle size={20} />
               </span>
               {t.projects.features}
@@ -153,8 +153,8 @@ export default function ProjectDetails() {
                       : 'bg-light-800 border border-slate-200'
                   }`}
                 >
-                  <CheckCircle size={18} className={isDark ? 'text-cyan-400 flex-shrink-0' : 'text-blue-600 flex-shrink-0'} />
-                  <span className={isDark ? 'text-dark-100' : 'text-slate-600'}>{feature}</span>
+                  <CheckCircle size={18} className={isDark ? 'text-primary flex-shrink-0' : 'text-green-600 flex-shrink-0'} />
+                  <span className={isDark ? 'text-slate-300' : 'text-slate-600'}>{feature}</span>
                 </li>
               ))}
             </ul>
@@ -168,7 +168,7 @@ export default function ProjectDetails() {
                 </span>
                 {t.projects.challenges}
               </h2>
-              <p className={`leading-relaxed ${isDark ? 'text-dark-100' : 'text-slate-600'}`}>
+              <p className={`leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 Challenges were overcome through careful planning and implementation.
               </p>
             </div>
@@ -180,7 +180,7 @@ export default function ProjectDetails() {
                 </span>
                 {t.projects.whatILearned}
               </h2>
-              <p className={`leading-relaxed ${isDark ? 'text-dark-100' : 'text-slate-600'}`}>
+              <p className={`leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 This project strengthened my skills in the technologies used.
               </p>
             </div>

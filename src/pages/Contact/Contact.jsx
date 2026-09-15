@@ -9,8 +9,8 @@ import 'aos/dist/aos.css';
 const inputClass = (isDark) =>
   `w-full rounded-lg border bg-transparent px-4 py-3 text-sm outline-none transition-colors duration-300 ${
     isDark
-      ? 'border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-cyan-400'
-      : 'border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-blue-500'
+      ? 'border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-primary focus:ring-primary/20'
+      : 'border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-green-500 focus:ring-green-500/20'
   }`;
 
 const errorClass = (isDark) =>
@@ -129,8 +129,8 @@ function Contact() {
             <div
               className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
                 isDark
-                  ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400'
-                  : 'border-blue-500/30 bg-blue-500/10 text-blue-600'
+                  ? 'border-primary/30 bg-primary/10 text-primary'
+                  : 'border-green-500/30 bg-green-500/10 text-green-600'
               }`}
             >
               <Send className="h-3.5 w-3.5" />
@@ -233,8 +233,8 @@ function Contact() {
                       <div
                         className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${
                           isDark
-                            ? 'bg-cyan-500/10 text-cyan-400'
-                            : 'bg-blue-500/10 text-blue-600'
+                            ? 'bg-primary/10 text-primary'
+                            : 'bg-green-500/10 text-green-600'
                         }`}
                       >
                         <IconComponent className="h-6 w-6" />
@@ -270,8 +270,8 @@ function Contact() {
                           rel="noopener noreferrer"
                           className={`inline-flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-1 ${
                             isDark
-                              ? 'bg-dark-600 text-slate-200 hover:bg-dark-500 hover:text-cyan-400'
-                              : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-blue-600'
+                              ? 'bg-dark-600 text-slate-200 hover:bg-primary/10 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                              : 'bg-slate-100 text-slate-600 hover:bg-green-500/10 hover:text-green-600'
                           }`}
                           aria-label={social.label}
                         >

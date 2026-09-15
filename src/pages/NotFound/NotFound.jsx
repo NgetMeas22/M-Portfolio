@@ -22,8 +22,8 @@ function NotFound() {
           <h1
             className={`text-8xl font-bold sm:text-9xl ${
               isDark
-                ? 'bg-gradient-to-r from-cyan-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent'
-                : 'bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent'
+                ? 'bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent'
+                : 'bg-gradient-to-r from-green-600 via-green-500 to-green-600 bg-clip-text text-transparent'
             }`}
           >
             {t.notFound.title}

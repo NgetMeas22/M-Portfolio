@@ -92,7 +92,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div data-aos="fade-right">
-              <p className={`text-sm font-mono mb-4 tracking-wider uppercase ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>
+              <p className={`text-sm font-mono mb-4 tracking-wider uppercase ${isDark ? 'text-primary' : 'text-green-600'}`}>
                 {t.hero.greeting}
               </p>
 
@@ -101,27 +101,27 @@ export default function Home() {
                   className="bg-clip-text text-transparent"
                   style={{
                     backgroundImage: isDark
-                      ? 'linear-gradient(135deg, #00d4ff, #7c3aed, #10b981)'
-                      : 'linear-gradient(135deg, #0066cc, #7c3aed, #0066cc)',
+                      ? 'linear-gradient(135deg, #00ff41, #39ff14, #10b981)'
+                      : 'linear-gradient(135deg, #059669, #22c55e, #16a34a)',
                   }}
                 >
                   {t.hero.name}
                 </span>
               </h1>
 
-              <h2 className={`text-2xl sm:text-3xl font-semibold mb-6 ${isDark ? 'text-dark-100' : 'text-slate-600'}`}>
+              <h2 className={`text-2xl sm:text-3xl font-semibold mb-6 ${isDark ? 'text-gray-200' : 'text-slate-600'}`}>
                 {t.hero.role}
               </h2>
 
-              <p className={`text-lg mb-3 ${isDark ? 'text-dark-200' : 'text-slate-500'}`}>
+              <p className={`text-lg mb-3 ${isDark ? 'text-gray-300' : 'text-slate-500'}`}>
                 {t.hero.description1}
               </p>
-              <p className={`text-lg mb-8 ${isDark ? 'text-dark-200' : 'text-slate-500'}`}>
+              <p className={`text-lg mb-8 ${isDark ? 'text-gray-300' : 'text-slate-500'}`}>
                 {t.hero.description2}
               </p>
 
               <div className="mb-8">
-                <span className={`text-sm font-medium ${isDark ? 'text-dark-200' : 'text-slate-500'}`}>
+                <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
                   {t.hero.currentlyLearning}:
                 </span>
                 <div className="flex flex-wrap gap-2 mt-2">
@@ -155,8 +155,8 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className={`p-3 rounded-lg transition-all duration-300 ${
                     isDark
-                      ? 'bg-dark-600 hover:bg-dark-500 text-dark-200 hover:text-cyan-400'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-blue-600'
+                      ? 'bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-primary'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-green-600'
                   }`}
                 >
                   <GitHubIcon size={20} />
@@ -167,8 +167,8 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className={`p-3 rounded-lg transition-all duration-300 ${
                     isDark
-                      ? 'bg-dark-600 hover:bg-dark-500 text-dark-200 hover:text-cyan-400'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-blue-600'
+                      ? 'bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-primary'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-green-600'
                   }`}
                 >
                   <LinkedInIcon size={20} />
@@ -177,8 +177,8 @@ export default function Home() {
                   href="mailto:measm2519@gmail.com"
                   className={`p-3 rounded-lg transition-all duration-300 ${
                     isDark
-                      ? 'bg-dark-600 hover:bg-dark-500 text-dark-200 hover:text-cyan-400'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-blue-600'
+                      ? 'bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-primary'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-green-600'
                   }`}
                 >
                   <Mail size={20} />
@@ -198,12 +198,12 @@ export default function Home() {
                   <div className="p-5 font-mono text-sm space-y-4 min-h-[240px]">
                     {displayedLines.map((line, i) => (
                       <div key={i}>
-                        <p className="text-emerald-400">
-                          <span className={isDark ? 'text-cyan-400' : 'text-blue-400'}>&gt;</span>{' '}
+                        <p className="text-primary/80">
+                          <span className="text-emerald-400">&gt;</span>{' '}
                           {line.command}
                         </p>
                         {line.output && (
-                          <p className={isDark ? 'text-dark-100' : 'text-slate-200'}>{line.output}</p>
+                          <p className={isDark ? 'text-primary/80' : 'text-green-700'}>{line.output}</p>
                         )}
                       </div>
                     ))}
@@ -233,15 +233,15 @@ export default function Home() {
                   key={tech.name}
                   className={`flex items-center gap-3 px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 ${
                     isDark
-                      ? 'bg-dark-600 border border-dark-400 hover:border-cyan-500/30'
-                      : 'bg-white border border-slate-200 hover:border-blue-400/30 shadow-sm'
+                      ? 'bg-dark-600 border border-dark-400 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
+                      : 'bg-white border border-slate-200 hover:border-green-400/30 shadow-sm'
                   }`}
                 >
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: tech.color }}
                   />
-                  <span className={`font-medium text-sm ${isDark ? 'text-dark-100' : 'text-slate-700'}`}>
+                  <span className={`font-medium text-sm ${isDark ? 'text-gray-200' : 'text-slate-700'}`}>
                     {tech.name}
                   </span>
                 </div>
@@ -262,19 +262,19 @@ export default function Home() {
             </div>
             <div className={`card max-w-2xl mx-auto text-center ${isDark ? '' : 'shadow-lg'}`}>
               <div className="flex items-center justify-center mb-6">
-                <GitHubIcon size={48} className={isDark ? 'text-cyan-400' : 'text-blue-600'} />
+                <GitHubIcon size={48} className={isDark ? 'text-primary' : 'text-green-600'} />
               </div>
-              <h3 className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+              <h3 className={`text-xl font-bold mb-4 font-mono ${isDark ? 'text-gray-200' : 'text-slate-800'}`}>
                 @NgetMeas22
               </h3>
               <div className="flex justify-center gap-8 mb-8">
                 <div>
-                  <p className={`text-3xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>22</p>
-                  <p className={`text-sm ${isDark ? 'text-dark-200' : 'text-slate-500'}`}>Public Repos</p>
+                  <p className={`text-3xl font-bold font-mono ${isDark ? 'text-primary' : 'text-green-600'}`}>22</p>
+                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>Public Repos</p>
                 </div>
                 <div>
-                  <p className={`text-3xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>3</p>
-                  <p className={`text-sm ${isDark ? 'text-dark-200' : 'text-slate-500'}`}>Followers</p>
+                  <p className={`text-3xl font-bold font-mono ${isDark ? 'text-primary' : 'text-green-600'}`}>3</p>
+                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>Followers</p>
                 </div>
               </div>
               <a
