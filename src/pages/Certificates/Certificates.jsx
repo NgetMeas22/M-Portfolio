@@ -46,12 +46,12 @@ const Certificates = () => {
   return (
     <section
       id="certificates"
-      className={`min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
+      className={`min-h-screen pt-28 lg:pt-32 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
         isDark ? 'bg-[#0a0a0a]' : 'bg-white'
       }`}
     >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-10" data-aos="fade-up">
           <div
             className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
               isDark
@@ -65,7 +65,7 @@ const Certificates = () => {
           <h1 className="section-title text-4xl sm:text-5xl font-mono">
             {t.certificates.title}
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4 rounded-full" />
           <p
             className={`text-lg max-w-2xl mx-auto ${
               isDark ? 'text-gray-400' : 'text-gray-600'
@@ -112,7 +112,7 @@ const Certificates = () => {
                   </div>
                 </div>
 
-                <div className="mt-4 space-y-2">
+                <div className="mt-3 space-y-2">
                   <div className={`flex items-center gap-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                     <Building2 className="h-4 w-4 shrink-0 text-primary" />
                     <span>{language === 'kh' ? cert.organizationKh : cert.organization}</span>
@@ -124,7 +124,7 @@ const Certificates = () => {
                 </div>
 
                 <p
-                  className={`mt-4 text-sm leading-relaxed ${
+                  className={`mt-3 text-sm leading-relaxed ${
                     isDark ? 'text-slate-400' : 'text-slate-500'
                   }`}
                 >
@@ -133,7 +133,7 @@ const Certificates = () => {
 
                 {cert.credentialId && (
                   <div
-                    className={`mt-4 flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium ${
+                    className={`mt-3 flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium ${
                       isDark ? 'bg-white/5 text-slate-300' : 'bg-white text-slate-600'
                     }`}
                   >

@@ -60,10 +60,10 @@ function Skills() {
   const isDark = theme === 'dark';
 
   return (
-    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
-      <div className="mx-auto w-full max-w-7xl px-6">
+    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
 
-        <div className="mb-14 text-center" data-aos="fade-up">
+        <div className="mb-10 text-center" data-aos="fade-up">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <Terminal className="h-3.5 w-3.5" />
             {`>_ skills.matrix`}
@@ -82,7 +82,7 @@ function Skills() {
         </div>
 
         <div
-          className="mb-12 flex flex-wrap items-center justify-center gap-3"
+          className="mb-8 flex flex-wrap items-center justify-center gap-3"
           data-aos="fade-up"
           data-aos-delay="100"
         >
@@ -109,7 +109,7 @@ function Skills() {
           })}
         </div>
 
-        <div key={activeCategory} className="space-y-10">
+        <div key={activeCategory} className="space-y-8">
           {displayCategories.map((category, catIdx) => (
             <div
               key={category.id}
@@ -125,7 +125,7 @@ function Skills() {
                 </h2>
               </div>
 
-              <div className="card grid grid-cols-1 gap-x-8 gap-y-5 p-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="card grid grid-cols-1 gap-x-6 gap-y-4 p-6 sm:grid-cols-2 lg:grid-cols-3">
                 {groupedSkills[category.id].map((skill) => {
                   const pct = levelPercent[skill.level] ?? 50;
                   return (

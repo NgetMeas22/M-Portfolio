@@ -66,10 +66,10 @@ function Projects() {
   }, [activeFilter, searchQuery]);
 
   return (
-    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20">
-      <div className="mx-auto w-full max-w-7xl px-6">
+    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        <div className="mb-14 text-center" data-aos="fade-up">
+        <div className="mb-10 text-center" data-aos="fade-up">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <Eye className="h-3.5 w-3.5" />
             {`>_ projects.init`}
@@ -81,7 +81,7 @@ function Projects() {
         </div>
 
         <div
-          className="mx-auto mb-10 max-w-xl"
+          className="mx-auto mb-8 max-w-xl"
           data-aos="fade-up"
           data-aos-delay="100"
         >
@@ -113,7 +113,7 @@ function Projects() {
         </div>
 
         <div
-          className="mb-12 flex flex-wrap items-center justify-center gap-2"
+          className="mb-8 flex flex-wrap items-center justify-center gap-2"
           data-aos="fade-up"
           data-aos-delay="150"
         >
@@ -208,7 +208,7 @@ function Projects() {
         </div>
 
         {filteredProjects.length === 0 && (
-          <div className="py-20 text-center" data-aos="fade-up">
+          <div className="py-16 text-center" data-aos="fade-up">
             <p className="font-mono text-lg text-slate-500">
               {`>_ 0_results.matched`}
               <span className="terminal-cursor" />

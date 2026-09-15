@@ -1,23 +1,44 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Terminal, Shield } from 'lucide-react';
+import {
+  BriefcaseBusiness,
+  Check,
+  ChevronDown,
+  Code2,
+  Contact,
+  FileBadge,
+  GraduationCap,
+  Home as HomeIcon,
+  Languages,
+  Layers3,
+  Menu,
+  Moon,
+  Newspaper,
+  Settings,
+  Shield,
+  Sparkles,
+  Sun,
+  Terminal,
+  User,
+  X,
+} from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { useTheme } from '../../hooks/useTheme.jsx';
 
 const navItems = [
-  { to: '/', label: 'home', end: true, icon: '⌂' },
-  { to: '/about', label: 'about', icon: '►' },
-  { to: '/skills', label: 'skills', icon: '⚡' },
-  { to: '/projects', label: 'projects', icon: '⊞' },
-  { to: '/experience', label: 'experience', icon: '◈' },
-  { to: '/certificates', label: 'certificates', icon: '★' },
-  { to: '/education', label: 'education', icon: '◆' },
-  { to: '/services', label: 'services', icon: '⚙' },
-  { to: '/blog', label: 'blog', icon: '§' },
-  { to: '/contact', label: 'contact', icon: '✉' },
+  { to: '/', label: 'home', end: true, icon: HomeIcon },
+  { to: '/about', label: 'about', icon: User },
+  { to: '/skills', label: 'skills', icon: Code2 },
+  { to: '/projects', label: 'projects', icon: Layers3 },
+  { to: '/experience', label: 'experience', icon: BriefcaseBusiness },
+  { to: '/certificates', label: 'certificates', icon: FileBadge },
+  { to: '/education', label: 'education', icon: GraduationCap },
+  { to: '/services', label: 'services', icon: Sparkles },
+  { to: '/blog', label: 'blog', icon: Newspaper },
+  { to: '/contact', label: 'contact', icon: Contact },
 ];
 
-const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+const matrixChars = '01<>[]{}#$%ABCDEFNGETMEAS';
 
 function MatrixBackground() {
   const canvasRef = useRef(null);
@@ -29,7 +50,7 @@ function MatrixBackground() {
 
     const resize = () => {
       canvas.width = window.innerWidth;
-      canvas.height = 64;
+      canvas.height = 72;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -40,7 +61,7 @@ function MatrixBackground() {
 
     let animId;
     const draw = () => {
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.08)';
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${fontSize}px monospace`;
 
@@ -49,10 +70,10 @@ function MatrixBackground() {
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        ctx.fillStyle = `rgba(0, 255, 65, ${0.15 + Math.random() * 0.15})`;
+        ctx.fillStyle = `rgba(16, 185, 129, ${0.12 + Math.random() * 0.12})`;
         ctx.fillText(char, x, y);
 
-        if (y > canvas.height && Math.random() > 0.975) {
+        if (y > canvas.height && Math.random() > 0.976) {
           drops[i] = 0;
         }
         drops[i]++;
@@ -78,9 +99,11 @@ function MatrixBackground() {
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const settingsRef = useRef(null);
   const { language, setLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const isDark = theme === 'dark';
 
   useEffect(() => {
@@ -95,39 +118,58 @@ function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  const toggleLanguage = () => setLanguage(language === 'en' ? 'kh' : 'en');
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!settingsRef.current?.contains(event.target)) {
+        setSettingsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const closeMenu = () => setIsOpen(false);
+  const chooseLanguage = (nextLanguage) => {
+    setLanguage(nextLanguage);
+    setSettingsOpen(false);
+  };
+  const chooseTheme = (nextTheme) => {
+    setTheme(nextTheme);
+    setSettingsOpen(false);
+  };
 
   const headerClass = scrolled
     ? isDark
-      ? 'bg-dark-900/90 backdrop-blur-xl border-b border-primary/15 shadow-lg shadow-black/30'
-      : 'bg-white/85 backdrop-blur-xl border-b border-light-400/20 shadow-lg shadow-slate-200/50'
-    : 'bg-transparent border-b border-transparent';
+      ? 'bg-dark-900/92 backdrop-blur-xl border-b border-primary/15 shadow-lg shadow-black/40'
+      : 'bg-white/88 backdrop-blur-xl border-b border-emerald-900/10 shadow-lg shadow-slate-200/60'
+    : isDark
+      ? 'bg-dark-900/35 border-b border-primary/10 backdrop-blur-sm'
+      : 'bg-white/70 border-b border-emerald-900/10 backdrop-blur-sm';
 
   const textClass = isDark ? 'text-gray-200' : 'text-slate-800';
 
-  const controlButtonClass = `inline-flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-200 ${
+  const controlButtonClass = `inline-flex h-10 items-center justify-center gap-2 rounded-lg border px-3 text-sm font-semibold transition-all duration-200 font-mono ${
     isDark
-      ? 'text-gray-300 hover:text-primary hover:bg-primary/10 hover:shadow-[0_0_10px_rgba(0,255,65,0.15)]'
-      : 'text-slate-600 hover:text-primary-dim hover:bg-slate-100'
+      ? 'border-primary/20 bg-primary/5 text-gray-300 hover:border-primary/50 hover:text-primary hover:bg-primary/10'
+      : 'border-emerald-700/20 bg-white/60 text-slate-700 hover:border-emerald-600/50 hover:text-emerald-700 hover:bg-emerald-50'
   }`;
 
   const desktopLinkClass = ({ isActive }) =>
-    `relative px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 font-mono ${
+    `relative inline-flex items-center gap-1.5 px-2.5 py-2 text-sm font-medium rounded-md transition-all duration-200 font-mono ${
       isActive
         ? isDark
-          ? 'text-primary bg-primary/10 shadow-[0_0_10px_rgba(0,255,65,0.1)] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-primary'
-          : 'text-primary-dim bg-primary/10 after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-primary-dim'
+          ? 'text-primary bg-primary/10 shadow-[0_0_10px_rgba(16,185,129,0.12)]'
+          : 'text-primary-dim bg-primary/10'
         : isDark
-          ? 'text-gray-300 hover:text-primary hover:bg-primary/5 hover:shadow-[0_0_8px_rgba(0,255,65,0.08)]'
+          ? 'text-gray-300 hover:text-primary hover:bg-primary/5'
           : 'text-slate-700 hover:text-primary-dim hover:bg-primary/10'
     }`;
 
   const mobileLinkClass = ({ isActive }) =>
-    `block px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 font-mono ${
+    `flex items-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 font-mono ${
       isActive
         ? isDark
-          ? 'text-primary bg-primary/10 border-l-2 border-primary shadow-[0_0_10px_rgba(0,255,65,0.1)]'
+          ? 'text-primary bg-primary/10 border-l-2 border-primary'
           : 'text-primary-dim bg-primary/10 border-l-2 border-primary-dim'
         : isDark
           ? 'text-gray-300 hover:text-primary hover:bg-primary/5'
@@ -135,42 +177,98 @@ function Navbar() {
     }`;
 
   const renderLinks = (linkClass, onNavigate) =>
-    navItems.map((item) => (
-      <NavLink
-        key={item.to}
-        to={item.to}
-        end={item.end}
-        className={linkClass}
-        onClick={onNavigate}
-      >
-        <Terminal className="mr-1 inline h-3.5 w-3.5 opacity-60" />
-        {t.nav[item.label]}
-      </NavLink>
-    ));
+    navItems.map((item) => {
+      const Icon = item.icon;
+      return (
+        <NavLink
+          key={item.to}
+          to={item.to}
+          end={item.end}
+          className={linkClass}
+          onClick={onNavigate}
+        >
+          <Icon className="h-3.5 w-3.5 opacity-70" />
+          {t.nav[item.label]}
+        </NavLink>
+      );
+    });
+
+  const renderSettingsMenu = () => (
+    <div
+      className={`absolute right-0 mt-3 w-64 rounded-xl border p-3 shadow-2xl ${
+        isDark
+          ? 'border-primary/20 bg-dark-900/95 shadow-black/40'
+          : 'border-emerald-900/10 bg-white/95 shadow-slate-300/40'
+      }`}
+    >
+      <div className="mb-3 border-b border-primary/10 pb-3">
+        <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-secondary">
+          <Languages className="h-3.5 w-3.5 text-primary" />
+          Language
+        </p>
+        {[
+          { id: 'en', label: 'English', hint: 'EN' },
+          { id: 'kh', label: 'Khmer', hint: 'KH' },
+        ].map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => chooseLanguage(item.id)}
+            className="flex w-full items-center justify-between rounded-lg px-3 py-2 font-mono text-sm text-secondary transition-colors hover:bg-primary/10 hover:text-primary"
+          >
+            <span>{item.label}</span>
+            <span className="flex items-center gap-2">
+              <span className="text-xs">{item.hint}</span>
+              {language === item.id && <Check className="h-4 w-4 text-primary" />}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div>
+        <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-secondary">
+          <Shield className="h-3.5 w-3.5 text-primary" />
+          Theme
+        </p>
+        {[
+          { id: 'dark', label: 'Black Hacker', icon: Moon },
+          { id: 'light', label: 'Light Mode', icon: Sun },
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => chooseTheme(item.id)}
+              className="flex w-full items-center justify-between rounded-lg px-3 py-2 font-mono text-sm text-secondary transition-colors hover:bg-primary/10 hover:text-primary"
+            >
+              <span className="flex items-center gap-2">
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </span>
+              {theme === item.id && <Check className="h-4 w-4 text-primary" />}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 
   const renderControls = (compact = false) => (
-    <div className={`flex items-center ${compact ? 'gap-2' : 'gap-1'}`}>
+    <div ref={compact ? null : settingsRef} className="relative">
       <button
         type="button"
-        onClick={toggleLanguage}
-        className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 font-mono ${
-          isDark
-            ? 'text-gray-300 hover:text-primary hover:bg-primary/10 hover:shadow-[0_0_10px_rgba(0,255,65,0.1)]'
-            : 'text-slate-600 hover:text-primary-dim hover:bg-slate-100'
-        }`}
-        aria-label="Switch language"
+        onClick={() => setSettingsOpen((open) => !open)}
+        className={compact ? `${controlButtonClass} w-full justify-between` : controlButtonClass}
+        aria-expanded={settingsOpen}
+        aria-label="Open settings"
       >
-        <Terminal className="h-4 w-4" />
-        <span>{language === 'en' ? 'EN' : 'KH'}</span>
+        <Settings className="h-4 w-4" />
+        <span>{language.toUpperCase()}</span>
+        {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+        <ChevronDown className={`h-4 w-4 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
       </button>
-      <button
-        type="button"
-        onClick={toggleTheme}
-        className={controlButtonClass}
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      </button>
+      {settingsOpen && renderSettingsMenu()}
     </div>
   );
 
@@ -184,8 +282,8 @@ function Navbar() {
           className={`relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8 ${textClass}`}
         >
           <NavLink to="/" end onClick={closeMenu} className="flex items-center gap-2.5 shrink-0 z-10">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-sm font-bold text-dark-900 font-mono shadow-[0_0_15px_rgba(0,255,65,0.3)]">
-              <Terminal className="h-5 w-5 text-dark-900" />
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-primary/40 bg-primary/15 text-sm font-bold text-primary font-mono shadow-[0_0_18px_rgba(16,185,129,0.28)]">
+              <Terminal className="h-5 w-5" />
             </span>
             <span className="hidden sm:block text-lg font-bold tracking-wide font-mono">
               <span className={isDark ? 'text-primary' : 'text-primary-dim'}>&lt;</span>
@@ -206,7 +304,7 @@ function Navbar() {
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className={`${controlButtonClass} lg:hidden z-10`}
+            className={`${controlButtonClass} lg:hidden z-10 px-2.5`}
             aria-label="Open menu"
           >
             <Menu className="h-6 w-6" />
@@ -225,7 +323,7 @@ function Navbar() {
         />
 
         <aside
-          className={`absolute right-0 top-0 h-full w-72 max-w-[85vw] overflow-y-auto p-6 transition-transform duration-300 ease-in-out ${
+          className={`absolute right-0 top-0 h-full w-80 max-w-[88vw] overflow-y-auto p-5 transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           } ${
             isDark
@@ -233,41 +331,10 @@ function Navbar() {
               : 'bg-white border-l border-light-400/20'
           }`}
         >
-          {isDark && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute inset-0 opacity-10">
-                {[
-                  { l: 5, t: 12, d: 2.1, c: 0 }, { l: 15, t: 45, d: 3.4, c: 3 },
-                  { l: 28, t: 78, d: 2.7, c: 7 }, { l: 42, t: 22, d: 4.1, c: 12 },
-                  { l: 55, t: 65, d: 2.3, c: 5 }, { l: 68, t: 8, d: 3.8, c: 9 },
-                  { l: 78, t: 55, d: 2.9, c: 15 }, { l: 88, t: 35, d: 4.5, c: 2 },
-                  { l: 8, t: 88, d: 3.2, c: 11 }, { l: 35, t: 5, d: 2.5, c: 18 },
-                  { l: 48, t: 92, d: 3.6, c: 6 }, { l: 62, t: 42, d: 4.2, c: 14 },
-                  { l: 75, t: 72, d: 2.8, c: 8 }, { l: 92, t: 15, d: 3.1, c: 1 },
-                  { l: 22, t: 58, d: 4.4, c: 10 }, { l: 58, t: 30, d: 2.6, c: 16 },
-                  { l: 82, t: 85, d: 3.9, c: 4 }, { l: 12, t: 38, d: 2.2, c: 13 },
-                  { l: 45, t: 68, d: 3.5, c: 17 }, { l: 72, t: 25, d: 4.3, c: 19 },
-                ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="absolute text-primary/20 font-mono text-xs whitespace-nowrap"
-                    style={{
-                      left: `${item.l}%`,
-                      top: `${item.t}%`,
-                      animation: `flicker ${item.d}s infinite`,
-                    }}
-                  >
-                    {matrixChars[item.c]}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="relative flex items-center justify-between mb-6">
+          <div className="relative flex items-center justify-between mb-5">
             <NavLink to="/" end onClick={closeMenu} className={`flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-sm font-bold text-dark-900 font-mono">
-                <Terminal className="h-5 w-5 text-dark-900" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/40 bg-primary/15 text-primary font-mono">
+                <Terminal className="h-5 w-5" />
               </span>
               <span className="text-base font-bold tracking-wide font-mono">
                 <span className={isDark ? 'text-primary' : 'text-primary-dim'}>&lt;</span>
@@ -278,7 +345,7 @@ function Navbar() {
             <button
               type="button"
               onClick={closeMenu}
-              className={`${controlButtonClass} -mr-2`}
+              className={`${controlButtonClass} px-2.5`}
               aria-label="Close menu"
             >
               <X className="h-6 w-6" />
@@ -287,12 +354,12 @@ function Navbar() {
 
           <div className="relative space-y-1.5">{renderLinks(mobileLinkClass, closeMenu)}</div>
 
-          <div className="relative mt-6 pt-6 border-t border-primary/10 flex items-center justify-between">
-            <span className={`text-sm font-medium font-mono ${isDark ? 'text-primary/60' : 'text-slate-500'}`}>
+          <div className="relative mt-5 border-t border-primary/10 pt-5">
+            <span className={`mb-3 block text-sm font-medium font-mono ${isDark ? 'text-primary/70' : 'text-slate-500'}`}>
               <Shield className="inline h-3.5 w-3.5 mr-1" />
               Settings
             </span>
-            {renderControls(true)}
+            <div ref={settingsRef}>{renderControls(true)}</div>
           </div>
         </aside>
       </div>

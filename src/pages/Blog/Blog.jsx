@@ -24,9 +24,9 @@ function Blog() {
     });
 
   return (
-    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
-      <div className="mx-auto w-full max-w-7xl px-6">
-        <div className="mb-14 text-center" data-aos="fade-up">
+    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center" data-aos="fade-up">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <BookOpen className="h-3.5 w-3.5" />
             &gt;_ log_stream
@@ -48,7 +48,7 @@ function Blog() {
                 to={`/blog/${post.slug}`}
                 data-aos="fade-up"
                 data-aos-delay={Math.min(index * 50, 300)}
-                className="card card-hover group flex flex-col gap-4 p-6 no-underline"
+                className="card card-hover group flex flex-col gap-3 p-6 no-underline"
               >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="tag inline-flex items-center gap-1.5">
@@ -100,7 +100,7 @@ function Blog() {
                 </div>
 
                 <div
-                  className={`flex items-center gap-2 border-t pt-4 text-sm font-semibold ${
+                  className={`flex items-center gap-2 border-t pt-3 text-sm font-semibold ${
                     isDark ? 'border-white/5 text-primary' : 'border-slate-200 text-green-600'
                   }`}
                 >

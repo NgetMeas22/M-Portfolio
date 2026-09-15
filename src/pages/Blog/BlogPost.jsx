@@ -83,7 +83,7 @@ function BlogPost() {
             return (
               <ul
                 key={blockKey}
-                className={`ml-4 mb-6 list-disc space-y-1.5 pl-2 ${
+                className={`ml-4 mb-4 list-disc space-y-1.5 pl-2 ${
                   isDark ? 'text-slate-300' : 'text-slate-700'
                 }`}
               >
@@ -98,7 +98,7 @@ function BlogPost() {
             return (
               <h2
                 key={blockKey}
-                className={`mb-4 mt-2 font-mono text-2xl font-bold ${
+                className={`mb-3 mt-1 font-mono text-2xl font-bold ${
                   isDark ? 'text-primary' : 'text-slate-900'
                 }`}
               >
@@ -110,7 +110,7 @@ function BlogPost() {
           return (
             <p
               key={blockKey}
-              className={`mb-6 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+              className={`mb-4 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
             >
               {formatInline(block.trim())}
             </p>
@@ -121,14 +121,14 @@ function BlogPost() {
 
   if (!post) {
     return (
-      <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
-        <div className="mx-auto w-full max-w-3xl px-6 text-center">
+      <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-16">
+        <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <div className="card" data-aos="fade-up">
             <h1 className="section-title text-3xl sm:text-4xl">{t.blog.title}</h1>
             <p className={`mt-4 text-lg ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               {t.blog.notFound}
             </p>
-            <Link to="/blog" className="btn-primary mt-8 inline-flex items-center gap-2">
+            <Link to="/blog" className="btn-primary mt-6 inline-flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
               {t.blog.backToBlog}
             </Link>
@@ -139,11 +139,11 @@ function BlogPost() {
   }
 
   return (
-    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
-      <div className="mx-auto w-full max-w-3xl px-6">
+    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
         <Link
           to="/blog"
-          className="btn-outline mb-8 inline-flex items-center gap-2"
+          className="btn-outline mb-6 inline-flex items-center gap-2"
           data-aos="fade-up"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -151,14 +151,14 @@ function BlogPost() {
         </Link>
 
         <article className="card overflow-hidden" data-aos="fade-up">
-          <div className="border-b border-white/5 p-6 sm:p-8 md:p-10">
+          <div className="border-b border-white/5 p-6">
             <span className="cyber-badge mb-4 inline-flex items-center gap-2">
               <BookOpen className="h-3.5 w-3.5" />
               &gt;_ post.log
             </span>
 
             <h1
-              className={`mb-6 font-mono text-3xl sm:text-4xl font-bold leading-tight ${
+              className={`mb-4 font-mono text-3xl sm:text-4xl font-bold leading-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}
             >
@@ -177,7 +177,7 @@ function BlogPost() {
               </span>
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               <Tag className={`h-4 w-4 ${isDark ? 'text-secondary' : 'text-green-600'}`} />
               <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 {t.blog.tags}
@@ -196,8 +196,8 @@ function BlogPost() {
                 isDark ? 'border-white/5 bg-dark-900' : 'border-slate-200'
               }`}
             >
-              <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
-              <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-teal-400/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/70" />
               <span
                 className={`ml-2 font-mono text-xs tracking-widest uppercase ${
@@ -208,7 +208,7 @@ function BlogPost() {
               </span>
               <span className="terminal-cursor" />
             </div>
-            <div className="p-6 text-base sm:p-8 sm:text-lg">{renderContent(post.content)}</div>
+            <div className="p-6 text-base sm:text-lg">{renderContent(post.content)}</div>
           </div>
         </article>
 

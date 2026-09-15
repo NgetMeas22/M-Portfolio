@@ -9,14 +9,14 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const techStack = [
-  { name: 'React', color: '#61dafb' },
-  { name: 'JavaScript', color: '#f7df1e' },
-  { name: 'PHP', color: '#777bb4' },
-  { name: 'Laravel', color: '#ff2d20' },
-  { name: 'MySQL', color: '#4479a1' },
-  { name: 'Tailwind CSS', color: '#06b6d4' },
-  { name: 'Vue.js', color: '#4fc08d' },
-  { name: 'Git', color: '#f05032' },
+  { name: 'React' },
+  { name: 'JavaScript' },
+  { name: 'PHP' },
+  { name: 'Laravel' },
+  { name: 'MySQL' },
+  { name: 'Tailwind CSS' },
+  { name: 'Vue.js' },
+  { name: 'Git' },
 ];
 
 const learningTags = ['AI', 'Python', 'C# .NET', 'Spring Boot'];
@@ -28,7 +28,7 @@ const terminalLines = [
   { command: 'status', output: 'Open to opportunities' },
 ];
 
-const RAIN_CHARS = ['0', '1', '7', 'A', 'F', '9', '#', '$', '@', '%', '3', ':', '.', '░'];
+const RAIN_CHARS = ['0', '1', '7', 'A', 'F', '9', '#', '$', '@', '%', '3', ':', '.', '_'];
 const RAIN_COLUMNS = Array.from({ length: 12 }, () =>
   Array.from({ length: 18 }, () => RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)]).join('')
 );
@@ -98,7 +98,7 @@ export default function Home() {
   }, [currentLine, currentChar, showOutput]);
 
   useEffect(() => {
-    const roles = [t.hero.role, 'Terminal Warlock', 'Cyber Craftsman', 'API Architect'];
+    const roles = [t.hero.role, 'Full Stack Builder', 'Cyber UI Engineer', 'API Architect'];
     const current = roles[roleIndex % roles.length];
 
     if (deleting && roleText.length === 0) {
@@ -133,17 +133,17 @@ export default function Home() {
         </div>
 
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-14 pb-20 lg:grid-cols-2 lg:gap-12">
+          <div className="grid items-center gap-8 pb-16 lg:grid-cols-2 lg:gap-10">
 
             <div data-aos="fade-right" className="lg:w-[48%]">
-              <span className="cyber-badge mb-6 inline-flex items-center gap-2">
+              <span className="cyber-badge mb-4 inline-flex items-center gap-2">
                 {'>_ nget_meas.init'}
               </span>
 
               <h1 className="font-mono text-[3rem] leading-none font-black tracking-tighter sm:text-6xl lg:text-7xl">
                 <span className="text-slate-400">{nameParts[0]}</span>{' '}
                 <span
-                  className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent glow-lg"
+                  className="inline-block bg-linear-to-r from-primary to-accent bg-clip-text text-transparent glow-lg"
                   style={{
                     textShadow: isDark
                       ? '0 0 40px rgba(16,185,129,0.5)'
@@ -154,18 +154,18 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="section-subtitle mt-6 font-mono text-base sm:text-lg">
+              <p className="section-subtitle mt-4 font-mono text-base sm:text-lg">
                 <span className="text-slate-500">~$</span>{' '}
                 <span className="text-primary-light">{roleText}</span>
                 <span className="terminal-cursor" aria-hidden="true" />
               </p>
 
-              <div className="mt-6 max-w-xl space-y-2 text-lg text-slate-400">
+              <div className="mt-4 max-w-xl space-y-2 text-lg text-slate-400">
                 <p>{t.hero.description1}</p>
                 <p>{t.hero.description2}</p>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-6">
                 <span className="font-mono text-xs uppercase tracking-widest text-slate-500">
                   {t.hero.currentlyLearning}
                 </span>
@@ -178,12 +178,12 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-8 font-mono text-sm text-slate-500">
-                <span className="text-primary">$</span> nget --role
+              <div className="mt-6 font-mono text-sm text-slate-500">
+                <span className="text-primary">$</span> smos --role
                 <span className="terminal-cursor ml-1" aria-hidden="true" />
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-wrap gap-4">
                 <a
                   href="/CV_NgetMeas.pdf"
                   download="CV_NgetMeas.pdf"
@@ -198,7 +198,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div className="mt-10 flex items-center gap-3">
+              <div className="mt-8 flex items-center gap-3">
                 <a
                   href="https://github.com/NgetMeas22"
                   target="_blank"
@@ -256,16 +256,16 @@ export default function Home() {
 
                 <div className="card glass glow-md relative overflow-hidden rounded-xl">
                   <div className="flex items-center gap-2 border-b border-slate-800/80 px-4 py-3">
-                    <span className="h-3 w-3 rounded-full bg-red-500" />
-                    <span className="h-3 w-3 rounded-full bg-yellow-500" />
-                    <span className="h-3 w-3 rounded-full bg-green-500" />
+                    <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+                    <span className="h-3 w-3 rounded-full bg-teal-400/80" />
+                    <span className="h-3 w-3 rounded-full bg-primary/80" />
                     <span className="ml-2 font-mono text-xs text-slate-500">
                       {'>_ raw_shell.sh'}
                     </span>
                   </div>
 
-                  <div className="relative min-h-[320px] p-5 font-mono text-sm">
-                    <div className="relative space-y-4">
+                  <div className="relative min-h-75 p-5 font-mono text-sm">
+                    <div className="relative space-y-3">
                       {displayedLines.map((line, i) => (
                         <div key={i} className="space-y-1">
                           <p>
@@ -296,7 +296,7 @@ export default function Home() {
 
       <section className="py-16">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div data-aos="fade-up" className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div data-aos="fade-up" className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span className="cyber-badge mb-4 inline-flex items-center gap-2">
                 {'>_ featured_work'}
@@ -369,8 +369,8 @@ export default function Home() {
       </section>
 
       <section className="py-16">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div data-aos="fade-up" className="mb-12 text-center">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div data-aos="fade-up" className="mb-6 text-center">
             <span className="cyber-badge mb-4 inline-flex items-center gap-2">
               {'>_ /tech_stack'}
             </span>
@@ -394,9 +394,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pb-20">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div data-aos="fade-up" className="mb-12 text-center">
+      <section className="pb-16">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div data-aos="fade-up" className="mb-6 text-center">
             <span className="cyber-badge mb-4 inline-flex items-center gap-2">
               {'>_ github.com/NgetMeas22'}
             </span>
@@ -406,15 +406,15 @@ export default function Home() {
           <div
             data-aos="fade-up"
             data-aos-delay="100"
-            className="card glass glass-sm card-hover mx-auto max-w-2xl p-8 text-center"
+            className="card glass glass-sm card-hover mx-auto max-w-2xl p-6 text-center"
           >
-            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
               <GitHubIcon size={32} />
             </div>
             <h3 className="font-mono text-xl font-bold tracking-tight text-secondary">
               @NgetMeas22
             </h3>
-            <div className="mt-6 flex items-center justify-center gap-10">
+            <div className="mt-4 flex items-center justify-center gap-8">
               <div>
                 <p className="font-mono text-3xl font-black text-primary">22</p>
                 <p className="mt-1 font-mono text-xs uppercase tracking-widest text-slate-500">
@@ -432,7 +432,7 @@ export default function Home() {
               href="https://github.com/NgetMeas22"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary mt-8 inline-flex items-center gap-2"
+              className="btn-primary mt-6 inline-flex items-center gap-2"
             >
               view_profile
               <ExternalLink size={18} />

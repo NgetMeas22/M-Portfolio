@@ -22,7 +22,7 @@ export default function ProjectDetails() {
 
   if (!project) {
     return (
-      <section className="grid-bg grid-pattern relative flex min-h-screen items-center justify-center px-4 pt-28 lg:pt-32 pb-20">
+      <section className="grid-bg grid-pattern relative flex min-h-screen items-center justify-center px-4 pt-28 lg:pt-32 pb-16">
         <div className="text-center">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -49,7 +49,7 @@ export default function ProjectDetails() {
   const description = isKh ? project.descriptionKh : project.description;
   const features = isKh ? project.featuresKh : project.features;
 
-  const sectionCard = 'card glass glass-sm p-6 sm:p-8';
+  const sectionCard = 'card glass glass-sm p-6';
 
   const projectIndex = projects.findIndex(p => p.slug === id);
   const prevProject = projectIndex > 0 ? projects[projectIndex - 1] : null;
@@ -59,10 +59,10 @@ export default function ProjectDetails() {
 
   return (
     <div className="min-h-screen">
-      <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+      <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
 
-          <nav data-aos="fade-down" className="mb-10 flex flex-wrap items-center gap-2 font-mono text-sm">
+          <nav data-aos="fade-down" className="mb-8 flex flex-wrap items-center gap-2 font-mono text-sm">
             <Link
               to="/projects"
               className={`underline-glow inline-flex items-center gap-2 transition-colors hover:underline ${
@@ -76,7 +76,7 @@ export default function ProjectDetails() {
             <span className="max-w-[50vw] truncate text-secondary">{project.title}</span>
           </nav>
 
-          <header data-aos="fade-up" className="mb-10">
+          <header data-aos="fade-up" className="mb-8">
             <span className="cyber-badge mb-4 inline-flex items-center gap-2">
               <Lightbulb className="h-3.5 w-3.5" />
               {`>_ project.log`}
@@ -86,7 +86,7 @@ export default function ProjectDetails() {
             </h1>
             <p className="section-subtitle mt-4 text-lg">{description}</p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-2">
+            <div className="mt-4 flex flex-wrap items-center gap-2">
               {project.isTeamProject && (
                 <span className="cyber-badge font-mono text-xs">
                   {t.projects.teamProject}
@@ -101,7 +101,7 @@ export default function ProjectDetails() {
               ))}
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
               {project.live && (
                 <a
                   href={project.live}
@@ -125,9 +125,9 @@ export default function ProjectDetails() {
             </div>
           </header>
 
-          <div className="my-10 grid gap-6 lg:grid-cols-5">
+          <div className="my-8 grid gap-6 lg:grid-cols-5">
             <section data-aos="fade-right" className={`${sectionCard} lg:col-span-3`}>
-              <h2 className="mb-6 flex items-center gap-3 font-mono text-xl font-bold sm:text-2xl">
+              <h2 className="mb-4 flex items-center gap-3 font-mono text-xl font-bold sm:text-2xl">
                 <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 glow-sm">
                   <CheckCircle size={18} />
                 </span>
@@ -146,9 +146,9 @@ export default function ProjectDetails() {
               </ul>
             </section>
 
-            <div className="space-y-6 lg:col-span-2">
+            <div className="space-y-4 lg:col-span-2">
               <section data-aos="fade-left" className={sectionCard}>
-                <h2 className="mb-6 flex items-center gap-3 font-mono text-xl font-bold sm:text-2xl">
+                <h2 className="mb-4 flex items-center gap-3 font-mono text-xl font-bold sm:text-2xl">
                   <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 glow-sm">
                     <ExternalLink size={18} />
                   </span>
@@ -159,7 +159,7 @@ export default function ProjectDetails() {
                     <span key={tech} className="tag font-mono">{tech}</span>
                   ))}
                 </div>
-                <p className="mt-6 font-mono text-sm text-slate-500">
+                <p className="mt-4 font-mono text-sm text-slate-500">
                   role .......... <span className="text-emerald-400">{t.hero.role}</span>
                 </p>
               </section>
@@ -199,7 +199,7 @@ export default function ProjectDetails() {
             </div>
           </div>
 
-          <div data-aos="fade-up" className="mt-12 grid gap-4 sm:grid-cols-2">
+          <div data-aos="fade-up" className="mt-8 grid gap-4 sm:grid-cols-2">
             {prevProject && (
               <Link
                 to={`/projects/${prevProject.id}`}

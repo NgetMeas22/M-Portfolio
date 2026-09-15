@@ -16,9 +16,9 @@ function Education() {
   }, []);
 
   return (
-    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="mb-16 text-center" data-aos="fade-up">
+    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center" data-aos="fade-up">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <GraduationCap className="h-3.5 w-3.5" />
             {'>_ education.dao'}
@@ -65,7 +65,7 @@ function Education() {
             />
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-8">
             {education.map((item, index) => {
               const isLeft = index % 2 === 0;
               const institution = language === 'kh' ? item.institutionKh : item.institution;
@@ -110,7 +110,7 @@ function Education() {
                     >
                       <div className="p-5 sm:p-6">
                         {/* Header: degree + emerald tile + institution */}
-                        <div className="mb-4 flex items-start gap-3">
+                        <div className="mb-3 flex items-start gap-3">
                           <span className="glow-sm mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
                             <GraduationCap className="h-5 w-5" />
                           </span>
@@ -137,7 +137,7 @@ function Education() {
                         </div>
 
                         {/* Status / grade + expected graduation */}
-                        <div className="mb-4 flex flex-wrap items-center gap-2">
+                        <div className="mb-3 flex flex-wrap items-center gap-2">
                           {status && (
                             <span className="tag inline-flex items-center gap-1.5 font-mono">
                               <GraduationCap className="h-3.5 w-3.5" />
@@ -155,7 +155,7 @@ function Education() {
                         {/* Description */}
                         {description && (
                           <p
-                            className={`mb-4 text-sm leading-relaxed ${
+                            className={`mb-3 text-sm leading-relaxed ${
                               isDark ? 'text-slate-400' : 'text-slate-600'
                             }`}
                           >
@@ -166,7 +166,7 @@ function Education() {
                         {/* Coursework */}
                         {coursework && coursework.length > 0 && (
                           <div
-                            className={`border-t pt-4 ${
+                            className={`border-t pt-3 ${
                               isDark ? 'border-white/10' : 'border-slate-200'
                             }`}
                           >

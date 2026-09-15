@@ -16,9 +16,9 @@ function Experience() {
   }, []);
 
   return (
-    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="mb-16 text-center" data-aos="fade-up">
+    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center" data-aos="fade-up">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <Briefcase className="h-3.5 w-3.5" />
             {'>_ timeline.er'}
@@ -65,7 +65,7 @@ function Experience() {
             />
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-8">
             {experience.map((item, index) => {
               const isLeft = index % 2 === 0;
               const title = language === 'kh' ? item.titleKh : item.title;
@@ -111,7 +111,7 @@ function Experience() {
                     >
                       <div className="p-5 sm:p-6">
                         {/* Header: role + company */}
-                        <div className="mb-4">
+                        <div className="mb-3">
                           <div className="flex flex-wrap items-baseline gap-2">
                             <span className="font-mono text-xs font-bold text-primary">
                               {'>_'}
@@ -136,7 +136,7 @@ function Experience() {
                         </div>
 
                         {/* Date range */}
-                        <div className="mb-4">
+                        <div className="mb-3">
                           <span className="tag inline-flex items-center gap-1.5 font-mono">
                             <Calendar className="h-3.5 w-3.5" />
                             {period}
@@ -146,7 +146,7 @@ function Experience() {
                         {/* Key responsibilities */}
                         {responsibilities && responsibilities.length > 0 && (
                           <div
-                            className={`border-t pt-4 ${
+                            className={`border-t pt-3 ${
                               isDark ? 'border-white/10' : 'border-slate-200'
                             }`}
                           >
@@ -157,7 +157,7 @@ function Experience() {
                             >
                               {t.experience.responsibilities}
                             </h4>
-                            <ul className="space-y-2.5">
+                            <ul className="space-y-2">
                               {responsibilities.map((resp, i) => (
                                 <li
                                   key={i}

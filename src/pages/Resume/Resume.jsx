@@ -64,7 +64,7 @@ export default function Resume() {
   return (
     <section
       id="resume"
-      className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20 px-4 sm:px-6 lg:px-8"
+      className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16 px-4 sm:px-6 lg:px-8"
     >
       <style>{`
         @media print {
@@ -99,7 +99,7 @@ export default function Resume() {
 
       <div className="mx-auto max-w-5xl">
         {/* Page Header */}
-        <div className="mb-16 text-center" data-aos="fade-up">
+        <div className="mb-10 text-center" data-aos="fade-up">
           <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <Code className="h-3.5 w-3.5" />
             {`>_ resume.init`}
@@ -111,7 +111,7 @@ export default function Resume() {
           </h1>
           <p className="section-subtitle mt-3 text-lg">{t.resume.subtitle}</p>
 
-          <div className="no-print mt-6 flex flex-wrap items-center justify-center gap-3">
+          <div className="no-print mt-4 flex flex-wrap items-center justify-center gap-3">
             <a
               href="/CV_NgetMeas.pdf"
               download="CV_NgetMeas.pdf"
@@ -132,8 +132,8 @@ export default function Resume() {
         </div>
 
         {/* Profile Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="100">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="100">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.profile}
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -182,15 +182,15 @@ export default function Resume() {
         </div>
 
         {/* Education Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="200">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="200">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.education}
           </h2>
-          <div className="space-y-5">
+          <div className="space-y-4">
             {education.map((edu, index) => (
               <div
                 key={edu.id}
-                className="rounded-lg border border-slate-800 bg-slate-900/30 p-5"
+                className="rounded-lg border border-slate-800 bg-slate-900/30 p-4"
                 data-aos="fade-up"
                 data-aos-delay={250 + index * 100}
               >
@@ -221,11 +221,11 @@ export default function Resume() {
         </div>
 
         {/* Skills Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="300">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="300">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.skills}
           </h2>
-          <div className="space-y-6">
+          <div className="space-y-5">
             {groupedSkills.map((group) => (
               <div key={group.id}>
                 <h3 className="mb-3 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -261,15 +261,15 @@ export default function Resume() {
         </div>
 
         {/* Experience Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="400">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="400">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.experience}
           </h2>
-          <div className="space-y-5">
+          <div className="space-y-4">
             {experience.map((exp) => (
               <div
                 key={exp.id}
-                className="rounded-lg border border-slate-800 bg-slate-900/30 p-5"
+                className="rounded-lg border border-slate-800 bg-slate-900/30 p-4"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                   <h3 className="font-mono font-bold text-slate-200">
@@ -304,8 +304,8 @@ export default function Resume() {
         </div>
 
         {/* Projects Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="500">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="500">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.projects}
           </h2>
           <div className="space-y-3">
@@ -335,15 +335,15 @@ export default function Resume() {
         </div>
 
         {/* Certificates Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="600">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="600">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.certificates}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {certificates.map((cert, index) => (
               <div
                 key={cert.id}
-                className="rounded-lg border border-slate-800 bg-slate-900/30 p-5"
+                className="rounded-lg border border-slate-800 bg-slate-900/30 p-4"
                 data-aos="zoom-in"
                 data-aos-delay={650 + index * 80}
               >
@@ -362,8 +362,8 @@ export default function Resume() {
         </div>
 
         {/* Languages Section */}
-        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="700">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6" data-aos="fade-up" data-aos-delay="700">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.languages}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -389,8 +389,8 @@ export default function Resume() {
         </div>
 
         {/* Contact Section */}
-        <div className="card glass mb-8 p-8 text-center" data-aos="fade-up" data-aos-delay="800">
-          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+        <div className="card glass mb-6 p-6 text-center" data-aos="fade-up" data-aos-delay="800">
+          <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.contact}
           </h2>
           <div className="flex flex-wrap justify-center gap-4">

@@ -123,10 +123,10 @@ function Contact() {
 
   return (
     <>
-      <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+      <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* Centered Header */}
-          <div className="mb-14 text-center" data-aos="fade-up">
+          <div className="mb-10 text-center" data-aos="fade-up">
             <span className="cyber-badge mb-4 inline-flex items-center gap-2">
               <Send className="h-3.5 w-3.5" />
               {`>_ contact.signal`}
@@ -140,7 +140,7 @@ function Contact() {
           </div>
 
           {/* Two-Column Grid */}
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* LEFT — Signal Panel */}
             <div className="flex flex-col gap-6" data-aos="fade-right">
               <p className="font-mono text-sm text-slate-400">
@@ -217,14 +217,14 @@ function Contact() {
             <div data-aos="fade-left" data-aos-delay="100">
               <form
                 onSubmit={handleSubmit}
-                className="card glass space-y-5 p-6 lg:p-8"
+                className="card glass space-y-4 p-6"
                 noValidate
               >
                 {/* Terminal Titlebar */}
                 <div className="mb-2 flex items-center justify-between rounded-lg border border-slate-700 bg-slate-900/60 px-4 py-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="h-3 w-3 rounded-full bg-red-500/80" />
-                    <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
+                    <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+                    <span className="h-3 w-3 rounded-full bg-teal-400/80" />
                     <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
                     <span className="ml-2 font-mono text-xs text-slate-500">
                       {`>_ send_message.sh`}
@@ -237,7 +237,7 @@ function Contact() {
                 </div>
 
                 {/* Fields */}
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {renderField('name', t.contact.name, 'text', true)}
                   {renderField('email', t.contact.email, 'email', true)}
                 </div>

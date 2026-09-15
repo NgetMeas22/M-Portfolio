@@ -29,7 +29,7 @@ function NotFound() {
         />
 
         <div className="relative z-10 mx-auto w-full max-w-2xl px-6 text-center" data-aos="fade-up">
-          <span className="cyber-badge mb-6 inline-flex items-center gap-2">
+          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <AlertTriangle className="h-3.5 w-3.5" />
             {`>_ 404.error`}
           </span>
@@ -54,7 +54,7 @@ function NotFound() {
             {t.notFound.description}
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link to="/" className="btn-primary inline-flex items-center gap-2 font-mono">
               <Home className="h-4 w-4" />
               {t.notFound.goHome}
