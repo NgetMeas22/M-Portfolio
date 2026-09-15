@@ -91,7 +91,7 @@ function MatrixBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none opacity-40"
+      className="absolute inset-0 pointer-events-none opacity-30"
       aria-hidden="true"
     />
   );
@@ -101,79 +101,99 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const settingsRef = useRef(null);
+  const dropdownRef = useRef(null);
+  
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
   const isDark = theme === 'dark';
 
+  // Toggle dark class on root document when theme changes
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [theme]);
+
+  // Scroll listener
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent background scroll when mobile drawer is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
+  // Reliable click-outside listener that doesn't eat button clicks
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!settingsRef.current?.contains(event.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSettingsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
   const closeMenu = () => setIsOpen(false);
-  const chooseLanguage = (nextLanguage) => {
-    setLanguage(nextLanguage);
+
+  const handleLanguageSelect = (lang) => {
+    if (typeof setLanguage === 'function') {
+      setLanguage(lang);
+    }
     setSettingsOpen(false);
   };
-  const chooseTheme = (nextTheme) => {
-    setTheme(nextTheme);
+
+  const handleThemeSelect = (th) => {
+    if (typeof setTheme === 'function') {
+      setTheme(th);
+    }
     setSettingsOpen(false);
   };
 
   const headerClass = scrolled
     ? isDark
-      ? 'bg-dark-900/92 backdrop-blur-xl border-b border-primary/15 shadow-lg shadow-black/40'
-      : 'bg-white/88 backdrop-blur-xl border-b border-emerald-900/10 shadow-lg shadow-slate-200/60'
+      ? 'bg-[#030504]/95 backdrop-blur-xl border-b border-emerald-500/20 shadow-lg shadow-black/80'
+      : 'bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-md shadow-slate-200/50'
     : isDark
-      ? 'bg-dark-900/35 border-b border-primary/10 backdrop-blur-sm'
-      : 'bg-white/70 border-b border-emerald-900/10 backdrop-blur-sm';
+      ? 'bg-[#030504]/60 border-b border-emerald-500/10 backdrop-blur-sm'
+      : 'bg-white/70 border-b border-slate-200/70 backdrop-blur-sm';
 
-  const textClass = isDark ? 'text-gray-200' : 'text-slate-800';
-
-  const controlButtonClass = `inline-flex h-10 items-center justify-center gap-2 rounded-lg border px-3 text-sm font-semibold transition-all duration-200 font-mono ${
+  const controlButtonClass = `inline-flex h-10 items-center justify-center gap-2 rounded-lg border px-3 text-xs font-bold transition-all duration-200 font-mono tracking-wider ${
     isDark
-      ? 'border-primary/20 bg-primary/5 text-gray-300 hover:border-primary/50 hover:text-primary hover:bg-primary/10'
-      : 'border-emerald-700/20 bg-white/60 text-slate-700 hover:border-emerald-600/50 hover:text-emerald-700 hover:bg-emerald-50'
+      ? 'border-emerald-500/40 bg-black/80 text-emerald-400 hover:border-emerald-400 hover:bg-emerald-950/40 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+      : 'border-slate-300 bg-white text-slate-700 hover:border-emerald-600 hover:text-emerald-700 hover:bg-emerald-50'
   }`;
 
   const desktopLinkClass = ({ isActive }) =>
-    `relative inline-flex items-center gap-1.5 px-2.5 py-2 text-sm font-medium rounded-md transition-all duration-200 font-mono ${
+    `relative inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-md transition-all duration-150 font-mono uppercase tracking-wider ${
       isActive
         ? isDark
-          ? 'text-primary bg-primary/10 shadow-[0_0_10px_rgba(16,185,129,0.12)]'
-          : 'text-primary-dim bg-primary/10'
+          ? 'text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+          : 'text-emerald-700 bg-emerald-50 border border-emerald-300'
         : isDark
-          ? 'text-gray-300 hover:text-primary hover:bg-primary/5'
-          : 'text-slate-700 hover:text-primary-dim hover:bg-primary/10'
+          ? 'text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/30'
+          : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100'
     }`;
 
   const mobileLinkClass = ({ isActive }) =>
-    `flex items-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 font-mono ${
+    `flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-lg transition-all duration-150 font-mono uppercase tracking-wider ${
       isActive
         ? isDark
-          ? 'text-primary bg-primary/10 border-l-2 border-primary'
-          : 'text-primary-dim bg-primary/10 border-l-2 border-primary-dim'
+          ? 'text-emerald-400 bg-emerald-950/60 border-l-4 border-emerald-400'
+          : 'text-emerald-700 bg-emerald-50 border-l-4 border-emerald-600'
         : isDark
-          ? 'text-gray-300 hover:text-primary hover:bg-primary/5'
-          : 'text-slate-700 hover:text-primary-dim hover:bg-slate-100'
+          ? 'text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/30'
+          : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100'
     }`;
 
   const renderLinks = (linkClass, onNavigate) =>
@@ -187,179 +207,193 @@ function Navbar() {
           className={linkClass}
           onClick={onNavigate}
         >
-          <Icon className="h-3.5 w-3.5 opacity-70" />
-          {t.nav[item.label]}
+          <Icon className="h-3.5 w-3.5 opacity-80" />
+          {t?.nav?.[item.label] ?? item.label}
         </NavLink>
       );
     });
 
   const renderSettingsMenu = () => (
     <div
-      className={`absolute right-0 mt-3 w-64 rounded-xl border p-3 shadow-2xl ${
+      className={`absolute right-0 mt-2.5 w-64 rounded-xl border p-3 shadow-2xl z-50 transition-all font-mono ${
         isDark
-          ? 'border-primary/20 bg-dark-900/95 shadow-black/40'
-          : 'border-emerald-900/10 bg-white/95 shadow-slate-300/40'
+          ? 'border-emerald-500/40 bg-[#030504] shadow-[0_0_30px_rgba(0,0,0,0.9)] text-slate-200'
+          : 'border-slate-200 bg-white shadow-xl text-slate-800'
       }`}
     >
-      <div className="mb-3 border-b border-primary/10 pb-3">
-        <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-secondary">
-          <Languages className="h-3.5 w-3.5 text-primary" />
+      {/* LANGUAGE SELECTOR */}
+      <div className="mb-3 border-b border-emerald-500/20 pb-3">
+        <p className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-widest text-emerald-500 font-bold">
+          <Languages className="h-3.5 w-3.5" />
           Language
         </p>
-        {[
-          { id: 'en', label: 'English', hint: 'EN' },
-          { id: 'kh', label: 'Khmer', hint: 'KH' },
-        ].map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => chooseLanguage(item.id)}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-2 font-mono text-sm text-secondary transition-colors hover:bg-primary/10 hover:text-primary"
-          >
-            <span>{item.label}</span>
-            <span className="flex items-center gap-2">
-              <span className="text-xs">{item.hint}</span>
-              {language === item.id && <Check className="h-4 w-4 text-primary" />}
-            </span>
-          </button>
-        ))}
+        <div className="space-y-1">
+          {[
+            { id: 'en', label: 'English', hint: 'EN' },
+            { id: 'kh', label: 'Khmer', hint: 'KH' },
+          ].map((item) => {
+            const isSelected = language === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLanguageSelect(item.id);
+                }}
+                className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold transition-all ${
+                  isSelected
+                    ? isDark
+                      ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                    : isDark
+                      ? 'text-slate-400 hover:bg-emerald-950/40 hover:text-emerald-300'
+                      : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span>{item.label}</span>
+                <span className="flex items-center gap-2">
+                  <span className="text-[10px] text-slate-500">{item.hint}</span>
+                  {isSelected && <Check className="h-3.5 w-3.5 text-emerald-400" />}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
+      {/* THEME SELECTOR */}
       <div>
-        <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-secondary">
-          <Shield className="h-3.5 w-3.5 text-primary" />
-          Theme
+        <p className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-widest text-emerald-500 font-bold">
+          <Shield className="h-3.5 w-3.5" />
+          Theme Mode
         </p>
-        {[
-          { id: 'dark', label: 'Black Hacker', icon: Moon },
-          { id: 'light', label: 'Light Mode', icon: Sun },
-        ].map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => chooseTheme(item.id)}
-              className="flex w-full items-center justify-between rounded-lg px-3 py-2 font-mono text-sm text-secondary transition-colors hover:bg-primary/10 hover:text-primary"
-            >
-              <span className="flex items-center gap-2">
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </span>
-              {theme === item.id && <Check className="h-4 w-4 text-primary" />}
-            </button>
-          );
-        })}
+        <div className="space-y-1">
+          {[
+            { id: 'dark', label: 'Black Hacker', icon: Moon },
+            { id: 'light', label: 'Light Mode', icon: Sun },
+          ].map((item) => {
+            const Icon = item.icon;
+            const isSelected = theme === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleThemeSelect(item.id);
+                }}
+                className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold transition-all ${
+                  isSelected
+                    ? isDark
+                      ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                    : isDark
+                      ? 'text-slate-400 hover:bg-emerald-950/40 hover:text-emerald-300'
+                      : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <Icon className="h-3.5 w-3.5" />
+                  {item.label}
+                </span>
+                {isSelected && <Check className="h-3.5 w-3.5 text-emerald-400" />}
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
-
-  const renderControls = (compact = false) => (
-    <div ref={compact ? null : settingsRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setSettingsOpen((open) => !open)}
-        className={compact ? `${controlButtonClass} w-full justify-between` : controlButtonClass}
-        aria-expanded={settingsOpen}
-        aria-label="Open settings"
-      >
-        <Settings className="h-4 w-4" />
-        <span>{language.toUpperCase()}</span>
-        {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-        <ChevronDown className={`h-4 w-4 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
-      </button>
-      {settingsOpen && renderSettingsMenu()}
     </div>
   );
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`}
-      >
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`}>
         {isDark && <MatrixBackground />}
-        <nav
-          className={`relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8 ${textClass}`}
-        >
+        <nav className="relative mx-auto flex h-16 max-w-[1700px] items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-12">
+          
+          {/* LOGO */}
           <NavLink to="/" end onClick={closeMenu} className="flex items-center gap-2.5 shrink-0 z-10">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-primary/40 bg-primary/15 text-sm font-bold text-primary font-mono shadow-[0_0_18px_rgba(16,185,129,0.28)]">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-500/50 bg-emerald-950/40 text-emerald-400 font-mono shadow-[0_0_20px_rgba(16,185,129,0.3)]">
               <Terminal className="h-5 w-5" />
             </span>
-            <span className="hidden sm:block text-lg font-bold tracking-wide font-mono">
-              <span className={isDark ? 'text-primary' : 'text-primary-dim'}>&lt;</span>
-              NGET<span className={isDark ? 'text-primary' : 'text-primary-dim'}>MEAS</span>
-              <span className={isDark ? 'text-primary' : 'text-primary-dim'}>/&gt;</span>
-            </span>
-            <span className="sm:hidden text-lg font-bold tracking-wide font-mono">
-              <span className={isDark ? 'text-primary' : 'text-primary-dim'}>&lt;</span>NM<span className={isDark ? 'text-primary' : 'text-primary-dim'}>/&gt;</span>
+            <span className="text-base sm:text-lg font-black tracking-wider font-mono text-white">
+              <span className="text-emerald-500">&lt;</span>
+              NGET<span className="text-emerald-400">MEAS</span>
+              <span className="text-emerald-500">/&gt;</span>
             </span>
           </NavLink>
 
-          <div className="hidden items-center gap-1 lg:flex z-10">
+          {/* DESKTOP NAV LINKS */}
+          <div className="hidden items-center gap-1.5 xl:gap-2 lg:flex z-10">
             {renderLinks(desktopLinkClass)}
           </div>
 
-          <div className="hidden lg:block z-10">{renderControls()}</div>
+          {/* DESKTOP SETTINGS TOGGLE */}
+          <div ref={dropdownRef} className="hidden lg:block relative z-10">
+            <button
+              type="button"
+              onClick={() => setSettingsOpen((prev) => !prev)}
+              className={controlButtonClass}
+              aria-expanded={settingsOpen}
+              aria-label="Configuration settings"
+            >
+              <Settings className="h-3.5 w-3.5 text-emerald-500" />
+              <span>{language ? language.toUpperCase() : 'EN'}</span>
+              {isDark ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
+            </button>
 
+            {settingsOpen && renderSettingsMenu()}
+          </div>
+
+          {/* MOBILE HAMBURGER BUTTON */}
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             className={`${controlButtonClass} lg:hidden z-10 px-2.5`}
-            aria-label="Open menu"
+            aria-label="Open Navigation"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-5 w-5" />
           </button>
         </nav>
       </header>
 
-      <div
-        className={`fixed inset-0 z-[60] ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
-      >
-        <div
-          className={`absolute inset-0 bg-black/70 transition-opacity duration-300 ${
-            isOpen ? 'opacity-100' : 'opacity-0'
-          }`}
-          onClick={closeMenu}
-        />
+      {/* MOBILE DRAWER */}
+      <div className={`fixed inset-0 z-[60] transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeMenu} />
 
         <aside
-          className={`absolute right-0 top-0 h-full w-80 max-w-[88vw] overflow-y-auto p-5 transition-transform duration-300 ease-in-out ${
+          className={`absolute right-0 top-0 h-full w-80 max-w-[85vw] overflow-y-auto p-6 transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
-          } ${
-            isDark
-              ? 'bg-dark-900 border-l border-primary/15'
-              : 'bg-white border-l border-light-400/20'
-          }`}
+          } ${isDark ? 'bg-[#050807] border-l border-emerald-500/30' : 'bg-white border-l border-slate-200'}`}
         >
-          <div className="relative flex items-center justify-between mb-5">
-            <NavLink to="/" end onClick={closeMenu} className={`flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/40 bg-primary/15 text-primary font-mono">
-                <Terminal className="h-5 w-5" />
-              </span>
-              <span className="text-base font-bold tracking-wide font-mono">
-                <span className={isDark ? 'text-primary' : 'text-primary-dim'}>&lt;</span>
-                NGET<span className={isDark ? 'text-primary' : 'text-primary-dim'}>MEAS</span>
-                <span className={isDark ? 'text-primary' : 'text-primary-dim'}>/&gt;</span>
-              </span>
-            </NavLink>
+          <div className="flex items-center justify-between pb-6 border-b border-emerald-500/20">
+            <div className="flex items-center gap-2">
+              <Terminal className="h-5 w-5 text-emerald-400" />
+              <span className="font-mono font-bold text-white tracking-wider">&lt;NM/&gt;</span>
+            </div>
             <button
               type="button"
               onClick={closeMenu}
               className={`${controlButtonClass} px-2.5`}
               aria-label="Close menu"
             >
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5" />
             </button>
           </div>
 
-          <div className="relative space-y-1.5">{renderLinks(mobileLinkClass, closeMenu)}</div>
+          {/* MOBILE LINKS */}
+          <div className="py-6 space-y-1">{renderLinks(mobileLinkClass, closeMenu)}</div>
 
-          <div className="relative mt-5 border-t border-primary/10 pt-5">
-            <span className={`mb-3 block text-sm font-medium font-mono ${isDark ? 'text-primary/70' : 'text-slate-500'}`}>
-              <Shield className="inline h-3.5 w-3.5 mr-1" />
-              Settings
+          {/* MOBILE SETTINGS ACCORDION */}
+          <div className="pt-6 border-t border-emerald-500/20">
+            <span className="block mb-3 font-mono text-xs uppercase tracking-widest text-emerald-500 font-bold">
+              SYS_CONFIGURATION
             </span>
-            <div ref={settingsRef}>{renderControls(true)}</div>
+            <div className="relative">
+              {renderSettingsMenu()}
+            </div>
           </div>
         </aside>
       </div>
