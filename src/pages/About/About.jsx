@@ -3,7 +3,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import {
   GraduationCap,
-  Code,
   Target,
   BookOpen,
   Lightbulb,
@@ -19,6 +18,7 @@ import { useTheme } from '../../hooks/useTheme';
 const About = () => {
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     AOS.init({
@@ -43,301 +43,201 @@ const About = () => {
     { icon: RefreshCw, name: t.about.continuousLearning, color: 'from-green-600 to-emerald-400' },
   ];
 
-  const isDark = theme === 'dark';
+  const coreFacts = [
+    { icon: GraduationCap, label: t.about.education, value: t.about.educationText },
+    { icon: MapPin, label: t.hero.locationLabel, value: t.hero.location },
+    { icon: Target, label: t.about.careerGoal, value: t.about.careerGoalText },
+    { icon: BookOpen, label: t.about.currentLearning, value: learningTags.map(tag => tag.name).join(' \u00B7 ') },
+  ];
 
   return (
     <section
       id="about"
-      className={`min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-        isDark ? 'bg-[#0a0a0f]' : 'bg-white'
-      }`}
+      className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Page Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
-          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-mono font-semibold mb-4 border ${
-            isDark
-              ? 'border-primary/30 bg-primary/10 text-primary'
-              : 'border-green-200 bg-green-50 text-green-600'
-          }`}>
-            {t.about.title}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute -left-24 top-24 h-72 w-72 rounded-full blur-3xl animate-blob"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle, rgba(16,185,129,0.06), transparent 70%)'
+              : 'radial-gradient(circle, rgba(34,197,94,0.04), transparent 70%)',
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 h-80 w-80 rounded-full blur-3xl animate-flicker"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle, rgba(52,211,153,0.05), transparent 70%)'
+              : 'radial-gradient(circle, rgba(34,197,94,0.03), transparent 70%)',
+          }}
+        />
+      </div>
+
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+
+        <div className="mb-16 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+            {'>_ about.init'}
           </span>
-          <h1
-            className={`text-4xl sm:text-5xl font-bold mb-4 font-mono ${
-              isDark ? 'text-gray-200' : 'text-gray-900'
-            }`}
-          >
-            {t.about.title}
+          <h1 className="section-title font-mono text-3xl sm:text-4xl lg:text-5xl">
+            {t.hero.name}
           </h1>
-          <div className={`w-20 h-1 mx-auto mb-6 rounded-full bg-gradient-to-r ${
-            isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
-          }`} />
-          <p
-            className={`text-lg max-w-2xl mx-auto ${
-              isDark ? 'text-gray-400' : 'text-gray-600'
-            }`}
-          >
-            {t.about.subtitle}
-          </p>
+          <p className="section-subtitle mt-3 text-lg">{t.about.subtitle}</p>
         </div>
 
-        {/* Who I Am Section */}
-        <div
-          className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
-            isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
-              : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="100"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-emerald-500 to-green-500' : 'from-green-500 to-emerald-500'
-            } flex items-center justify-center`}>
-              <Code className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
-              {t.about.whoIAm}
-            </h2>
-          </div>
-          <p
-            className={`text-lg leading-relaxed ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}
-          >
-            {t.about.whoIAmText}
-          </p>
-        </div>
+        <div className="grid gap-8 lg:grid-cols-2 mb-16">
 
-        {/* Education Section */}
-        <div
-          className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
-            isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
-              : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="200"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
-            } flex items-center justify-center`}>
-              <GraduationCap className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
-              {t.about.education}
-            </h2>
-          </div>
-          <p
-            className={`text-lg leading-relaxed mb-6 ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}
-          >
-            {t.about.educationText}
-          </p>
           <div
-            className={`flex items-center gap-2 p-4 rounded-xl ${
-              isDark ? 'bg-white/5' : 'bg-white'
-            }`}
+            className="card glass glass-sm glow-md overflow-hidden rounded-xl"
+            data-aos="fade-right"
+            data-aos-delay="200"
           >
-            <MapPin className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-            <span
-              className={`font-medium ${
-                isDark ? 'text-gray-200' : 'text-gray-800'
-              }`}
+            <div className="flex items-center gap-2 border-b border-slate-800/80 px-4 py-3">
+              <span className="h-3 w-3 rounded-full bg-red-500" />
+              <span className="h-3 w-3 rounded-full bg-yellow-500" />
+              <span className="h-3 w-3 rounded-full bg-green-500" />
+              <span className="ml-2 font-mono text-xs text-slate-500">
+                {'>_ raw_shell.sh'}
+              </span>
+            </div>
+
+            <div className="space-y-5 p-6 font-mono text-sm">
+              <p>
+                <span className="text-primary">$</span>{' '}
+                <span className="text-slate-300">whoami</span>
+                <span className="terminal-cursor ml-1" aria-hidden="true" />
+              </p>
+              <p className="pl-4 text-primary">{t.hero.name}</p>
+
+              <div className="border-t border-slate-800/50" />
+
+              <p>
+                <span className="text-primary">$</span>{' '}
+                <span className="text-slate-300">cat about.md</span>
+                <span className="terminal-cursor ml-1" aria-hidden="true" />
+              </p>
+              <p className="pl-4 leading-relaxed text-slate-400">
+                {t.about.whoIAmText}
+              </p>
+              <p className="pl-4 leading-relaxed text-slate-400">
+                {t.about.developmentJourneyText}
+              </p>
+
+              <div className="border-t border-slate-800/50" />
+
+              <div className="flex flex-wrap gap-2">
+                {coreFacts.map((fact, i) => {
+                  const IconComponent = fact.icon;
+                  return (
+                    <span key={i} className="tag inline-flex items-center gap-1.5 font-mono">
+                      <IconComponent className="h-3 w-3" />
+                      {fact.label}: {fact.value}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="flex flex-col gap-6"
+            data-aos="fade-left"
+            data-aos-delay="300"
+          >
+            <div
+              className="card glass glow-md relative overflow-hidden rounded-xl p-8"
+              style={{
+                boxShadow: isDark
+                  ? '0 0 40px rgba(16,185,129,0.15)'
+                  : '0 0 25px rgba(5,150,105,0.1)',
+              }}
             >
-              Royal University of Phnom Penh — Bachelor of IT, Third Year, Expected 2028
+              <div className="mx-auto mb-6 flex h-36 w-36 items-center justify-center rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary/20 to-accent/10">
+                <span className="font-mono text-5xl font-black text-primary">NM</span>
+              </div>
+              <h3 className="text-center font-mono text-lg font-bold text-secondary">
+                {t.hero.name}
+              </h3>
+              <p className="mt-1 text-center font-mono text-sm text-primary-light">
+                {t.hero.role}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {coreFacts.map((fact, i) => {
+                const IconComponent = fact.icon;
+                return (
+                  <div key={i} className="card card-hover p-4">
+                    <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                      <IconComponent className="h-4 w-4" />
+                    </div>
+                    <p className="font-mono text-xs uppercase tracking-widest text-slate-500">
+                      {fact.label}
+                    </p>
+                    <p className="mt-1 font-mono text-sm text-secondary">
+                      {fact.value}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <a
+              href="/CV_NgetMeas.pdf"
+              download="CV_NgetMeas.pdf"
+              className="btn-primary w-full inline-flex items-center justify-center"
+            >
+              {t.hero.downloadCV}
+            </a>
+          </div>
+
+        </div>
+
+        <div data-aos="fade-up" data-aos-delay="400">
+          <div className="mb-10 text-center">
+            <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+              {'>_ learning_path'}
             </span>
-          </div>
-        </div>
-
-        {/* Development Journey Section */}
-        <div
-          className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
-            isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
-              : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="300"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-emerald-500 to-green-600' : 'from-green-500 to-emerald-500'
-            } flex items-center justify-center`}>
-              <Code className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
-              {t.about.developmentJourney}
-            </h2>
-          </div>
-          <p
-            className={`text-lg leading-relaxed ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}
-          >
-            {t.about.developmentJourneyText}
-          </p>
-        </div>
-
-        {/* Career Goal Section */}
-        <div
-          className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
-            isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
-              : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="400"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-green-500 to-emerald-400' : 'from-green-600 to-emerald-500'
-            } flex items-center justify-center`}>
-              <Target className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
-              {t.about.careerGoal}
-            </h2>
-          </div>
-          <p
-            className={`text-lg leading-relaxed ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}
-          >
-            {t.about.careerGoalText}
-          </p>
-        </div>
-
-        {/* Current Learning Section */}
-        <div
-          className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
-            isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
-              : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="500"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
-            } flex items-center justify-center`}>
-              <BookOpen className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
+            <h2 className="section-title font-mono text-2xl sm:text-3xl">
               {t.about.currentLearning}
             </h2>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="mb-14 flex flex-wrap justify-center gap-3">
             {learningTags.map((tag, index) => (
               <span
                 key={index}
-                className={`px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r ${tag.color} shadow-lg hover:scale-105 transition-transform duration-200`}
+                className="tag font-mono"
                 data-aos="zoom-in"
-                data-aos-delay={600 + index * 100}
+                data-aos-delay={500 + index * 100}
               >
                 {tag.name}
               </span>
             ))}
           </div>
-        </div>
 
-        {/* Personal Interests Section */}
-        <div
-          className={`rounded-2xl p-8 mb-8 transition-all duration-300 ${
-            isDark
-              ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30'
-              : 'bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100'
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="600"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-emerald-400 to-green-500' : 'from-green-500 to-emerald-400'
-            } flex items-center justify-center`}>
-              <Lightbulb className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
-              {t.about.interests}
-            </h2>
-          </div>
-          <p
-            className={`text-lg leading-relaxed ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}
-          >
-            {t.about.interestsText}
-          </p>
-        </div>
-
-        {/* Soft Skills Section */}
-        <div data-aos="fade-up" data-aos-delay="700">
-          <div className="flex items-center gap-3 mb-8 justify-center">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${
-              isDark ? 'from-primary to-accent' : 'from-green-500 to-emerald-500'
-            } flex items-center justify-center`}>
-              <Brain className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold font-mono ${
-                isDark ? 'text-gray-200' : 'text-gray-900'
-              }`}
-            >
+          <div className="mb-10 text-center">
+            <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+              {'>_ soft_skills'}
+            </span>
+            <h2 className="section-title font-mono text-2xl sm:text-3xl">
               {t.about.softSkills}
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {softSkills.map((skill, index) => {
               const IconComponent = skill.icon;
               return (
                 <div
                   key={index}
-                  className={`group rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 ${
-                    isDark
-                      ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/40 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                      : 'bg-white shadow-lg hover:shadow-2xl border border-gray-100'
-                  }`}
+                  className="card card-hover group p-6 text-center"
                   data-aos="zoom-in"
-                  data-aos-delay={800 + index * 100}
+                  data-aos-delay={600 + index * 90}
                 >
-                  <div
-                    className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <IconComponent className="w-7 h-7 text-white" />
+                  <div className="glow-sm mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
+                    <IconComponent className="h-7 w-7" />
                   </div>
-                  <h3
-                    className={`font-semibold text-lg ${
-                      isDark ? 'text-gray-200' : 'text-gray-800'
-                    }`}
-                  >
+                  <h3 className="font-mono text-base font-semibold text-secondary">
                     {skill.name}
                   </h3>
                 </div>

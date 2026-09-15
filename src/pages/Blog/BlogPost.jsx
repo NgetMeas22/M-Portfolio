@@ -52,18 +52,22 @@ function BlogPost() {
         return (
           <pre
             key={segmentIndex}
-            className={`overflow-x-auto rounded-xl p-4 text-sm leading-relaxed ${
+            className={`overflow-x-auto rounded-lg border p-4 text-sm leading-relaxed font-mono ${
               isDark
-                ? 'bg-slate-900 border border-slate-700/60 text-emerald-300'
-                : 'bg-slate-800 text-emerald-300 border border-slate-200'
+                ? 'bg-dark-900 border-dark-600 text-emerald-300'
+                : 'bg-slate-800 text-emerald-300 border-slate-200'
             }`}
           >
             {lang && (
-              <span className={`mb-2 block text-xs uppercase tracking-wider ${isDark ? 'text-primary' : 'text-green-500'}`}>
+              <span
+                className={`mb-2 block text-xs uppercase tracking-wider ${
+                  isDark ? 'text-primary' : 'text-green-500'
+                }`}
+              >
                 {lang}
               </span>
             )}
-            <code className="font-mono">{code}</code>
+            <code>{code}</code>
           </pre>
         );
       }
@@ -79,7 +83,9 @@ function BlogPost() {
             return (
               <ul
                 key={blockKey}
-                className={`ml-4 mb-6 list-disc space-y-1.5 pl-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                className={`ml-4 mb-6 list-disc space-y-1.5 pl-2 ${
+                  isDark ? 'text-slate-300' : 'text-slate-700'
+                }`}
               >
                 {lines.map((line, lineIndex) => (
                   <li key={lineIndex}>{formatInline(line.trim().slice(2))}</li>
@@ -92,7 +98,9 @@ function BlogPost() {
             return (
               <h2
                 key={blockKey}
-                className={`mb-4 mt-2 text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}
+                className={`mb-4 mt-2 font-mono text-2xl font-bold ${
+                  isDark ? 'text-primary' : 'text-slate-900'
+                }`}
               >
                 {formatInline(lines[0].trim().slice(3))}
               </h2>
@@ -113,7 +121,7 @@ function BlogPost() {
 
   if (!post) {
     return (
-      <section className="grid-bg relative min-h-screen pt-24 pb-20">
+      <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
         <div className="mx-auto w-full max-w-3xl px-6 text-center">
           <div className="card" data-aos="fade-up">
             <h1 className="section-title text-3xl sm:text-4xl">{t.blog.title}</h1>
@@ -131,61 +139,85 @@ function BlogPost() {
   }
 
   return (
-    <section className="grid-bg relative min-h-screen pt-24 pb-20">
+    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
       <div className="mx-auto w-full max-w-3xl px-6">
         <Link
           to="/blog"
-          className={`mb-8 inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
-            isDark ? 'text-primary hover:text-primary/80' : 'text-green-600 hover:text-green-500'
-          }`}
+          className="btn-outline mb-8 inline-flex items-center gap-2"
           data-aos="fade-up"
         >
           <ArrowLeft className="h-4 w-4" />
           {t.blog.backToBlog}
         </Link>
 
-        <article className="card" data-aos="fade-up">
-          <div
-            className={`mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
-              isDark
-                ? 'border-primary/30 bg-primary/10 text-primary'
-                : 'border-green-500/30 bg-green-500/10 text-green-600'
-            }`}
-          >
-            <BookOpen className="h-3.5 w-3.5" />
-            Blog Post
-          </div>
-
-          <h1
-            className={`mb-6 text-3xl sm:text-4xl font-bold leading-tight ${
-              isDark ? 'text-white' : 'text-slate-900'
-            }`}
-          >
-            {language === 'kh' ? post.titleKh : post.title}
-          </h1>
-
-          <div className="mb-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-b pb-6 text-sm">
-            <span className={`inline-flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
-              <Calendar className="h-4 w-4 text-primary" />
-              {t.blog.publishedOn} {formatDate(post.date)}
+        <article className="card overflow-hidden" data-aos="fade-up">
+          <div className="border-b border-white/5 p-6 sm:p-8 md:p-10">
+            <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+              <BookOpen className="h-3.5 w-3.5" />
+              &gt;_ post.log
             </span>
-            <span className={`inline-flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
-              <Clock className="h-4 w-4 text-primary" />
-              {language === 'en' ? `${post.readTime} ${t.blog.readTime}` : post.readTime}
-            </span>
-          </div>
 
-          <div className="mb-8 flex flex-wrap items-center gap-2">
-            <Tag className={`h-4 w-4 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-            {post.tags.map((tag) => (
-              <span key={tag} className="tag">
-                {tag}
+            <h1
+              className={`mb-6 font-mono text-3xl sm:text-4xl font-bold leading-tight ${
+                isDark ? 'text-white' : 'text-slate-900'
+              }`}
+            >
+              {language === 'kh' ? post.titleKh : post.title}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="tag">{t.hero.name}</span>
+              <span className="tag inline-flex items-center gap-1.5">
+                <Calendar className="h-3.5 w-3.5" />
+                {t.blog.publishedOn} {formatDate(post.date)}
               </span>
-            ))}
+              <span className="tag inline-flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5" />
+                {language === 'en' ? `${post.readTime} ${t.blog.readTime}` : post.readTime}
+              </span>
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <Tag className={`h-4 w-4 ${isDark ? 'text-secondary' : 'text-green-600'}`} />
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                {t.blog.tags}
+              </span>
+              {post.tags.map((tag) => (
+                <span key={tag} className="tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <div className="text-base sm:text-lg">{renderContent(post.content)}</div>
+          <div className={`border-t border-white/5 ${isDark ? 'bg-dark-800' : 'bg-slate-50'}`}>
+            <div
+              className={`flex items-center gap-2 border-b px-4 py-2.5 ${
+                isDark ? 'border-white/5 bg-dark-900' : 'border-slate-200'
+              }`}
+            >
+              <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/70" />
+              <span
+                className={`ml-2 font-mono text-xs tracking-widest uppercase ${
+                  isDark ? 'text-secondary' : 'text-slate-500'
+                }`}
+              >
+                &gt;_ {post.slug}.log
+              </span>
+              <span className="terminal-cursor" />
+            </div>
+            <div className="p-6 text-base sm:p-8 sm:text-lg">{renderContent(post.content)}</div>
+          </div>
         </article>
+
+        <div className="mt-8 text-center">
+          <Link to="/blog" className="btn-outline inline-flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            {t.blog.backToBlog}
+          </Link>
+        </div>
       </div>
     </section>
   );

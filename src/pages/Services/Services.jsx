@@ -50,6 +50,16 @@ const serviceItems = [
   }
 ];
 
+const serviceKeywords = {
+  webDev: ['React', 'Laravel', 'Full-Stack'],
+  frontend: ['React', 'Vue.js', 'CSS'],
+  backend: ['PHP', 'Laravel', 'Server'],
+  api: ['REST', 'JSON', 'Endpoints'],
+  database: ['MySQL', 'SQL Server', 'SQLite'],
+  responsive: ['Mobile', 'Fluid', 'Adaptive'],
+  maintenance: ['Updates', 'Bugfix', 'Support'],
+};
+
 const Services = () => {
   const { t } = useLanguage();
   const { theme } = useTheme();
@@ -63,31 +73,19 @@ const Services = () => {
   return (
     <section
       id="services"
-      className={`min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-        isDark ? 'bg-[#0a0a0a]' : 'bg-white'
-      }`}
+      className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20"
     >
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <div
-            className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
-              isDark
-                ? 'border-primary/30 bg-primary/10 text-primary'
-                : 'border-green-500/30 bg-green-500/10 text-green-700'
-            }`}
-          >
+      <div className="mx-auto max-w-6xl px-6">
+
+        <div className="mb-14 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
             <Code className="h-3.5 w-3.5" />
-            {t.services.title}
-          </div>
+            {`>_ services`}
+          </span>
           <h1 className="section-title text-4xl sm:text-5xl font-mono">
             {t.services.title}
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
-          <p
-            className={`text-lg max-w-2xl mx-auto ${
-              isDark ? 'text-gray-400' : 'text-gray-600'
-            }`}
-          >
+          <p className="section-subtitle mt-3 text-lg max-w-2xl mx-auto">
             {t.services.subtitle}
           </p>
         </div>
@@ -98,25 +96,38 @@ const Services = () => {
             return (
               <div
                 key={service.titleKey}
-                className={`group rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 ${
-                  isDark
-                    ? 'bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(0,255,65,0.08)]'
-                    : 'bg-gray-50 shadow-lg hover:shadow-2xl border border-gray-100'
-                }`}
+                className="card group p-6 flex flex-col gap-5"
                 data-aos="fade-up"
                 data-aos-delay={index * 80}
               >
-                <div
-                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
-                >
-                  <IconComponent className="h-7 w-7 text-white" />
+                <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary transition-transform duration-300 group-hover:scale-110">
+                  <IconComponent className="h-7 w-7" />
                 </div>
-                <h3 className={`text-lg font-bold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
-                  {t.services[service.titleKey]}
-                </h3>
-                <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  {t.services[service.descKey]}
-                </p>
+
+                <div>
+                  <h3
+                    className={`text-lg font-bold font-mono ${
+                      isDark ? 'text-slate-100' : 'text-slate-800'
+                    }`}
+                  >
+                    {t.services[service.titleKey]}
+                  </h3>
+                  <p
+                    className={`mt-2 text-sm leading-relaxed ${
+                      isDark ? 'text-slate-400' : 'text-slate-500'
+                    }`}
+                  >
+                    {t.services[service.descKey]}
+                  </p>
+                </div>
+
+                <div className="mt-auto flex flex-wrap gap-2 pt-2 border-t border-slate-800">
+                  {(serviceKeywords[service.titleKey] || []).map((kw) => (
+                    <span key={kw} className="tag">
+                      {kw}
+                    </span>
+                  ))}
+                </div>
               </div>
             );
           })}

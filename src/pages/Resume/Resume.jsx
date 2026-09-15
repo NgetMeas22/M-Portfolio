@@ -3,19 +3,17 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import {
   Download,
-  GraduationCap,
   Code,
   Briefcase,
-  Folder,
-  Award,
   Globe,
   Mail,
   Phone,
   MapPin,
+  Printer,
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
-import { useTheme } from '../../hooks/useTheme';
+
 import { skills, skillCategories } from '../../data/skills';
 import { projects } from '../../data/projects';
 import { experience, education } from '../../data/experience';
@@ -38,10 +36,17 @@ const languages = [
   { nameEn: 'English', nameKh: 'ភាសាអង់គ្លេស', levelEn: 'Intermediate (ACE Level 7A)', levelKh: 'កម្រិតមធ្យម (ACE កម្រិត 7A)' },
 ];
 
+const levelPercent = (level) => {
+  switch (level) {
+    case 'comfortable': return 85;
+    case 'familiar': return 60;
+    case 'learning': return 35;
+    default: return 50;
+  }
+};
+
 export default function Resume() {
   const { t, language } = useLanguage();
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const isKh = language === 'kh';
 
   useEffect(() => {
@@ -56,22 +61,10 @@ export default function Resume() {
       items: skills.filter((s) => s.category === cat.id),
     }));
 
-  const sectionCard = (extra = '') =>
-    `rounded-2xl p-8 mb-8 transition-all duration-300 ${
-      isDark
-        ? `bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)] ${extra}`
-        : `bg-gray-50 shadow-lg hover:shadow-xl border border-gray-100 ${extra}`
-    }`;
-
-  const sectionIcon = (gradient) =>
-    `w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center`;
-
   return (
     <section
       id="resume"
-      className={`min-h-screen py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
-        isDark ? 'bg-[#0a0a0a]' : 'bg-white'
-      }`}
+      className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20 px-4 sm:px-6 lg:px-8"
     >
       <style>{`
         @media print {
@@ -87,7 +80,7 @@ export default function Resume() {
             padding: 20px;
           }
           #resume .no-print { display: none !important; }
-          #resume .rounded-2xl {
+          #resume .card {
             border: 1px solid #e2e8f0 !important;
             box-shadow: none !important;
             background: white !important;
@@ -104,140 +97,120 @@ export default function Resume() {
         }
       `}</style>
 
-      <div className="max-w-5xl mx-auto">
+      <div className="mx-auto max-w-5xl">
         {/* Page Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h1
-            className={`text-4xl sm:text-5xl font-bold mb-4 ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}
-          >
+        <div className="mb-16 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+            <Code className="h-3.5 w-3.5" />
+            {`>_ resume.init`}
+          </span>
+          <h1 className="section-title font-mono text-3xl sm:text-4xl lg:text-5xl">
             {t.resume.title}
+            <span className="text-primary"> // </span>
+            <span className="animate-flicker text-emerald-400">&gt;_</span>
           </h1>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
-          <p
-            className={`text-lg max-w-2xl mx-auto mb-8 ${
-              isDark ? 'text-gray-400' : 'text-gray-600'
-            }`}
-          >
-            {t.resume.subtitle}
-          </p>
-          <a
-            href="/CV_NgetMeas.pdf" download="CV_NgetMeas.pdf"
-            download
-            className={`no-print btn-primary inline-flex items-center gap-2`}
-          >
-            <Download size={18} />
-            {t.resume.downloadCV}
-          </a>
+          <p className="section-subtitle mt-3 text-lg">{t.resume.subtitle}</p>
+
+          <div className="no-print mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/CV_NgetMeas.pdf"
+              download="CV_NgetMeas.pdf"
+              className="btn-primary inline-flex items-center gap-2 font-mono"
+            >
+              <Download size={16} />
+              {t.resume.downloadCV}
+            </a>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="btn-outline inline-flex items-center gap-2 font-mono"
+            >
+              <Printer size={16} />
+              Print
+            </button>
+          </div>
         </div>
 
         {/* Profile Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="100">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-primary to-accent')}>
-              <Code className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.profile}
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Code className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Name</p>
-                <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{profile.name}</p>
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="100">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.profile}
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              { icon: Code, label: 'Name', value: profile.name },
+              { icon: Briefcase, label: 'Role', value: isKh ? profile.roleKh : profile.roleEn },
+              { icon: MapPin, label: 'Location', value: isKh ? profile.locationKh : profile.locationEn },
+              { icon: Mail, label: 'Email', value: profile.email },
+              { icon: Phone, label: 'Phone', value: profile.phone },
+              { icon: Globe, label: 'GitHub', value: '@NgetMeas22', href: profile.github },
+              { icon: null, label: 'LinkedIn', value: 'NGET MEAS', href: profile.linkedin, isLinkedIn: true },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/30 p-3"
+              >
+                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                  {item.isLinkedIn ? (
+                    <LinkedInIcon size={16} />
+                  ) : item.icon ? (
+                    <item.icon className="h-4 w-4" />
+                  ) : null}
+                </div>
+                <div className="min-w-0">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">
+                    {item.label}
+                  </p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-sm text-emerald-400 hover:underline"
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p className="truncate font-mono text-sm text-slate-200">
+                      {item.value}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Briefcase className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Role</p>
-                <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{isKh ? profile.roleKh : profile.roleEn}</p>
-              </div>
-            </div>
-            <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <MapPin className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Location</p>
-                <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{isKh ? profile.locationKh : profile.locationEn}</p>
-              </div>
-            </div>
-            <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Mail className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Email</p>
-                <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{profile.email}</p>
-              </div>
-            </div>
-            <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Phone className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Phone</p>
-                <p className={`font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{profile.phone}</p>
-              </div>
-            </div>
-            <div className={`flex items-center gap-3 p-3 rounded-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <Globe className={`w-5 h-5 ${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>GitHub</p>
-                <a href={profile.github} target="_blank" rel="noopener noreferrer" className={`font-semibold hover:underline ${isDark ? 'text-primary' : 'text-green-600'}`}>@NgetMeas22</a>
-              </div>
-            </div>
-            <div className={`flex items-center gap-3 p-3 rounded-xl sm:col-span-2 ${isDark ? 'bg-white/5' : 'bg-white'}`}>
-              <LinkedInIcon size={20} className={`${isDark ? 'text-primary' : 'text-green-600'}`} />
-              <div>
-                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>LinkedIn</p>
-                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={`font-semibold hover:underline ${isDark ? 'text-primary' : 'text-green-600'}`}>NGET MEAS</a>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Education Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="200">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-emerald-400 to-green-500')}>
-              <GraduationCap className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.education}
-            </h2>
-          </div>
-          <div className="space-y-6">
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="200">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.education}
+          </h2>
+          <div className="space-y-5">
             {education.map((edu, index) => (
               <div
                 key={edu.id}
-                className={`p-5 rounded-xl transition-all duration-300 ${
-                  isDark ? 'bg-white/5 hover:bg-white/8' : 'bg-white hover:bg-white shadow-sm'
-                }`}
+                className="rounded-lg border border-slate-800 bg-slate-900/30 p-5"
                 data-aos="fade-up"
                 data-aos-delay={250 + index * 100}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                  <h3 className={`text-lg font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                  <h3 className="font-mono font-bold text-slate-200">
                     {isKh ? edu.degreeKh : edu.degree}
                   </h3>
                   {edu.expectedGraduation && (
-                    <span className={`text-sm px-3 py-1 rounded-full mt-2 sm:mt-0 inline-block w-fit ${
-                      isDark ? 'bg-primary/10 border border-primary/30 text-primary' : 'bg-green-100 text-green-700'
-                    }`}>
+                    <span className="tag mt-2 sm:mt-0 inline-block w-fit">
                       {t.education.expectedGraduation}: {edu.expectedGraduation}
                     </span>
                   )}
                 </div>
-                <p className={`font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
+                <p className="font-mono text-sm font-medium text-emerald-400">
                   {isKh ? edu.institutionKh : edu.institution}
                 </p>
-                <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                <p className="mt-1 font-mono text-xs text-slate-500">
                   {isKh ? edu.statusKh : edu.status}
                 </p>
-                <div className="flex flex-wrap gap-2 mt-3">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {(isKh ? edu.courseworkKh : edu.coursework).map((course, i) => (
                     <span key={i} className="tag text-xs">{course}</span>
                   ))}
@@ -248,43 +221,38 @@ export default function Resume() {
         </div>
 
         {/* Skills Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="300">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-green-400 to-primary')}>
-              <Code className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.skills}
-            </h2>
-          </div>
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="300">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.skills}
+          </h2>
           <div className="space-y-6">
             {groupedSkills.map((group) => (
               <div key={group.id}>
-                <h3
-                  className={`text-sm font-semibold uppercase tracking-wider mb-3 ${
-                    isDark ? 'text-gray-400' : 'text-gray-500'
-                  }`}
-                >
+                <h3 className="mb-3 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
                   {isKh ? group.labelKh : group.label}
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="space-y-2.5">
                   {group.items.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
-                        isDark
-                          ? 'bg-white/5 border border-white/10 text-gray-300 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                          : 'bg-white border border-gray-200 text-gray-700 hover:border-green-400/30 shadow-sm'
-                      }`}
-                    >
-                      <span
-                        className="inline-block w-2 h-2 rounded-full mr-2"
-                        style={{ backgroundColor: skill.color }}
-                      />
-                      {skill.name}
-                    </span>
+                    <div key={skill.name}>
+                      <div className="mb-1 flex items-center justify-between">
+                        <span className="font-mono text-xs text-slate-300">
+                          <span
+                            className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full"
+                            style={{ backgroundColor: skill.color }}
+                          />
+                          {skill.name}
+                        </span>
+                        <span className="font-mono text-[10px] text-slate-500">
+                          {skill.level}
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500"
+                          style={{ width: `${levelPercent(skill.level)}%` }}
+                        />
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -293,88 +261,70 @@ export default function Resume() {
         </div>
 
         {/* Experience Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="400">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-emerald-500 to-green-500')}>
-              <Briefcase className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.experience}
-            </h2>
-          </div>
-          {experience.map((exp) => (
-            <div
-              key={exp.id}
-              className={`p-5 rounded-xl transition-all duration-300 ${
-                isDark ? 'bg-white/5 hover:bg-white/8' : 'bg-white hover:bg-white shadow-sm'
-              }`}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                <h3 className={`text-lg font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
-                  {isKh ? exp.titleKh : exp.title}
-                </h3>
-                <span className={`text-sm px-3 py-1 rounded-full mt-2 sm:mt-0 inline-block w-fit ${
-                  isDark ? 'bg-primary/10 border border-primary/30 text-primary' : 'bg-green-100 text-green-700'
-                }`}>
-                  {isKh ? exp.periodKh : exp.period}
-                </span>
-              </div>
-              <p className={`font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
-                {isKh ? exp.companyKh : exp.company} — {isKh ? exp.typeKh : exp.type}
-              </p>
-              <p className={`text-sm mt-2 leading-relaxed ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                {isKh ? exp.descriptionKh : exp.description}
-              </p>
-              <div className="mt-3">
-                <p className={`text-xs font-semibold uppercase tracking-wider mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-                  {t.experience.responsibilities}
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="400">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.experience}
+          </h2>
+          <div className="space-y-5">
+            {experience.map((exp) => (
+              <div
+                key={exp.id}
+                className="rounded-lg border border-slate-800 bg-slate-900/30 p-5"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                  <h3 className="font-mono font-bold text-slate-200">
+                    {isKh ? exp.titleKh : exp.title}
+                  </h3>
+                  <span className="tag mt-2 sm:mt-0 inline-block w-fit">
+                    {isKh ? exp.periodKh : exp.period}
+                  </span>
+                </div>
+                <p className="font-mono text-sm font-medium text-emerald-400">
+                  {isKh ? exp.companyKh : exp.company} — {isKh ? exp.typeKh : exp.type}
                 </p>
-                <ul className="grid sm:grid-cols-2 gap-1">
-                  {(isKh ? exp.responsibilitiesKh : exp.responsibilities).map((resp, i) => (
-                    <li key={i} className={`text-sm flex items-start gap-2 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                      <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isDark ? 'bg-primary' : 'bg-green-500'}`} />
-                      {resp}
-                    </li>
-                  ))}
-                </ul>
+                <p className="mt-2 font-mono text-xs leading-relaxed text-slate-400">
+                  {isKh ? exp.descriptionKh : exp.description}
+                </p>
+                <div className="mt-3">
+                  <p className="mb-2 font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                    {t.experience.responsibilities}
+                  </p>
+                  <ul className="grid gap-1 sm:grid-cols-2">
+                    {(isKh ? exp.responsibilitiesKh : exp.responsibilities).map((resp, i) => (
+                      <li key={i} className="flex items-start gap-2 font-mono text-xs text-slate-400">
+                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-500" />
+                        {resp}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Projects Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="500">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-primary to-emerald-500')}>
-              <Folder className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.projects}
-            </h2>
-          </div>
-          <div className="space-y-4">
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="500">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.projects}
+          </h2>
+          <div className="space-y-3">
             {featuredProjects.map((project, index) => (
               <div
                 key={project.id}
-                className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl transition-all duration-300 ${
-                  isDark ? 'bg-white/5 hover:bg-white/8' : 'bg-white hover:bg-white shadow-sm'
-                }`}
+                className="flex flex-col sm:flex-row sm:items-center justify-between rounded-lg border border-slate-800 bg-slate-900/30 p-4"
                 data-aos="fade-up"
                 data-aos-delay={550 + index * 80}
               >
-                <div>
-                  <h3 className={`font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-mono font-bold text-slate-200">
                     {project.title}
                   </h3>
-                  <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                  <p className="mt-1 font-mono text-xs text-slate-400">
                     {isKh ? project.descriptionKh : project.description}
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-1.5 mt-3 sm:mt-0 sm:ml-4">
+                <div className="mt-2 flex flex-wrap gap-1.5 sm:ml-4 sm:mt-0">
                   {project.technologies.map((tech) => (
                     <span key={tech} className="tag text-xs">{tech}</span>
                   ))}
@@ -385,34 +335,25 @@ export default function Resume() {
         </div>
 
         {/* Certificates Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="600">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-amber-500 to-yellow-500')}>
-              <Award className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.certificates}
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="600">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.certificates}
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
             {certificates.map((cert, index) => (
               <div
                 key={cert.id}
-                className={`p-5 rounded-xl transition-all duration-300 ${
-                  isDark ? 'bg-white/5 hover:bg-white/8' : 'bg-white hover:bg-white shadow-sm'
-                }`}
+                className="rounded-lg border border-slate-800 bg-slate-900/30 p-5"
                 data-aos="zoom-in"
                 data-aos-delay={650 + index * 80}
               >
-                <h3 className={`font-bold mb-1 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                <h3 className="mb-1 font-mono font-bold text-slate-200">
                   {isKh ? cert.titleKh : cert.title}
                 </h3>
-                <p className={`text-sm font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
+                <p className="font-mono text-sm font-medium text-emerald-400">
                   {isKh ? cert.organizationKh : cert.organization}
                 </p>
-                <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                <p className="mt-1 font-mono text-xs text-slate-500">
                   {cert.date}
                 </p>
               </div>
@@ -421,37 +362,26 @@ export default function Resume() {
         </div>
 
         {/* Languages Section */}
-        <div className={sectionCard()} data-aos="fade-up" data-aos-delay="700">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={sectionIcon('from-emerald-400 to-green-400')}>
-              <Globe className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.languages}
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+        <div className="card glass mb-8 p-8" data-aos="fade-up" data-aos-delay="700">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.languages}
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
             {languages.map((lang, index) => (
               <div
                 key={index}
-                className={`flex items-center justify-between p-4 rounded-xl transition-all duration-300 ${
-                  isDark ? 'bg-white/5 hover:bg-white/8' : 'bg-white hover:bg-white shadow-sm'
-                }`}
+                className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/30 p-4"
               >
                 <div>
-                  <h3 className={`font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                  <h3 className="font-mono font-bold text-slate-200">
                     {isKh ? lang.nameKh : lang.nameEn}
                   </h3>
-                  <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                  <p className="mt-1 font-mono text-xs text-slate-500">
                     {isKh ? lang.levelKh : lang.levelEn}
                   </p>
                 </div>
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                  isDark ? 'bg-primary/10' : 'bg-green-100'
-                }`}>
-                  <Globe className={`w-6 h-6 ${isDark ? 'text-primary' : 'text-green-600'}`} />
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                  <Globe className="h-5 w-5" />
                 </div>
               </div>
             ))}
@@ -459,64 +389,41 @@ export default function Resume() {
         </div>
 
         {/* Contact Section */}
-        <div className={`${sectionCard()} text-center`} data-aos="fade-up" data-aos-delay="800">
-          <div className="flex items-center gap-3 mb-6 justify-center">
-            <div className={sectionIcon('from-primary to-accent')}>
-              <Mail className="w-6 h-6 text-white" />
-            </div>
-            <h2
-              className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
-            >
-              {t.resume.contact}
-            </h2>
-          </div>
-          <div className="flex flex-wrap justify-center gap-6">
+        <div className="card glass mb-8 p-8 text-center" data-aos="fade-up" data-aos-delay="800">
+          <h2 className="mb-6 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
+            <span className="text-slate-600">{`>_`}</span> {t.resume.contact}
+          </h2>
+          <div className="flex flex-wrap justify-center gap-4">
             <a
               href={`mailto:${profile.email}`}
-              className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
-                isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
-              }`}
+              className="no-print btn-outline inline-flex items-center gap-2 font-mono"
             >
-              <Mail size={18} />
+              <Mail size={16} />
               {profile.email}
             </a>
             <a
               href={`tel:${profile.phone}`}
-              className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
-                isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
-              }`}
+              className="no-print btn-outline inline-flex items-center gap-2 font-mono"
             >
-              <Phone size={18} />
+              <Phone size={16} />
               {profile.phone}
             </a>
             <a
               href={profile.github}
               target="_blank"
               rel="noopener noreferrer"
-              className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
-                isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
-              }`}
+              className="no-print btn-outline inline-flex items-center gap-2 font-mono"
             >
-              <GitHubIcon size={18} />
+              <GitHubIcon size={16} />
               GitHub
             </a>
             <a
               href={profile.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className={`no-print flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 ${
-                isDark
-                  ? 'bg-white/5 border border-white/10 hover:border-primary/30 text-gray-300 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                  : 'bg-white border border-gray-200 hover:border-green-400/30 text-gray-700 hover:text-green-600 shadow-sm'
-              }`}
+              className="no-print btn-outline inline-flex items-center gap-2 font-mono"
             >
-              <LinkedInIcon size={18} />
+              <LinkedInIcon size={16} />
               LinkedIn
             </a>
           </div>

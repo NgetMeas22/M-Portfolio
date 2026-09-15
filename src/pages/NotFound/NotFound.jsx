@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import AOS from 'aos';
@@ -17,39 +17,52 @@ function NotFound() {
 
   return (
     <>
-      <section className="grid-bg relative flex min-h-screen items-center justify-center pt-24 pb-20">
-        <div className="mx-auto w-full max-w-2xl px-6 text-center" data-aos="fade-up">
-          <h1
-            className={`text-8xl font-bold sm:text-9xl ${
-              isDark
-                ? 'bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent'
-                : 'bg-gradient-to-r from-green-600 via-green-500 to-green-600 bg-clip-text text-transparent'
-            }`}
-          >
-            {t.notFound.title}
-          </h1>
+      <section className="grid-bg grid-pattern relative flex min-h-screen items-center justify-center overflow-hidden pt-28 lg:pt-32">
+        {/* Matrix Rain Backdrop */}
+        <div
+          aria-hidden="true"
+          className="matrix-rain animate-scanline opacity-70"
+          style={{
+            backgroundImage:
+              'linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.07) 50%, transparent 100%)',
+          }}
+        />
 
-          <h2
-            className={`mt-4 text-3xl font-bold sm:text-4xl ${
-              isDark ? 'text-white' : 'text-slate-900'
-            }`}
-          >
-            {t.notFound.subtitle}
-          </h2>
+        <div className="relative z-10 mx-auto w-full max-w-2xl px-6 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-6 inline-flex items-center gap-2">
+            <AlertTriangle className="h-3.5 w-3.5" />
+            {`>_ 404.error`}
+          </span>
 
-          <p className={`mt-4 text-lg ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          {/* Giant 404 */}
+          <div className="relative inline-block">
+            <h1
+              aria-hidden="true"
+              className="absolute inset-0 animate-flicker translate-x-1 font-mono font-black tracking-tighter text-emerald-500/30"
+            >
+              404
+            </h1>
+            <h1 className="relative animate-flicker font-mono text-8xl font-black tracking-tighter text-emerald-400 sm:text-9xl [text-shadow:0_0_30px_rgba(16,185,129,0.45),0_0_80px_rgba(16,185,129,0.2)]">
+              404
+            </h1>
+          </div>
+
+          <p className="mt-4 font-mono text-lg text-slate-300">
+            <span className="text-emerald-400">&gt;_</span> {t.notFound.title}
+          </p>
+          <p className={`mt-3 font-mono text-sm ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
             {t.notFound.description}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link to="/" className="btn-primary inline-flex items-center gap-2">
+            <Link to="/" className="btn-primary inline-flex items-center gap-2 font-mono">
               <Home className="h-4 w-4" />
               {t.notFound.goHome}
             </Link>
             <button
               type="button"
               onClick={() => window.history.back()}
-              className="btn-outline inline-flex items-center gap-2"
+              className="btn-outline inline-flex items-center gap-2 font-mono"
             >
               <ArrowLeft className="h-4 w-4" />
               {t.notFound.goBack}

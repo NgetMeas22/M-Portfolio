@@ -1,23 +1,10 @@
 import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { GraduationCap, BookOpen, Calendar, MapPin, Award } from 'lucide-react';
+import { BookOpen, Calendar, GraduationCap, MapPin } from 'lucide-react';
 import { education } from '../../data/experience';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
-
-const nodeStyles = [
-  {
-    icon: GraduationCap,
-    gradient: 'from-primary to-accent',
-    glow: 'rgba(0,255,65,0.45)',
-  },
-  {
-    icon: BookOpen,
-    gradient: 'from-emerald-400 to-green-500',
-    glow: 'rgba(0,204,51,0.45)',
-  },
-];
 
 function Education() {
   const { t, language } = useLanguage();
@@ -29,146 +16,196 @@ function Education() {
   }, []);
 
   return (
-    <>
-      <style>
-        {`
-          @keyframes timelineCardIn {
-            from { opacity: 0; transform: translateY(24px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-          }
-        `}
-      </style>
+    <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-20">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+        <div className="mb-16 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+            <GraduationCap className="h-3.5 w-3.5" />
+            {'>_ education.dao'}
+          </span>
+          <h1
+            className="section-title text-3xl sm:text-4xl lg:text-5xl font-mono"
+            style={{
+              textShadow: isDark
+                ? '0 0 30px rgba(16, 185, 129, 0.35)'
+                : '0 0 26px rgba(5, 150, 105, 0.2)',
+            }}
+          >
+            {t.education.title}
+          </h1>
+          <p className="section-subtitle text-lg mt-2">{t.education.subtitle}</p>
+        </div>
 
-      <section className="grid-bg relative min-h-screen overflow-hidden pt-24 pb-20">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
-          <div className="mb-16 text-center" data-aos="fade-up">
-            <div
-              className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
-                isDark
-                  ? 'border-primary/30 bg-primary/10 text-primary'
-                  : 'border-green-500/30 bg-green-500/10 text-green-700'
-              }`}
-            >
-              <GraduationCap className="h-3.5 w-3.5" />
-              {t.nav.education}
+        <div className="relative">
+          {/* Vertical timeline rail — left rail on mobile, centered on desktop */}
+          <div
+            className="timeline-line absolute left-6 top-0 bottom-0 w-px md:left-1/2 md:-translate-x-1/2"
+            aria-hidden="true"
+          >
+            <div className={`h-full w-full ${isDark ? 'bg-emerald-500/30' : 'bg-green-500/30'}`} />
+            <div className="absolute inset-0 w-full overflow-hidden">
+              <div
+                className="h-full w-full"
+                style={{
+                  background: isDark
+                    ? 'linear-gradient(180deg, transparent 0%, rgba(16,185,129,0.08) 40%, rgba(16,185,129,0.15) 50%, rgba(16,185,129,0.08) 60%, transparent 100%)'
+                    : 'linear-gradient(180deg, transparent 0%, rgba(34,197,94,0.08) 40%, rgba(34,197,94,0.15) 50%, rgba(34,197,94,0.08) 60%, transparent 100%)',
+                  backgroundSize: '100% 200%',
+                  animation: 'scanPulse 4s ease-in-out infinite',
+                }}
+              />
             </div>
-            <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl font-mono">
-              {t.education.title}
-            </h1>
-            <p className="section-subtitle text-lg">{t.education.subtitle}</p>
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 h-32 w-full"
+              style={{
+                background: isDark
+                  ? 'linear-gradient(180deg, rgba(16,185,129,0.5) 0%, transparent 100%)'
+                  : 'linear-gradient(180deg, rgba(34,197,94,0.5) 0%, transparent 100%)',
+              }}
+            />
           </div>
 
-          <div className="relative">
-            <span
-              aria-hidden="true"
-              className={`absolute bottom-4 left-5 top-4 w-px md:left-1/2 md:-translate-x-1/2 ${
-                isDark
-                  ? 'bg-gradient-to-b from-primary/40 via-accent/40 to-transparent'
-                  : 'bg-gradient-to-b from-green-500/40 via-emerald-500/40 to-transparent'
-              }`}
-            />
+          <div className="space-y-16">
+            {education.map((item, index) => {
+              const isLeft = index % 2 === 0;
+              const institution = language === 'kh' ? item.institutionKh : item.institution;
+              const degree = language === 'kh' ? item.degreeKh : item.degree;
+              const status = language === 'kh' ? item.statusKh : item.status;
+              const coursework = language === 'kh' ? item.courseworkKh : item.coursework;
+              const description = language === 'kh' ? item.descriptionKh : item.description;
 
-            <div className="space-y-12">
-              {education.map((item, index) => {
-                const leftSide = index % 2 === 0;
-                const node = nodeStyles[index % nodeStyles.length];
-                const NodeIcon = node.icon;
-                const institution = language === 'kh' ? item.institutionKh : item.institution;
-                const degree = language === 'kh' ? item.degreeKh : item.degree;
-                const status = language === 'kh' ? item.statusKh : item.status;
-                const description = language === 'kh' ? item.descriptionKh : item.description;
-                const coursework = language === 'kh' ? item.courseworkKh : item.coursework;
-
-                return (
-                  <div
-                    key={item.id}
-                    className={`relative flex pl-16 md:pl-0 ${
-                      leftSide ? 'md:justify-start' : 'md:justify-end'
-                    }`}
-                  >
+              return (
+                <div
+                  key={item.id}
+                  className={`relative flex items-start pl-16 md:pl-0 ${
+                    isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
+                >
+                  {/* Glowing emerald node */}
+                  <div className="timeline-dot absolute left-6 top-8 z-10 md:left-1/2 md:-translate-x-1/2">
                     <div
-                      className={`absolute left-0 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${node.gradient} md:left-1/2 md:-translate-x-1/2`}
-                      style={{ boxShadow: `0 0 18px ${node.glow}` }}
+                      className={`glow-md relative flex h-12 w-12 items-center justify-center rounded-full border-2 ${
+                        isDark
+                          ? 'border-emerald-400 bg-emerald-950/80 shadow-[0_0_20px_rgba(16,185,129,0.5)]'
+                          : 'border-green-500 bg-green-50 shadow-[0_0_20px_rgba(34,197,94,0.4)]'
+                      }`}
                     >
-                      <NodeIcon className="h-5 w-5 text-dark-900" />
-                    </div>
-
-                    <div className="md:w-[calc(50%_-_3.5rem)]">
-                      <article
-                        data-aos="fade-up"
-                        data-aos-delay={index * 100}
-                        className={`card group flex h-full flex-col gap-4 overflow-hidden transition-all duration-300 ${
-                          isDark
-                            ? 'border-slate-800 bg-slate-900/50 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,65,0.08)]'
-                            : 'border-slate-200 bg-white shadow-md hover:shadow-xl hover:border-green-200'
+                      <span
+                        className={`font-mono text-xs font-bold ${
+                          isDark ? 'text-emerald-400' : 'text-green-600'
                         }`}
-                        style={{ animation: `timelineCardIn 0.5s ease ${index * 0.08}s both` }}
                       >
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div>
-                            <h3 className={`text-xl font-bold transition-colors ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
-                              {degree}
-                            </h3>
-                            <div className={`mt-1.5 flex items-center gap-2 text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                              <MapPin className="h-4 w-4 text-primary" />
-                              {institution}
-                            </div>
-                          </div>
-                          <span
-                            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${
-                              isDark
-                                ? 'border-purple-500/30 bg-purple-500/10 text-purple-400'
-                                : 'border-purple-500/30 bg-purple-500/10 text-purple-600'
-                            }`}
-                          >
-                            <Award className="h-3 w-3" />
-                            {status}
-                          </span>
-                        </div>
-
-                        {item.expectedGraduation && (
-                          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-                            <span className={`inline-flex items-center gap-1.5 font-medium ${isDark ? 'text-primary' : 'text-green-600'}`}>
-                              <Calendar className="h-4 w-4" />
-                              {t.education.expectedGraduation}: {item.expectedGraduation}
-                            </span>
-                          </div>
-                        )}
-
-                        <p className={`border-t pt-3 text-sm leading-relaxed ${isDark ? 'border-slate-800 text-slate-400' : 'border-slate-100 text-slate-500'}`}>
-                          {description}
-                        </p>
-
-                        <div className="mt-auto">
-                          <h4 className={`mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                            <BookOpen className="h-4 w-4 text-primary" />
-                            {t.education.relevantCoursework}
-                          </h4>
-                          <div className="flex flex-wrap gap-1.5">
-                            {coursework.map((course, i) => (
-                              <span
-                                key={i}
-                                className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
-                                  isDark
-                                    ? 'border-primary/20 bg-primary/5 text-primary'
-                                    : 'border-green-500/20 bg-green-500/5 text-green-600'
-                                }`}
-                              >
-                                {course}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </article>
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span className="terminal-cursor absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
                     </div>
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* Card */}
+                  <div className={`md:w-[calc(50%-3rem)] ${isLeft ? 'md:pr-0' : 'md:pl-0'}`}>
+                    <article
+                      data-aos={isLeft ? 'fade-right' : 'fade-left'}
+                      data-aos-delay={index * 120}
+                      className="card glass glass-sm card-hover group overflow-hidden"
+                    >
+                      <div className="p-5 sm:p-6">
+                        {/* Header: degree + emerald tile + institution */}
+                        <div className="mb-4 flex items-start gap-3">
+                          <span className="glow-sm mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                            <GraduationCap className="h-5 w-5" />
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-baseline gap-2">
+                              <span className="font-mono text-xs font-bold text-primary">
+                                {'>_'}
+                              </span>
+                              <h3
+                                className={`font-mono text-lg font-bold transition-colors group-hover:text-primary ${
+                                  isDark ? 'text-slate-100' : 'text-slate-800'
+                                }`}
+                              >
+                                {degree}
+                              </h3>
+                            </div>
+                            <span className="mt-1 flex items-center gap-1.5 text-sm">
+                              <MapPin className="h-3.5 w-3.5 text-primary" />
+                              <span className="font-mono font-medium text-primary">
+                                @{institution}
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Status / grade + expected graduation */}
+                        <div className="mb-4 flex flex-wrap items-center gap-2">
+                          {status && (
+                            <span className="tag inline-flex items-center gap-1.5 font-mono">
+                              <GraduationCap className="h-3.5 w-3.5" />
+                              {status}
+                            </span>
+                          )}
+                          {item.expectedGraduation && (
+                            <span className="tag inline-flex items-center gap-1.5">
+                              <Calendar className="h-3.5 w-3.5" />
+                              {t.education.expectedGraduation}: {item.expectedGraduation}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Description */}
+                        {description && (
+                          <p
+                            className={`mb-4 text-sm leading-relaxed ${
+                              isDark ? 'text-slate-400' : 'text-slate-600'
+                            }`}
+                          >
+                            {description}
+                          </p>
+                        )}
+
+                        {/* Coursework */}
+                        {coursework && coursework.length > 0 && (
+                          <div
+                            className={`border-t pt-4 ${
+                              isDark ? 'border-white/10' : 'border-slate-200'
+                            }`}
+                          >
+                            <h4
+                              className={`mb-2.5 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest ${
+                                isDark ? 'text-slate-500' : 'text-slate-600'
+                              }`}
+                            >
+                              <span className="glow-sm inline-flex h-6 w-6 items-center justify-center rounded-md border border-primary/20 bg-primary/10 text-primary">
+                                <BookOpen className="h-3.5 w-3.5" />
+                              </span>
+                              {t.education.relevantCoursework}
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {coursework.map((course, i) => (
+                                <span key={i} className="tag font-mono text-xs">
+                                  {course}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+
+      <style>{`
+        @keyframes scanPulse {
+          0%, 100% { background-position: 0% 0%; }
+          50% { background-position: 0% 100%; }
+        }
+      `}</style>
+    </section>
   );
 }
 

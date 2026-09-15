@@ -27,16 +27,25 @@ const terminalLines = [
   { command: 'status', output: 'Open to opportunities' },
 ];
 
+const RAIN_CHARS = ['0', '1', '7', 'A', 'F', '9', '#', '$', '@', '%', '3', ':', '.', '░'];
+const RAIN_COLUMNS = Array.from({ length: 12 }, () =>
+  Array.from({ length: 18 }, () => RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)]).join('')
+);
+
 export default function Home() {
   const { t } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const nameParts = t.hero.name.split(' ');
 
   const [displayedLines, setDisplayedLines] = useState([]);
   const [currentLine, setCurrentLine] = useState(0);
   const [currentChar, setCurrentChar] = useState(0);
   const [showOutput, setShowOutput] = useState(false);
   const [typingComplete, setTypingComplete] = useState(false);
+  const [roleText, setRoleText] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -86,78 +95,114 @@ export default function Home() {
     }
   }, [currentLine, currentChar, showOutput]);
 
+  useEffect(() => {
+    const roles = [t.hero.role, 'Terminal Warlock', 'Cyber Craftsman', 'API Architect'];
+    const current = roles[roleIndex % roles.length];
+
+    if (deleting && roleText.length === 0) {
+      const timer = setTimeout(() => {
+        setRoleIndex(i => i + 1);
+        setDeleting(false);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+
+    if (!deleting && roleText.length === current.length) {
+      const timer = setTimeout(() => setDeleting(true), 1800);
+      return () => clearTimeout(timer);
+    }
+
+    const timer = setTimeout(() => {
+      setRoleText(
+        deleting
+          ? current.slice(0, roleText.length - 1)
+          : current.slice(0, roleText.length + 1)
+      );
+    }, deleting ? 35 : 85);
+    return () => clearTimeout(timer);
+  }, [roleText, deleting, roleIndex, t]);
+
   return (
     <div className="min-h-screen">
-      <section className="min-h-screen flex items-center relative overflow-hidden grid-bg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <p className={`text-sm font-mono mb-4 tracking-wider uppercase ${isDark ? 'text-primary' : 'text-green-600'}`}>
-                {t.hero.greeting}
-              </p>
+      <section className="grid-bg grid-pattern relative flex min-h-screen items-center overflow-hidden pt-28 lg:pt-32">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-primary/5 blur-3xl animate-blob" />
+          <div className="absolute -bottom-16 right-0 h-80 w-80 rounded-full bg-primary-light/5 blur-3xl animate-flicker" />
+        </div>
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-14 pb-20 lg:grid-cols-2 lg:gap-12">
+
+            <div data-aos="fade-right" className="lg:w-[48%]">
+              <span className="cyber-badge mb-6 inline-flex items-center gap-2">
+                {'>_ nget_meas.init'}
+              </span>
+
+              <h1 className="font-mono text-[3rem] leading-none font-black tracking-tighter sm:text-6xl lg:text-7xl">
+                <span className="text-slate-400">{nameParts[0]}</span>{' '}
                 <span
-                  className="bg-clip-text text-transparent"
+                  className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent glow-lg"
                   style={{
-                    backgroundImage: isDark
-                      ? 'linear-gradient(135deg, #00ff41, #39ff14, #10b981)'
-                      : 'linear-gradient(135deg, #059669, #22c55e, #16a34a)',
+                    textShadow: isDark
+                      ? '0 0 40px rgba(16,185,129,0.5)'
+                      : '0 0 28px rgba(5,150,105,0.3)',
                   }}
                 >
-                  {t.hero.name}
+                  {nameParts.slice(1).join(' ')}
                 </span>
               </h1>
 
-              <h2 className={`text-2xl sm:text-3xl font-semibold mb-6 ${isDark ? 'text-gray-200' : 'text-slate-600'}`}>
-                {t.hero.role}
-              </h2>
-
-              <p className={`text-lg mb-3 ${isDark ? 'text-gray-300' : 'text-slate-500'}`}>
-                {t.hero.description1}
-              </p>
-              <p className={`text-lg mb-8 ${isDark ? 'text-gray-300' : 'text-slate-500'}`}>
-                {t.hero.description2}
+              <p className="section-subtitle mt-6 font-mono text-base sm:text-lg">
+                <span className="text-slate-500">~$</span>{' '}
+                <span className="text-primary-light">{roleText}</span>
+                <span className="terminal-cursor" aria-hidden="true" />
               </p>
 
-              <div className="mb-8">
-                <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>
-                  {t.hero.currentlyLearning}:
+              <div className="mt-6 max-w-xl space-y-2 text-lg text-slate-400">
+                <p>{t.hero.description1}</p>
+                <p>{t.hero.description2}</p>
+              </div>
+
+              <div className="mt-8">
+                <span className="font-mono text-xs uppercase tracking-widest text-slate-500">
+                  {t.hero.currentlyLearning}
                 </span>
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="mt-3 flex flex-wrap gap-2">
                   {learningTags.map(tag => (
-                    <span key={tag} className="tag">
+                    <span key={tag} className="tag font-mono">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4 mb-8">
-                <Link to="/projects" className="btn-primary inline-flex items-center gap-2">
-                  {t.hero.viewProjects}
-                  <ArrowRight size={18} />
-                </Link>
-                <a href="/CV_NgetMeas.pdf" download="CV_NgetMeas.pdf" className="btn-outline inline-flex items-center gap-2">
+              <div className="mt-8 font-mono text-sm text-slate-500">
+                <span className="text-primary">$</span> nget --role
+                <span className="terminal-cursor ml-1" aria-hidden="true" />
+              </div>
+
+              <div className="mt-10 flex flex-wrap gap-4">
+                <a
+                  href="/CV_NgetMeas.pdf"
+                  download="CV_NgetMeas.pdf"
+                  className="btn-primary inline-flex items-center gap-2"
+                >
                   <Download size={18} />
                   {t.hero.downloadCV}
                 </a>
-                <Link to="/contact" className="btn-outline inline-flex items-center gap-2">
-                  {t.hero.contactMe}
-                  <ExternalLink size={18} />
+                <Link to="/projects" className="btn-outline inline-flex items-center gap-2">
+                  {t.hero.viewProjects}
+                  <ArrowRight size={18} />
                 </Link>
               </div>
 
-              <div className="flex gap-4">
+              <div className="mt-10 flex items-center gap-3">
                 <a
                   href="https://github.com/NgetMeas22"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-3 rounded-lg transition-all duration-300 ${
-                    isDark
-                      ? 'bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-primary'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-green-600'
-                  }`}
+                  className="card card-hover inline-flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:text-primary"
+                  aria-label="GitHub"
                 >
                   <GitHubIcon size={20} />
                 </a>
@@ -165,131 +210,171 @@ export default function Home() {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-3 rounded-lg transition-all duration-300 ${
-                    isDark
-                      ? 'bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-primary'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-green-600'
-                  }`}
+                  className="card card-hover inline-flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:text-primary"
+                  aria-label="LinkedIn"
                 >
                   <LinkedInIcon size={20} />
                 </a>
                 <a
                   href="mailto:measm2519@gmail.com"
-                  className={`p-3 rounded-lg transition-all duration-300 ${
-                    isDark
-                      ? 'bg-dark-600 hover:bg-dark-500 text-gray-300 hover:text-primary'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-green-600'
-                  }`}
+                  className="card card-hover inline-flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:text-primary"
+                  aria-label="Email"
                 >
                   <Mail size={20} />
                 </a>
               </div>
             </div>
 
-            <div data-aos="fade-up" className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-md">
-                <div className="terminal-window">
-                  <div className={`flex items-center gap-2 px-4 py-3 ${isDark ? 'bg-dark-700' : 'bg-slate-800'}`}>
-                    <div className="w-3 h-3 rounded-full bg-red-500" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                    <div className="w-3 h-3 rounded-full bg-green-500" />
-                    <span className="ml-2 text-xs font-mono text-slate-400">{t.hero.terminalTitle}</span>
-                  </div>
-                  <div className="p-5 font-mono text-sm space-y-4 min-h-[240px]">
-                    {displayedLines.map((line, i) => (
-                      <div key={i}>
-                        <p className="text-primary/80">
-                          <span className="text-emerald-400">&gt;</span>{' '}
-                          {line.command}
-                        </p>
-                        {line.output && (
-                          <p className={isDark ? 'text-primary/80' : 'text-green-700'}>{line.output}</p>
-                        )}
-                      </div>
+            <div data-aos="fade-up" className="flex justify-center lg:w-[48%] lg:justify-end">
+              <div className="relative w-full max-w-md">
+                <div className="matrix-rain" aria-hidden="true">
+                  <div className="flex h-full items-center justify-center gap-1.5 opacity-[0.08]">
+                    {RAIN_COLUMNS.map((col, i) => (
+                      <span
+                        key={i}
+                        className="font-mono text-[10px] leading-5 text-primary"
+                        style={{
+                          animation: `rainDrop ${6 + i}s linear infinite`,
+                          animationDelay: `${-i * 0.8}s`,
+                        }}
+                      >
+                        {col}
+                      </span>
                     ))}
-                    {!typingComplete && (
-                      <span className="typing-cursor" />
-                    )}
+                  </div>
+                  <div
+                    className="absolute inset-x-0 top-0 h-10"
+                    style={{
+                      background:
+                        'linear-gradient(180deg, transparent, rgba(16,185,129,0.15), transparent)',
+                      animation: 'scanSweep 7s linear infinite',
+                    }}
+                  />
+                </div>
+
+                <div className="card glass glow-md relative overflow-hidden rounded-xl">
+                  <div className="flex items-center gap-2 border-b border-slate-800/80 px-4 py-3">
+                    <span className="h-3 w-3 rounded-full bg-red-500" />
+                    <span className="h-3 w-3 rounded-full bg-yellow-500" />
+                    <span className="h-3 w-3 rounded-full bg-green-500" />
+                    <span className="ml-2 font-mono text-xs text-slate-500">
+                      {'>_ raw_shell.sh'}
+                    </span>
+                  </div>
+
+                  <div className="relative min-h-[320px] p-5 font-mono text-sm">
+                    <div className="relative space-y-4">
+                      {displayedLines.map((line, i) => (
+                        <div key={i} className="space-y-1">
+                          <p>
+                            <span className="text-primary">$</span>{' '}
+                            <span className="text-slate-300">{line.command}</span>
+                          </p>
+                          {line.output && <p className="pl-6 text-primary">{line.output}</p>}
+                        </div>
+                      ))}
+                      {!typingComplete ? (
+                        <span className="terminal-cursor" aria-hidden="true" />
+                      ) : (
+                        <p>
+                          <span className="text-primary">$</span>{' '}
+                          <span className="text-slate-400">_</span>
+                          <span className="terminal-cursor" aria-hidden="true" />
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div data-aos="fade-up">
-            <div className="text-center mb-12">
-              <h2 className="section-title">Tech Stack</h2>
-              <p className="section-subtitle">
-                Technologies I work with daily
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-6">
-              {techStack.map(tech => (
-                <div
-                  key={tech.name}
-                  className={`flex items-center gap-3 px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 ${
-                    isDark
-                      ? 'bg-dark-600 border border-dark-400 hover:border-primary/30 hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                      : 'bg-white border border-slate-200 hover:border-green-400/30 shadow-sm'
-                  }`}
-                >
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: tech.color }}
-                  />
-                  <span className={`font-medium text-sm ${isDark ? 'text-gray-200' : 'text-slate-700'}`}>
-                    {tech.name}
-                  </span>
-                </div>
-              ))}
-            </div>
+      <section className="py-16">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div data-aos="fade-up" className="mb-12 text-center">
+            <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+              {'>_ /tech_stack'}
+            </span>
+            <h2 className="section-title font-mono text-2xl sm:text-3xl lg:text-4xl">
+              {t.skills.title}
+            </h2>
+            <p className="section-subtitle mt-3 text-lg">{t.skills.subtitle}</p>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-delay="100"
+            className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+          >
+            {techStack.map(tech => (
+              <div key={tech.name} className="card card-hover flex items-center gap-3 p-4">
+                <span className="h-2.5 w-2.5 flex-none rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.7)]" />
+                <span className="font-mono text-sm text-secondary">{tech.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div data-aos="fade-up">
-            <div className="text-center mb-12">
-              <h2 className="section-title">GitHub Profile</h2>
-              <p className="section-subtitle">
-                Check out my open-source contributions and projects
-              </p>
+      <section className="pb-20">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div data-aos="fade-up" className="mb-12 text-center">
+            <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+              {'>_ github.com/NgetMeas22'}
+            </span>
+            <h2 className="section-title font-mono text-2xl sm:text-3xl lg:text-4xl">GitHub</h2>
+            <p className="section-subtitle mt-3 text-lg">gh auth status</p>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-delay="100"
+            className="card glass glass-sm card-hover mx-auto max-w-2xl p-8 text-center"
+          >
+            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+              <GitHubIcon size={32} />
             </div>
-            <div className={`card max-w-2xl mx-auto text-center ${isDark ? '' : 'shadow-lg'}`}>
-              <div className="flex items-center justify-center mb-6">
-                <GitHubIcon size={48} className={isDark ? 'text-primary' : 'text-green-600'} />
+            <h3 className="font-mono text-xl font-bold tracking-tight text-secondary">
+              @NgetMeas22
+            </h3>
+            <div className="mt-6 flex items-center justify-center gap-10">
+              <div>
+                <p className="font-mono text-3xl font-black text-primary">22</p>
+                <p className="mt-1 font-mono text-xs uppercase tracking-widest text-slate-500">
+                  public_repos
+                </p>
               </div>
-              <h3 className={`text-xl font-bold mb-4 font-mono ${isDark ? 'text-gray-200' : 'text-slate-800'}`}>
-                @NgetMeas22
-              </h3>
-              <div className="flex justify-center gap-8 mb-8">
-                <div>
-                  <p className={`text-3xl font-bold font-mono ${isDark ? 'text-primary' : 'text-green-600'}`}>22</p>
-                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>Public Repos</p>
-                </div>
-                <div>
-                  <p className={`text-3xl font-bold font-mono ${isDark ? 'text-primary' : 'text-green-600'}`}>3</p>
-                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-slate-500'}`}>Followers</p>
-                </div>
+              <div>
+                <p className="font-mono text-3xl font-black text-primary">3</p>
+                <p className="mt-1 font-mono text-xs uppercase tracking-widest text-slate-500">
+                  followers
+                </p>
               </div>
-              <a
-                href="https://github.com/NgetMeas22"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary inline-flex items-center gap-2"
-              >
-                View GitHub Profile
-                <ExternalLink size={18} />
-              </a>
             </div>
+            <a
+              href="https://github.com/NgetMeas22"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary mt-8 inline-flex items-center gap-2"
+            >
+              view_profile
+              <ExternalLink size={18} />
+            </a>
           </div>
         </div>
       </section>
+
+      <style>{`
+        @keyframes rainDrop {
+          0% { transform: translateY(-110%); }
+          100% { transform: translateY(110%); }
+        }
+        @keyframes scanSweep {
+          0% { transform: translateY(-120%); }
+          100% { transform: translateY(360px); }
+        }
+      `}</style>
     </div>
   );
 }

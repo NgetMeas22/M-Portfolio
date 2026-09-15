@@ -7,10 +7,10 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const inputClass = (isDark) =>
-  `w-full rounded-lg border bg-transparent px-4 py-3 text-sm outline-none transition-colors duration-300 ${
+  `block w-full rounded-lg border bg-transparent px-4 py-3 font-mono text-sm outline-none transition-colors duration-300 ${
     isDark
-      ? 'border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-primary focus:ring-primary/20'
-      : 'border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-green-500 focus:ring-green-500/20'
+      ? 'border-slate-700 text-slate-100 placeholder:text-slate-500 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/20'
+      : 'border-slate-400 text-slate-800 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20'
   }`;
 
 const errorClass = (isDark) =>
@@ -94,15 +94,15 @@ function Contact() {
     },
   ];
 
-  const renderField = (name, label, type = 'text', required = false, optional = false) => (
+  const renderField = (name, label, type = 'text', required = false) => (
     <div>
       <label
         htmlFor={name}
-        className={`mb-2 block text-sm font-medium ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+        className="mb-2 block font-mono text-xs text-slate-500"
       >
-        {label}
+        <span className="text-emerald-400">&gt;_</span> {label}
+        <span className="text-slate-600">:</span>
         {required && <span className="ml-1 text-rose-500">*</span>}
-        {optional && <span className={`ml-1 text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>(optional)</span>}
       </label>
       <input
         id={name}
@@ -123,42 +123,135 @@ function Contact() {
 
   return (
     <>
-      <section className="grid-bg relative min-h-screen pt-24 pb-20">
-        <div className="mx-auto w-full max-w-6xl px-6">
+      <section className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+          {/* Centered Header */}
           <div className="mb-14 text-center" data-aos="fade-up">
-            <div
-              className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
-                isDark
-                  ? 'border-primary/30 bg-primary/10 text-primary'
-                  : 'border-green-500/30 bg-green-500/10 text-green-600'
-              }`}
-            >
+            <span className="cyber-badge mb-4 inline-flex items-center gap-2">
               <Send className="h-3.5 w-3.5" />
-              Get In Touch
-            </div>
-            <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl">{t.contact.title}</h1>
-            <p className="section-subtitle text-lg">{t.contact.subtitle}</p>
+              {`>_ contact.signal`}
+            </span>
+            <h1 className="section-title font-mono text-3xl sm:text-4xl lg:text-5xl">
+              {t.contact.title}
+              <span className="text-primary"> // </span>
+              <span className="animate-flicker text-emerald-400">&gt;_</span>
+            </h1>
+            <p className="section-subtitle mt-3 text-lg">{t.contact.subtitle}</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-5">
-            <div className="lg:col-span-3" data-aos="fade-right">
+          {/* Two-Column Grid */}
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+            {/* LEFT — Signal Panel */}
+            <div className="flex flex-col gap-6" data-aos="fade-right">
+              <p className="font-mono text-sm text-slate-400">
+                <span className="text-emerald-400">$</span> cat contact.signal
+              </p>
+
+              {/* Contact Method Cards */}
+              <div className="flex flex-col gap-4">
+                {infoItems.map((item, index) => {
+                  const IconComponent = item.icon;
+                  return (
+                    <div
+                      key={index}
+                      className="card flex items-center gap-4 p-5"
+                      data-aos="fade-up"
+                      data-aos-delay={index * 80}
+                    >
+                      <div className="glow-sm inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                        <IconComponent className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                          {item.label}
+                        </p>
+                        <p
+                          className={`truncate font-mono text-sm ${
+                            isDark ? 'text-slate-200' : 'text-slate-800'
+                          }`}
+                        >
+                          {item.value}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Email CTA */}
+              <a
+                href={`mailto:${t.contact.emailValue}`}
+                className="btn-primary no-print inline-flex items-center gap-2 font-mono"
+                data-aos="fade-up"
+                data-aos-delay="250"
+              >
+                <Mail className="h-4 w-4" />
+                {t.contact.send}
+              </a>
+
+              {/* Social Links */}
+              <div className="flex items-center gap-3" data-aos="fade-up" data-aos-delay="300">
+                {socials.map((social, index) => {
+                  const IconComponent = social.icon;
+                  return (
+                    <a
+                      key={index}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className={`inline-flex h-11 w-11 items-center justify-center rounded-lg border transition-all duration-300 hover:-translate-y-1 ${
+                        isDark
+                          ? 'border-slate-700 bg-slate-900/40 text-slate-300 hover:border-emerald-500/40 hover:text-emerald-400'
+                          : 'border-slate-300 bg-white text-slate-600 hover:border-emerald-500/40 hover:text-emerald-600'
+                      }`}
+                    >
+                      <IconComponent className="h-5 w-5" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* RIGHT — Terminal Form */}
+            <div data-aos="fade-left" data-aos-delay="100">
               <form
                 onSubmit={handleSubmit}
-                className="card space-y-5"
+                className="card glass space-y-5 p-6 lg:p-8"
                 noValidate
               >
+                {/* Terminal Titlebar */}
+                <div className="mb-2 flex items-center justify-between rounded-lg border border-slate-700 bg-slate-900/60 px-4 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="h-3 w-3 rounded-full bg-red-500/80" />
+                    <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
+                    <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+                    <span className="ml-2 font-mono text-xs text-slate-500">
+                      {`>_ send_message.sh`}
+                    </span>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 font-mono text-[10px] text-emerald-400">
+                    <Loader className="h-3 w-3" />
+                    {`>_`}
+                  </span>
+                </div>
+
+                {/* Fields */}
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {renderField('name', t.contact.name, 'text', true)}
                   {renderField('email', t.contact.email, 'email', true)}
                 </div>
-                {renderField('phone', t.contact.phone, 'tel', false, true)}
+                {renderField('phone', t.contact.phone, 'tel', false)}
                 {renderField('subject', t.contact.subject, 'text', true)}
+
+                {/* Textarea */}
                 <div>
                   <label
                     htmlFor="message"
-                    className={`mb-2 block text-sm font-medium ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                    className="mb-2 block font-mono text-xs text-slate-500"
                   >
-                    {t.contact.message}
+                    <span className="text-emerald-400">&gt;_</span> {t.contact.message}
+                    <span className="text-slate-600">:</span>
                     <span className="ml-1 text-rose-500">*</span>
                   </label>
                   <textarea
@@ -171,39 +264,48 @@ function Contact() {
                     disabled={status === 'sending'}
                   />
                   {errors.message && (
-                    <p className={`mt-1.5 text-xs font-medium ${isDark ? 'text-rose-400' : 'text-rose-500'}`}>
+                    <p
+                      className={`mt-1.5 font-mono text-xs font-medium ${
+                        isDark ? 'text-rose-400' : 'text-rose-500'
+                      }`}
+                    >
                       {errors.message}
                     </p>
                   )}
                 </div>
 
+                {/* Success Banner */}
                 {status === 'success' && (
                   <div
-                    className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm font-medium ${
+                    className={`flex items-center gap-2 rounded-lg border px-4 py-3 font-mono text-sm font-medium ${
                       isDark
                         ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
                         : 'border-emerald-500/40 bg-emerald-500/10 text-emerald-600'
                     }`}
                   >
+                    <Send className="h-4 w-4" />
                     {t.contact.success}
                   </div>
                 )}
 
+                {/* Error Banner */}
                 {status === 'error' && (
                   <div
-                    className={`flex items-center gap-2 rounded-lg border px-4 py-3 text-sm font-medium ${
+                    className={`flex items-center gap-2 rounded-lg border px-4 py-3 font-mono text-sm font-medium ${
                       isDark
                         ? 'border-rose-500/40 bg-rose-500/10 text-rose-400'
                         : 'border-rose-500/40 bg-rose-500/10 text-rose-600'
                     }`}
                   >
+                    <Loader className="h-4 w-4" />
                     {t.contact.error}
                   </div>
                 )}
 
+                {/* Submit */}
                 <button
                   type="submit"
-                  className="btn-primary inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  className="btn-primary inline-flex w-full items-center justify-center gap-2 font-mono disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                   disabled={status === 'sending'}
                 >
                   {status === 'sending' ? (
@@ -219,69 +321,6 @@ function Contact() {
                   )}
                 </button>
               </form>
-            </div>
-
-            <div className="lg:col-span-2" data-aos="fade-left" data-aos-delay="100">
-              <div className="space-y-5">
-                {infoItems.map((item, index) => {
-                  const IconComponent = item.icon;
-                  return (
-                    <div
-                      key={index}
-                      className="card flex items-center gap-4"
-                    >
-                      <div
-                        className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${
-                          isDark
-                            ? 'bg-primary/10 text-primary'
-                            : 'bg-green-500/10 text-green-600'
-                        }`}
-                      >
-                        <IconComponent className="h-6 w-6" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className={`text-xs font-medium uppercase tracking-wide ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                          {item.label}
-                        </p>
-                        <p className={`truncate font-semibold ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
-                          {item.value}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-
-                <div className="card">
-                  <p
-                    className={`mb-4 text-xs font-semibold uppercase tracking-wide ${
-                      isDark ? 'text-slate-400' : 'text-slate-500'
-                    }`}
-                  >
-                    Social Links
-                  </p>
-                  <div className="flex gap-3">
-                    {socials.map((social, index) => {
-                      const IconComponent = social.icon;
-                      return (
-                        <a
-                          key={index}
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`inline-flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-1 ${
-                            isDark
-                              ? 'bg-dark-600 text-slate-200 hover:bg-primary/10 hover:text-primary hover:shadow-[0_0_15px_rgba(0,255,65,0.15)]'
-                              : 'bg-slate-100 text-slate-600 hover:bg-green-500/10 hover:text-green-600'
-                          }`}
-                          aria-label={social.label}
-                        >
-                          <IconComponent className="h-5 w-5" />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

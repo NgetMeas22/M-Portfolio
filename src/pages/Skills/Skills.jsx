@@ -14,30 +14,10 @@ const categoryIcons = {
   Learning: <BookOpen className="h-6 w-6" />
 };
 
-const levelStyles = {
-  comfortable: {
-    dark: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-    light: 'text-emerald-600 border-emerald-600/30 bg-emerald-600/10'
-  },
-  familiar: {
-    dark: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
-    light: 'text-amber-600 border-amber-600/30 bg-amber-600/10'
-  },
-  learning: {
-    dark: 'text-purple-400 border-purple-500/30 bg-purple-500/10',
-    light: 'text-purple-600 border-purple-600/30 bg-purple-600/10'
-  }
-};
-
-const tabStyles = {
-  active: {
-    dark: 'bg-primary/10 text-primary border-primary/40 shadow-[0_0_15px_rgba(0,255,65,0.15)]',
-    light: 'bg-green-500/10 text-green-600 border-green-500/40 shadow-[0_0_15px_rgba(0,200,65,0.1)]'
-  },
-  inactive: {
-    dark: 'text-slate-400 border-slate-700 hover:border-primary/40 hover:text-primary',
-    light: 'text-slate-500 border-slate-200 hover:border-green-500/40 hover:text-green-600'
-  }
+const levelPercent = {
+  comfortable: 85,
+  familiar: 60,
+  learning: 35,
 };
 
 function Skills() {
@@ -61,137 +41,123 @@ function Skills() {
     [activeCategory]
   );
 
+  const groupedSkills = useMemo(() => {
+    const map = {};
+    filteredSkills.forEach((skill) => {
+      if (!map[skill.category]) map[skill.category] = [];
+      map[skill.category].push(skill);
+    });
+    return map;
+  }, [filteredSkills]);
+
+  const displayCategories = skillCategories.filter(
+    (c) => c.id !== 'all' && groupedSkills[c.id]?.length
+  );
+
   const levelLabel = (level) =>
     skillLevelLabels[level]?.[language === 'kh' ? 'kh' : 'en'] || level;
 
   const isDark = theme === 'dark';
 
   return (
-    <>
-      <style>
-        {`
-          @keyframes skillCardIn {
-            from { opacity: 0; transform: translateY(24px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-          }
-        `}
-      </style>
+    <section className="grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-32 pb-20">
+      <div className="mx-auto w-full max-w-7xl px-6">
 
-      <section className="grid-bg relative min-h-screen pt-24 pb-20">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="mb-12 text-center" data-aos="fade-up">
-            <div
-              className={`mb-3 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide ${
-                isDark
-                  ? 'border-primary/30 bg-primary/10 text-primary'
-                  : 'border-green-500/30 bg-green-500/10 text-green-600'
-              }`}
-            >
-              <Terminal className="h-3.5 w-3.5" />
-              Technical Stack
-            </div>
-            <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl">
-              {t.skills.title}
-            </h1>
-            <p className="section-subtitle text-lg">{t.skills.subtitle}</p>
-          </div>
-
-          <div
-            className="mb-12 flex flex-wrap items-center justify-center gap-3"
-            data-aos="fade-up"
-            data-aos-delay="100"
+        <div className="mb-14 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+            <Terminal className="h-3.5 w-3.5" />
+            {`>_ skills.matrix`}
+          </span>
+          <h1
+            className="section-title text-3xl sm:text-4xl lg:text-5xl font-mono"
+            style={{
+              textShadow: isDark
+                ? '0 0 30px rgba(16, 185, 129, 0.35)'
+                : '0 0 26px rgba(5, 150, 105, 0.2)',
+            }}
           >
-            <div
-              className={`mr-1 inline-flex items-center gap-2 text-sm font-medium ${
-                isDark ? 'text-slate-400' : 'text-slate-500'
-              }`}
-            >
-              <Filter className="h-4 w-4" />
-              <span>{t.nav.skills}</span>
-            </div>
-            {skillCategories.map((category) => {
-              const active = activeCategory === category.id;
-              const styles = active ? tabStyles.active : tabStyles.inactive;
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-all duration-300 active:scale-95 ${
-                    active ? styles[theme] : styles[theme]
-                  }`}
-                >
-                  {language === 'kh' ? category.labelKh : category.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div key={activeCategory} className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredSkills.map((skill, index) => (
-              <article
-                key={skill.name}
-                data-aos="fade-up"
-                data-aos-delay={Math.min(index * 50, 300)}
-                className={`card group flex flex-col gap-4 ${
-                  isDark
-                    ? 'hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,65,0.08)]'
-                    : 'hover:border-green-400/30 hover:shadow-[0_0_30px_rgba(0,200,65,0.08)]'
-                }`}
-                style={{ animation: `skillCardIn 0.45s ease ${index * 0.05}s both` }}
-              >
-                <div className="flex items-start">
-                  <div
-                    className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1"
-                    style={{
-                      backgroundColor: skill.color,
-                      boxShadow: `0 0 24px ${skill.color}66`
-                    }}
-                  >
-                    {categoryIcons[skill.category] || <Code className="h-6 w-6" />}
-                  </div>
-                  <span
-                    className={`ml-auto rounded-full border px-3 py-1 text-xs font-semibold ${
-                      levelStyles[skill.level][theme]
-                    }`}
-                  >
-                    {levelLabel(skill.level)}
-                  </span>
-                </div>
-
-                <div>
-                  <h3
-                    className={`text-lg font-bold transition-colors ${
-                      isDark ? 'text-slate-100' : 'text-slate-800'
-                    }`}
-                  >
-                    {skill.name}
-                  </h3>
-                  <span
-                    className={`mt-2 inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium ${
-                      isDark
-                        ? 'border-primary/20 bg-primary/5 text-primary'
-                        : 'border-green-500/20 bg-green-500/5 text-green-600'
-                    }`}
-                  >
-                    {categoryIcons[skill.category]}
-                    {skill.category}
-                  </span>
-                </div>
-
-                <p
-                  className={`mt-auto border-t pt-3 text-sm leading-relaxed ${
-                    isDark ? 'border-slate-800 text-slate-400' : 'border-slate-100 text-slate-500'
-                  }`}
-                >
-                  {skill.description}
-                </p>
-              </article>
-            ))}
-          </div>
+            Skills<span className="text-primary"> // </span>capabilities
+          </h1>
+          <p className="section-subtitle mt-3 text-lg">{t.skills.subtitle}</p>
         </div>
-      </section>
-    </>
+
+        <div
+          className="mb-12 flex flex-wrap items-center justify-center gap-3"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <span className="mr-1 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-secondary">
+            <Filter className="h-4 w-4 text-primary" />
+            <span>{t.nav.skills}</span>
+          </span>
+          {skillCategories.map((category) => {
+            const active = activeCategory === category.id;
+            return (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => setActiveCategory(category.id)}
+                className={`rounded-full border px-4 py-2 font-mono text-xs transition-all duration-300 active:scale-95 sm:text-sm ${
+                  active
+                    ? 'glow-sm border-primary/60 bg-primary/10 text-primary'
+                    : 'border-slate-800 text-slate-400 hover:border-primary/40 hover:text-primary'
+                }`}
+              >
+                {language === 'kh' ? category.labelKh : category.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div key={activeCategory} className="space-y-10">
+          {displayCategories.map((category, catIdx) => (
+            <div
+              key={category.id}
+              data-aos="fade-up"
+              data-aos-delay={Math.min(catIdx * 80, 300)}
+            >
+              <div className="mb-4 flex items-center gap-3">
+                <span className="glow-sm inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                  {categoryIcons[category.id] || <Code className="h-5 w-5" />}
+                </span>
+                <h2 className="section-subtitle font-mono text-sm uppercase tracking-widest sm:text-base">
+                  {'['}{language === 'kh' ? category.labelKh : category.label}{']'}
+                </h2>
+              </div>
+
+              <div className="card grid grid-cols-1 gap-x-8 gap-y-5 p-6 sm:grid-cols-2 lg:grid-cols-3">
+                {groupedSkills[category.id].map((skill) => {
+                  const pct = levelPercent[skill.level] ?? 50;
+                  return (
+                    <div key={skill.name} className="flex flex-col gap-1.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="truncate font-mono text-sm font-semibold text-slate-200">
+                          {skill.name}
+                        </span>
+                        <span className="font-mono text-xs text-slate-500">
+                          {pct}%
+                        </span>
+                      </div>
+
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800/80">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-primary to-primary-light transition-all duration-700"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+
+                      <span className="tag mt-1 w-fit font-mono">
+                        {levelLabel(skill.level)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
