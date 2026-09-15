@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 @theme {
   --color-primary: #10b981;
   --color-primary-light: #34d399;
@@ -36,6 +38,39 @@
   --animate-matrix: matrix 3s steps(1) infinite;
 
   --shadow-glow: 0 0 15px rgba(16, 185, 129, 0.35), 0 0 35px rgba(16, 185, 129, 0.15);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: #050505;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 }
 
 @keyframes blob {
@@ -87,19 +122,11 @@
    All pages depend on these. Dark = black + emerald, Light = paper.
    ============================================================ */
 
-html {
-  scroll-behavior: smooth;
-}
 html[lang='kh'] body,
 html[lang='kh'] .font-mono {
   font-family: 'Kantumruy Pro', 'Battambang', 'JetBrains Mono', monospace;
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
 body.dark {
   background-color: #050505;
   color: #e5e7eb;
@@ -114,16 +141,37 @@ body.light {
 
 /* ---------- Grid background ---------- */
 .grid-bg {
+  background-color: #050505;
   background-image:
     linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 body.light .grid-bg {
+  background-color: #f8fafc;
   background-image:
     linear-gradient(rgba(5, 150, 105, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(5, 150, 105, 0.05) 1px, transparent 1px);
   background-size: 56px 56px;
+}
+.grid-pattern,
+.grid-pattern-grid {
+  position: relative;
+}
+.grid-pattern::before,
+.grid-pattern-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08), transparent 28%),
+    linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent 42%);
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+.grid-dot {
+  background-image: radial-gradient(rgba(52, 211, 153, 0.2) 1px, transparent 1px);
+  background-size: 18px 18px;
 }
 
 /* ---------- Section titles ---------- */
@@ -145,6 +193,32 @@ body.dark .section-title { color: #10b981; }
   letter-spacing: 0.02em;
 }
 body.light .section-subtitle { color: #475569; }
+.text-secondary {
+  color: #94a3b8;
+}
+body.light .text-secondary {
+  color: #475569;
+}
+.cyber-badge,
+.terminal-badge {
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #6ee7b7;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.03), 0 0 18px rgba(16, 185, 129, 0.08);
+}
+body.light .cyber-badge,
+body.light .terminal-badge {
+  background: rgba(5, 150, 105, 0.08);
+  border-color: rgba(5, 150, 105, 0.24);
+  color: #047857;
+}
 
 /* ---------- Cards ---------- */
 .card {
@@ -155,6 +229,7 @@ body.light .section-subtitle { color: #475569; }
 }
 body.dark .card { background: #0c0e0d; }
 body.light .card { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.card-hover:hover,
 .card:hover {
   border-color: rgba(16, 185, 129, 0.5);
   transform: translateY(-4px);
@@ -168,6 +243,23 @@ body.light .card { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px
   border: 1px solid rgba(51, 65, 85, 0.4);
 }
 body.light .glass { background: rgba(255, 255, 255, 0.75); border-color: rgba(148, 163, 184, 0.35); }
+.glass-sm {
+  background: rgba(10, 12, 11, 0.58);
+  backdrop-filter: blur(8px);
+}
+.glass-md {
+  background: rgba(10, 12, 11, 0.68);
+  backdrop-filter: blur(14px);
+}
+.glass-lg {
+  background: rgba(10, 12, 11, 0.78);
+  backdrop-filter: blur(20px);
+}
+body.light .glass-sm,
+body.light .glass-md,
+body.light .glass-lg {
+  background: rgba(255, 255, 255, 0.78);
+}
 
 /* ---------- Buttons (plain state) ---------- */
 .btn-primary,
@@ -206,6 +298,26 @@ body.light .btn-outline { color: #059669; border-color: rgba(5, 150, 105, 0.5); 
   border-color: #34d399;
   transform: translateY(-2px);
 }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+}
+.btn-ghost:hover {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.08);
+}
+body.light .btn-ghost {
+  color: #475569;
+}
+body.light .btn-ghost:hover {
+  color: #047857;
+}
 
 /* ---------- Tags / pills ---------- */
 .tag {
@@ -227,6 +339,36 @@ body.light .tag { color: #047857; border-color: rgba(5, 150, 105, 0.3); backgrou
 .glow-sm { box-shadow: 0 0 12px rgba(16, 185, 129, 0.15); }
 .glow-md { box-shadow: 0 0 25px rgba(16, 185, 129, 0.22); }
 .glow-lg { box-shadow: 0 0 45px rgba(16, 185, 129, 0.28); }
+.underline-glow {
+  text-decoration-color: rgba(16, 185, 129, 0.45);
+  text-underline-offset: 4px;
+}
+.underline-glow:hover {
+  text-shadow: 0 0 14px rgba(52, 211, 153, 0.35);
+}
+.blinking {
+  animation: cursor-blink 1s steps(1) infinite;
+}
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+.scanline::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 90px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.08), transparent);
+  animation: scanline 7s linear infinite;
+}
+.matrix-rain-grid {
+  background-image:
+    linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
 
 /* ---------- Matrix rain canvas ---------- */
 .matrix-rain {
@@ -265,4 +407,3 @@ body.light ::-webkit-scrollbar-track { background: #f1f5f9; }
 body.light ::-webkit-scrollbar-thumb { background: #94a3b8; border-color: #e2e8f0; }
 
 ::selection { background: rgba(16, 185, 129, 0.3); color: #ffffff; }
-

@@ -4,6 +4,7 @@ import { Mail, ExternalLink, Download, ArrowRight } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
+import { projects } from '../../data/projects';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -33,10 +34,11 @@ const RAIN_COLUMNS = Array.from({ length: 12 }, () =>
 );
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const nameParts = t.hero.name.split(' ');
+  const featuredProjects = projects.filter(project => project.featured).slice(0, 3);
 
   const [displayedLines, setDisplayedLines] = useState([]);
   const [currentLine, setCurrentLine] = useState(0);
@@ -207,7 +209,7 @@ export default function Home() {
                   <GitHubIcon size={20} />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://linkedin.com/in/nget-meas-6525bb3a6"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="card card-hover inline-flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:text-primary"
@@ -288,6 +290,80 @@ export default function Home() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div data-aos="fade-up" className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="cyber-badge mb-4 inline-flex items-center gap-2">
+                {'>_ featured_work'}
+              </span>
+              <h2 className="section-title font-mono text-2xl sm:text-3xl lg:text-4xl">
+                {t.projects.title}
+              </h2>
+              <p className="section-subtitle mt-3 text-lg">{t.projects.subtitle}</p>
+            </div>
+            <Link to="/projects" className="btn-outline w-fit">
+              {t.projects.viewDetails}
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {featuredProjects.map((project, index) => (
+              <article
+                key={project.id}
+                data-aos="fade-up"
+                data-aos-delay={100 + index * 90}
+                className="card glass glass-sm card-hover flex h-full flex-col p-6"
+              >
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {project.category.slice(0, 3).map(category => (
+                    <span key={category} className="tag font-mono">
+                      {category === 'Team Project' ? t.projects.teamProject : category}
+                    </span>
+                  ))}
+                </div>
+
+                <h3 className="font-mono text-lg font-bold text-slate-100">
+                  {project.title}
+                </h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-secondary">
+                  {language === 'kh' ? project.descriptionKh : project.description}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.technologies.slice(0, 4).map(tech => (
+                    <span key={tech} className="tag font-mono text-[11px]">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-auto flex items-center justify-between gap-3 pt-6">
+                  <Link
+                    to={`/projects/${project.id}`}
+                    className="underline-glow font-mono text-sm text-primary-light hover:underline"
+                  >
+                    {t.projects.viewDetails}
+                  </Link>
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="tag inline-flex items-center gap-1.5 font-mono"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      {t.projects.viewLive}
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>

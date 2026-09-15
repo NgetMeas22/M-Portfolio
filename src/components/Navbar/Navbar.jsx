@@ -143,7 +143,7 @@ function Navbar() {
         className={linkClass}
         onClick={onNavigate}
       >
-        <span className="mr-1 opacity-60">{item.icon}</span>
+        <Terminal className="mr-1 inline h-3.5 w-3.5 opacity-60" />
         {t.nav[item.label]}
       </NavLink>
     ));
