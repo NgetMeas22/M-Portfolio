@@ -68,7 +68,7 @@ const About = () => {
 
   const stats = [
     { value: '3rd', label: 'IT Student' },
-    { value: '10+', label: 'Projects' },
+    { value: '15+', label: 'Projects' },
     { value: '4', label: 'Core Tracks' },
     { value: 'Full', label: 'Stack Focus' },
   ];

@@ -128,7 +128,7 @@ export default function Footer() {
       {/* AMBIENT BACKDROP GLOW */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute left-1/2 -bottom-24 h-72 w-[800px] -translate-x-1/2 rounded-full blur-3xl opacity-20"
+          className="absolute left-1/2 -bottom-24 h-72 w-200 -translate-x-1/2 rounded-full blur-3xl opacity-20"
           style={{
             background: isDark
               ? 'radial-gradient(ellipse, rgba(16,185,129,0.3) 0%, transparent 70%)'

@@ -329,8 +329,8 @@ export default function Skills() {
                           <div
                             className={`h-full rounded-sm transition-all duration-700 ${
                               isDark
-                                ? 'bg-gradient-to-r from-emerald-600 via-emerald-400 to-teal-300 shadow-[0_0_10px_rgba(16,185,129,0.7)]'
-                                : 'bg-gradient-to-r from-emerald-500 to-teal-600'
+                                ? 'bg-linear-to-r from-emerald-600 via-emerald-400 to-teal-300 shadow-[0_0_10px_rgba(16,185,129,0.7)]'
+                                : 'bg-linear-to-r from-emerald-500 to-teal-600'
                             }`}
                             style={{ width: `${pct}%` }}
                           />
