@@ -16,7 +16,8 @@ import {
   Server,
   Zap,
   CheckCircle2,
-  HardDrive
+  HardDrive,
+  Sparkles
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -194,79 +195,97 @@ export default function Home() {
     <div
       className={`relative min-h-screen font-mono transition-colors duration-300 overflow-x-hidden ${
         isDark 
-          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black' 
-          : 'bg-[#f4f7f5] text-emerald-950 selection:bg-emerald-600 selection:text-white'
+          ? 'bg-[#030705] text-emerald-400 selection:bg-emerald-500 selection:text-black' 
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      {/* CRT SCANLINE & VIGNETTE LAYER - Active only in Dark Mode */}
-      {isDark && (
-        <>
-          <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden opacity-20 scanline-overlay" />
-          <div className="pointer-events-none fixed inset-0 z-40 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,4,3,0.95)_100%)]" />
-        </>
-      )}
+      {/* VIBRANT AMBIENT BACKDROP LIGHTING (NO HEAVY VIGNETTE) */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute -left-20 top-20 h-[500px] w-[500px] rounded-full blur-[120px]"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle, rgba(16,185,129,0.22) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 70%)',
+          }}
+        />
+        <div
+          className="absolute right-0 top-32 h-[550px] w-[550px] rounded-full blur-[130px]"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle, rgba(52,211,153,0.18) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(5,150,105,0.15) 0%, transparent 70%)',
+          }}
+        />
+        {/* Subtle Cyber Grid Lines */}
+        <div
+          className={`absolute inset-0 bg-[linear-gradient(to_right,#10b9810d_1px,transparent_1px),linear-gradient(to_bottom,#10b9810d_1px,transparent_1px)] bg-[size:4rem_4rem] ${
+            isDark ? 'opacity-40' : 'opacity-25'
+          }`}
+        />
+      </div>
 
-      {/* TOP TELEMETRY BAR WITH EXTRA VERTICAL PADDING */}
+      {/* TOP TELEMETRY BAR */}
       <header
-        className={`border-b transition-colors duration-200 px-4 sm:px-8 py-3 text-[11px] sm:text-xs uppercase tracking-wider ${
+        className={`relative z-10 border-b transition-colors duration-200 px-4 sm:px-8 py-3 text-[11px] sm:text-xs uppercase tracking-wider ${
           isDark 
-            ? 'border-emerald-500/20 bg-black/90 backdrop-blur-md text-emerald-500/80' 
+            ? 'border-emerald-500/25 bg-black/60 backdrop-blur-md text-emerald-400' 
             : 'border-emerald-700/15 bg-white/95 backdrop-blur-md text-emerald-800'
         }`}
       >
         <div className="mx-auto flex max-w-[1700px] items-center justify-between gap-4">
           <div className="flex items-center gap-2 whitespace-nowrap">
-            <Radio className={`h-3.5 w-3.5 animate-pulse ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
-            <span className={isDark ? 'text-emerald-600 font-bold' : 'text-emerald-700 font-bold'}>STATUS:</span>
-            <span className={`font-bold tracking-widest ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <Radio className="h-3.5 w-3.5 animate-pulse text-emerald-400" />
+            <span className={isDark ? 'text-emerald-500 font-bold' : 'text-emerald-700 font-bold'}>STATUS:</span>
+            <span className={`font-bold tracking-widest ${isDark ? 'text-emerald-200' : 'text-slate-900'}`}>
               TLS_AES_256_ACTIVE
             </span>
           </div>
           
           <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar whitespace-nowrap text-[10px] sm:text-xs">
             {telemetryFeeds.map((feed, idx) => (
-              <div key={idx} className={`border-l pl-3 ${isDark ? 'border-emerald-950' : 'border-emerald-200'}`}>
-                <span className={`font-bold ${isDark ? 'text-emerald-700' : 'text-emerald-600'}`}>{feed.label}: </span>
-                <span className={isDark ? 'text-slate-300' : 'text-slate-700 font-medium'}>{feed.value}</span>
+              <div key={idx} className={`border-l pl-3 ${isDark ? 'border-emerald-800/60' : 'border-emerald-200'}`}>
+                <span className={`font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>{feed.label}: </span>
+                <span className={isDark ? 'text-slate-200' : 'text-slate-800 font-semibold'}>{feed.value}</span>
               </div>
             ))}
           </div>
         </div>
       </header>
 
-      {/* HERO SECTION WITH GENEROUS TOP & BOTTOM SPACING */}
-      <section className="relative px-4 sm:px-8 lg:px-12 pt-28 pb-20 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-32">
+      {/* HERO SECTION */}
+      <section className="relative z-10 px-4 sm:px-8 lg:px-12 pt-24 pb-20 sm:pt-28 sm:pb-24 lg:pt-32 lg:pb-28">
         <div className="mx-auto w-full max-w-[1700px]">
           <div className="grid items-center gap-12 lg:grid-cols-12 xl:gap-16">
 
             {/* LEFT COLUMN: HERO CONTENT */}
-            <div data-aos="fade-right" className="lg:col-span-7 flex flex-col space-y-7 sm:space-y-9">
+            <div data-aos="fade-right" className="lg:col-span-7 flex flex-col space-y-7 sm:space-y-8">
               
               <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <div
                   className={`inline-flex items-center gap-2 border px-3.5 py-1.5 text-xs font-bold ${
                     isDark 
-                      ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300' 
-                      : 'border-emerald-600/40 bg-emerald-100/60 text-emerald-900'
+                      ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)]' 
+                      : 'border-emerald-600/40 bg-emerald-100/80 text-emerald-900'
                   }`}
                 >
                   <Lock className={`h-3.5 w-3.5 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
                   <span className="tracking-wider">// NODE://INIT_OK</span>
                 </div>
                 <span
-                  className={`border px-3 py-1 text-[11px] font-semibold ${
+                  className={`border px-3 py-1 text-[11px] font-bold ${
                     isDark 
-                      ? 'border-emerald-900/80 bg-black/60 text-emerald-500' 
-                      : 'border-emerald-200 bg-white text-emerald-800'
+                      ? 'border-emerald-700/60 bg-emerald-950/30 text-emerald-300' 
+                      : 'border-emerald-300 bg-white text-emerald-800'
                   }`}
                 >
                   PORT: 443 [OPEN]
                 </span>
                 <span
-                  className={`border px-3 py-1 text-[11px] font-semibold ${
+                  className={`border px-3 py-1 text-[11px] font-bold ${
                     isDark 
-                      ? 'border-emerald-900/80 bg-black/60 text-emerald-500' 
-                      : 'border-emerald-200 bg-white text-emerald-800'
+                      ? 'border-emerald-700/60 bg-emerald-950/30 text-emerald-300' 
+                      : 'border-emerald-300 bg-white text-emerald-800'
                   }`}
                 >
                   ENCRYPTION: HARDENED
@@ -274,12 +293,15 @@ export default function Home() {
               </div>
 
               <div className="space-y-4">
+                {/* HIGH-CONTRAST HERO NAME (NO DIM GREY) */}
                 <h1 className="text-4xl sm:text-6xl md:text-7xl xl:text-8xl font-black uppercase tracking-tight leading-[1.05]">
-                  <span className={isDark ? 'text-slate-500' : 'text-slate-400'}>{nameParts[0]}</span>{' '}
+                  <span className={isDark ? 'text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'text-slate-900'}>
+                    {nameParts[0]}
+                  </span>{' '}
                   <span
-                    className={`glitch-text ${
+                    className={`font-black ${
                       isDark 
-                        ? 'text-emerald-400 drop-shadow-[0_0_30px_rgba(16,185,129,0.7)]' 
+                        ? 'text-emerald-400 drop-shadow-[0_0_35px_rgba(52,211,153,0.85)]' 
                         : 'text-emerald-700 drop-shadow-[0_0_15px_rgba(4,120,87,0.25)]'
                     }`}
                   >
@@ -287,39 +309,41 @@ export default function Home() {
                   </span>
                 </h1>
 
+                {/* ROLE ROTATOR */}
                 <div
                   className={`flex flex-wrap items-center gap-2.5 text-lg sm:text-2xl md:text-3xl pt-1 ${
-                    isDark ? 'text-emerald-300' : 'text-emerald-800'
+                    isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'
                   }`}
                 >
-                  <span className={`font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>root@mesh:~#</span>
-                  <span className="underline decoration-emerald-500/50">{roleText}</span>
-                  <span className={`inline-block w-3 h-6 animate-pulse ${isDark ? 'bg-emerald-400' : 'bg-emerald-700'}`} />
+                  <span className={isDark ? 'text-emerald-500' : 'text-emerald-700'}>root@mesh:~#</span>
+                  <span className="underline decoration-emerald-400 decoration-2 underline-offset-4">{roleText}</span>
+                  <span className={`inline-block w-3 h-6 animate-pulse ${isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'}`} />
                 </div>
               </div>
 
+              {/* BRIGHT, HIGH-LEGIBILITY BIO BOX */}
               <p
-                className={`max-w-2xl text-base sm:text-lg md:text-xl leading-relaxed border-l-4 pl-5 sm:pl-7 py-3.5 ${
+                className={`max-w-2xl text-base sm:text-lg md:text-xl leading-relaxed border-l-4 pl-5 sm:pl-7 py-4 rounded-r-xl ${
                   isDark 
-                    ? 'text-slate-300 border-emerald-500/80 bg-emerald-950/20' 
-                    : 'text-slate-700 border-emerald-600 bg-emerald-50/80'
+                    ? 'text-slate-100 border-emerald-400 bg-emerald-950/40 shadow-[0_0_25px_rgba(16,185,129,0.08)]' 
+                    : 'text-slate-800 border-emerald-600 bg-emerald-50/90 shadow-xs'
                 }`}
               >
                 Constructing hardened, full-stack digital assets. Focusing on fault-tolerant backend infrastructures, resilient state distribution, and defensive web software engineering.
               </p>
 
-              {/* HEX STREAM */}
+              {/* HEX STREAM WITH VISIBLE CONTRAST */}
               <div
                 className={`flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-xs select-none ${
-                  isDark ? 'text-emerald-600/80' : 'text-emerald-800/80'
+                  isDark ? 'text-emerald-400/90 font-bold' : 'text-emerald-800 font-semibold'
                 }`}
               >
                 {HEX_STREAM.map((hex, i) => (
                   <span
                     key={i}
-                    className={`px-2 py-0.5 border transition-colors ${
+                    className={`px-2 py-0.5 border rounded-sm transition-all ${
                       isDark 
-                        ? 'bg-black/80 border-emerald-950 hover:border-emerald-500' 
+                        ? 'bg-black/90 border-emerald-800/80 hover:border-emerald-400 hover:text-emerald-300 hover:shadow-[0_0_10px_rgba(16,185,129,0.3)]' 
                         : 'bg-white border-emerald-200 hover:border-emerald-600 shadow-xs'
                     }`}
                   >
@@ -333,9 +357,9 @@ export default function Home() {
                 <a
                   href="/CV_NgetMeas.pdf"
                   download="CV_NgetMeas.pdf"
-                  className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 px-7 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all ${
+                  className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md ${
                     isDark
-                      ? 'bg-emerald-500 text-black hover:bg-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]'
+                      ? 'bg-emerald-400 text-black font-black hover:bg-emerald-300 hover:shadow-[0_0_35px_rgba(52,211,153,0.8)]'
                       : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-lg'
                   }`}
                 >
@@ -345,10 +369,10 @@ export default function Home() {
                 
                 <Link
                   to="/projects"
-                  className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 border px-7 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all ${
+                  className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 border-2 px-8 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all ${
                     isDark
-                      ? 'border-emerald-500/60 bg-black/80 text-emerald-400 hover:border-emerald-300 hover:bg-emerald-950/40'
-                      : 'border-emerald-600/50 bg-white text-emerald-900 hover:border-emerald-700 hover:bg-emerald-50 shadow-xs'
+                      ? 'border-emerald-400/60 bg-emerald-950/30 text-emerald-300 hover:border-emerald-300 hover:bg-emerald-950/60 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+                      : 'border-emerald-600 bg-white text-emerald-900 hover:border-emerald-700 hover:bg-emerald-50 shadow-xs'
                   }`}
                 >
                   AUDIT_ARCHIVES
@@ -360,9 +384,9 @@ export default function Home() {
                     href="https://github.com/NgetMeas22"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex h-12 w-12 items-center justify-center border transition-all ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 transition-all ${
                       isDark
-                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-400 hover:bg-emerald-950/50'
+                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                         : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
                     }`}
                     aria-label="GitHub"
@@ -373,9 +397,9 @@ export default function Home() {
                     href="https://linkedin.com/in/nget-meas-6525bb3a6"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex h-12 w-12 items-center justify-center border transition-all ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 transition-all ${
                       isDark
-                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-400 hover:bg-emerald-950/50'
+                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                         : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
                     }`}
                     aria-label="LinkedIn"
@@ -384,9 +408,9 @@ export default function Home() {
                   </a>
                   <a
                     href="mailto:measm2519@gmail.com"
-                    className={`flex h-12 w-12 items-center justify-center border transition-all ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 transition-all ${
                       isDark
-                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-400 hover:bg-emerald-950/50'
+                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.35)]'
                         : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
                     }`}
                     aria-label="Email"
@@ -398,61 +422,61 @@ export default function Home() {
 
             </div>
 
-            {/* RIGHT COLUMN: TERMINAL HUD */}
+            {/* RIGHT COLUMN: ILLUMINATED TERMINAL HUD */}
             <div data-aos="fade-left" className="lg:col-span-5 w-full">
               <div
-                className={`relative border-2 shadow-2xl transition-colors duration-200 ${
+                className={`relative rounded-2xl border-2 transition-all duration-200 overflow-hidden ${
                   isDark 
-                    ? 'border-emerald-500/50 bg-black shadow-[0_0_40px_rgba(16,185,129,0.2)]' 
-                    : 'border-emerald-600/40 bg-white shadow-emerald-950/5'
+                    ? 'border-emerald-400/60 bg-[#050b08] shadow-[0_0_50px_rgba(16,185,129,0.25)]' 
+                    : 'border-emerald-600/40 bg-white shadow-xl shadow-emerald-950/5'
                 }`}
               >
-                {/* HUD CORNER BRACKETS */}
-                <span className={`absolute -top-1.5 -left-1.5 h-3 w-3 border-t-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute -top-1.5 -right-1.5 h-3 w-3 border-t-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute -bottom-1.5 -left-1.5 h-3 w-3 border-b-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute -bottom-1.5 -right-1.5 h-3 w-3 border-b-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                {/* HUD CORNER RETICLES */}
+                <span className={`absolute top-2 left-2 h-3.5 w-3.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                <span className={`absolute top-2 right-2 h-3.5 w-3.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                <span className={`absolute bottom-2 left-2 h-3.5 w-3.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                <span className={`absolute bottom-2 right-2 h-3.5 w-3.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
 
                 {/* TERMINAL HEADER */}
                 <div
-                  className={`flex items-center justify-between border-b px-4 py-3 text-xs ${
+                  className={`flex items-center justify-between border-b px-5 py-3.5 text-xs ${
                     isDark 
-                      ? 'border-emerald-900/80 bg-emerald-950/40 text-slate-200' 
-                      : 'border-emerald-100 bg-emerald-50/70 text-slate-800'
+                      ? 'border-emerald-500/30 bg-emerald-950/60 text-slate-100' 
+                      : 'border-emerald-100 bg-emerald-50/90 text-slate-800'
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <TerminalIcon className={`h-4 w-4 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
-                    <span className="font-bold">BASH_PORTAL_SESSION.sh</span>
+                    <span className="font-bold tracking-wider">BASH_PORTAL_SESSION.sh</span>
                   </div>
                   <span
-                    className={`flex items-center gap-1.5 text-[10px] font-bold border px-2 py-0.5 ${
+                    className={`flex items-center gap-1.5 text-[10px] font-bold border px-2.5 py-0.5 rounded ${
                       isDark 
-                        ? 'text-emerald-400 bg-emerald-950/70 border-emerald-500/30' 
+                        ? 'text-emerald-300 bg-emerald-950 border-emerald-500/50 shadow-[0_0_10px_rgba(16,185,129,0.3)]' 
                         : 'text-emerald-800 bg-white border-emerald-300'
                     }`}
                   >
-                    <Activity className="h-3 w-3 animate-spin text-emerald-500" /> ACTIVE
+                    <Activity className="h-3 w-3 animate-spin text-emerald-400" /> ACTIVE
                   </span>
                 </div>
 
-                {/* TERMINAL BUFFER VIEWPORT */}
-                <div className="min-h-[320px] sm:min-h-[380px] p-5 sm:p-6 space-y-3.5 text-xs sm:text-sm leading-relaxed overflow-y-auto">
-                  <p className={isDark ? 'text-emerald-700' : 'text-emerald-600/90'}>
+                {/* TERMINAL BUFFER VIEWPORT (BRIGHT CRISP TEXT) */}
+                <div className="min-h-[340px] sm:min-h-[400px] p-6 space-y-4 text-xs sm:text-sm leading-relaxed overflow-y-auto">
+                  <p className={isDark ? 'text-emerald-400/80 font-bold' : 'text-emerald-700 font-semibold'}>
                     // Remote handshake negotiated. Cipher: ECDHE-RSA-AES128-GCM-SHA256
                   </p>
                   
                   {displayedLines.map((line, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <p className={isDark ? 'text-slate-200' : 'text-slate-800'}>
-                        <span className={`font-bold ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>root@sec-gateway:~#</span> {line.command}
+                    <div key={idx} className="space-y-1.5">
+                      <p className={isDark ? 'text-white font-semibold' : 'text-slate-900 font-semibold'}>
+                        <span className={`font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>root@sec-gateway:~#</span> {line.command}
                       </p>
                       {line.output && (
                         <p
                           className={`pl-4 border-l-2 font-mono ${
                             isDark 
-                              ? 'text-emerald-400 border-emerald-500/40' 
-                              : 'text-emerald-800 border-emerald-600/50 bg-emerald-50/50 py-0.5'
+                              ? 'text-emerald-300 border-emerald-400 bg-emerald-950/20 py-1' 
+                              : 'text-emerald-900 border-emerald-600 bg-emerald-50/70 py-1 font-semibold'
                           }`}
                         >
                           {line.output}
@@ -462,9 +486,9 @@ export default function Home() {
                   ))}
 
                   {!typingComplete ? (
-                    <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400' : 'bg-emerald-700'}`} />
+                    <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400 shadow-[0_0_8px_#10b981]' : 'bg-emerald-700'}`} />
                   ) : (
-                    <p className={`pt-2 border-t ${isDark ? 'text-emerald-600 border-emerald-950' : 'text-emerald-700 border-emerald-100'}`}>
+                    <p className={`pt-2 border-t ${isDark ? 'text-emerald-400 border-emerald-900/60' : 'text-emerald-700 border-emerald-100'}`}>
                       root@sec-gateway:~# <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400' : 'bg-emerald-700'}`} />
                     </p>
                   )}
@@ -472,16 +496,16 @@ export default function Home() {
 
                 {/* TERMINAL STATUS BAR */}
                 <div
-                  className={`grid grid-cols-2 sm:grid-cols-4 border-t px-4 py-2.5 text-[10px] font-semibold gap-2 ${
+                  className={`grid grid-cols-2 sm:grid-cols-4 border-t px-5 py-3 text-[11px] font-bold gap-2 ${
                     isDark 
-                      ? 'border-emerald-900/80 bg-emerald-950/30 text-emerald-600' 
+                      ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400' 
                       : 'border-emerald-100 bg-emerald-50 text-emerald-800'
                   }`}
                 >
-                  <div>SOCK: <span className={isDark ? 'text-emerald-400' : 'text-emerald-900 font-bold'}>0x88F</span></div>
-                  <div>PKTS: <span className={isDark ? 'text-emerald-400' : 'text-emerald-900 font-bold'}>204,112</span></div>
-                  <div>PORT: <span className={isDark ? 'text-emerald-400' : 'text-emerald-900 font-bold'}>443/TLS</span></div>
-                  <div className={`sm:text-right font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>READY</div>
+                  <div>SOCK: <span className={isDark ? 'text-white' : 'text-slate-900'}>0x88F</span></div>
+                  <div>PKTS: <span className={isDark ? 'text-white' : 'text-slate-900'}>204,112</span></div>
+                  <div>PORT: <span className={isDark ? 'text-white' : 'text-slate-900'}>443/TLS</span></div>
+                  <div className={`sm:text-right font-black ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>READY</div>
                 </div>
               </div>
             </div>
@@ -492,9 +516,9 @@ export default function Home() {
 
       {/* SYSTEM TELEMETRY / HARDWARE PANEL */}
       <section
-        className={`border-y py-12 sm:py-16 ${
+        className={`relative z-10 border-y py-12 sm:py-16 ${
           isDark 
-            ? 'border-emerald-500/20 bg-black/60' 
+            ? 'border-emerald-500/30 bg-black/70' 
             : 'border-emerald-900/10 bg-white/90 shadow-xs'
         }`}
       >
@@ -503,30 +527,30 @@ export default function Home() {
             {systemStats.map((item, i) => (
               <div
                 key={i}
-                className={`border p-5 flex items-center gap-4 transition-all duration-200 ${
+                className={`border-2 rounded-xl p-5 flex items-center gap-4 transition-all duration-200 ${
                   isDark 
-                    ? 'border-emerald-950 bg-black/90 hover:border-emerald-500/50' 
-                    : 'border-emerald-200/80 bg-emerald-50/40 hover:border-emerald-500 shadow-xs'
+                    ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.2)]' 
+                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
                 }`}
               >
                 <div
-                  className={`p-3.5 border ${
+                  className={`p-3.5 rounded-lg border ${
                     isDark 
-                      ? 'border-emerald-900 bg-emerald-950/40 text-emerald-400' 
-                      : 'border-emerald-300 bg-white text-emerald-700 shadow-xs'
+                      ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.3)]' 
+                      : 'border-emerald-300 bg-emerald-50 text-emerald-700 shadow-xs'
                   }`}
                 >
                   <item.icon className="h-5 w-5" />
                 </div>
                 <div className="space-y-1">
-                  <div className={`text-[10px] uppercase tracking-widest ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
+                  <div className={`text-[10px] uppercase tracking-widest font-bold ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
                     {item.label}
                   </div>
-                  <div className={`text-sm sm:text-base font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <div className={`text-sm sm:text-base font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {item.value}
                   </div>
-                  <div className={`text-[11px] font-mono flex items-center gap-1.5 ${isDark ? 'text-emerald-400' : 'text-emerald-700 font-semibold'}`}>
-                    <CheckCircle2 className="h-3 w-3" /> {item.stat}
+                  <div className={`text-[11px] font-mono flex items-center gap-1.5 ${isDark ? 'text-emerald-300 font-bold' : 'text-emerald-700 font-semibold'}`}>
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> {item.stat}
                   </div>
                 </div>
               </div>
@@ -536,13 +560,13 @@ export default function Home() {
       </section>
 
       {/* OPERATIONAL CAPABILITIES */}
-      <section className="py-20 sm:py-28 lg:py-32">
+      <section className="relative z-10 py-20 sm:py-28 lg:py-32">
         <div className="mx-auto w-full max-w-[1700px] px-4 sm:px-8 lg:px-12">
           <div className="mb-12 sm:mb-16">
-            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
+            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
               // SECTION: OPERATIONAL_PROFILES
             </span>
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               SYSTEM_CAPABILITIES
             </h2>
           </div>
@@ -553,36 +577,36 @@ export default function Home() {
                 key={i}
                 data-aos="fade-up"
                 data-aos-delay={i * 100}
-                className={`relative border p-7 sm:p-9 transition-all duration-200 ${
+                className={`relative border-2 rounded-2xl p-8 sm:p-10 transition-all duration-200 ${
                   isDark 
-                    ? 'border-emerald-900/60 bg-emerald-950/10 hover:border-emerald-500 hover:bg-emerald-950/20' 
+                    ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]' 
                     : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-md shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs mb-6">
                   <span
-                    className={`border px-3 py-1 font-bold ${
+                    className={`border px-3 py-1 font-bold rounded ${
                       isDark 
-                        ? 'border-emerald-900 bg-black text-emerald-500' 
+                        ? 'border-emerald-500/50 bg-black text-emerald-300' 
                         : 'border-emerald-300 bg-emerald-50 text-emerald-800'
                     }`}
                   >
                     {vector.code}
                   </span>
                   <span
-                    className={`text-[10px] uppercase border px-2.5 py-0.5 font-bold ${
+                    className={`text-[10px] uppercase border px-2.5 py-0.5 font-bold rounded ${
                       isDark 
-                        ? 'border-emerald-950 text-emerald-600' 
+                        ? 'border-emerald-700/60 text-emerald-400' 
                         : 'border-emerald-200 text-emerald-700'
                     }`}
                   >
                     {vector.badge}
                   </span>
                 </div>
-                <h3 className={`text-lg sm:text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <h3 className={`text-lg sm:text-xl font-black mb-3 uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   {vector.title}
                 </h3>
-                <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-sm sm:text-base leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                   {vector.desc}
                 </p>
               </div>
@@ -593,18 +617,18 @@ export default function Home() {
 
       {/* TECH ARSENAL MATRIX */}
       <section
-        className={`border-t py-20 sm:py-28 lg:py-32 ${
+        className={`relative z-10 border-t py-20 sm:py-28 lg:py-32 ${
           isDark 
-            ? 'border-emerald-500/20 bg-black/80' 
+            ? 'border-emerald-500/30 bg-black/80' 
             : 'border-emerald-900/10 bg-white/70'
         }`}
       >
         <div className="mx-auto w-full max-w-[1700px] px-4 sm:px-8 lg:px-12">
           <div className="mb-14 text-center">
-            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
+            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
               // DAEMONS & NETWORK RUNTIMES
             </span>
-            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
               DEPLOYED_TECH_ARSENAL
             </h2>
           </div>
@@ -613,36 +637,36 @@ export default function Home() {
             {techArsenal.map(tech => (
               <div
                 key={tech.name}
-                className={`border p-6 transition-all duration-200 ${
+                className={`border-2 rounded-xl p-6 transition-all duration-200 ${
                   isDark 
-                    ? 'border-emerald-900/60 bg-black hover:border-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]' 
+                    ? 'border-emerald-900/70 bg-black/90 hover:border-emerald-400 hover:shadow-[0_0_25px_rgba(16,185,129,0.25)]' 
                     : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-md shadow-xs'
                 }`}
               >
-                <div className={`flex items-center justify-between text-xs ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
+                <div className={`flex items-center justify-between text-xs font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
                   <span>{tech.port}</span>
                   <span
-                    className={`text-[10px] border px-2 py-0.5 font-bold ${
+                    className={`text-[10px] border px-2 py-0.5 rounded font-bold ${
                       isDark 
-                        ? 'bg-emerald-950/60 border-emerald-900 text-emerald-400' 
+                        ? 'bg-emerald-950 border-emerald-500/50 text-emerald-300' 
                         : 'bg-emerald-50 border-emerald-200 text-emerald-800'
                     }`}
                   >
                     {tech.layer}
                   </span>
                 </div>
-                <div className={`mt-4 text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <div className={`mt-4 text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   {tech.name}
                 </div>
                 <div
-                  className={`mt-3 flex items-center justify-between text-[11px] border-t pt-2.5 ${
+                  className={`mt-3 flex items-center justify-between text-[11px] border-t pt-3 ${
                     isDark 
-                      ? 'border-emerald-950 text-emerald-700' 
+                      ? 'border-emerald-900/60 text-slate-400' 
                       : 'border-emerald-100 text-slate-500'
                   }`}
                 >
-                  <span>STATE</span>
-                  <span className={`font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                  <span className="font-mono">STATE</span>
+                  <span className={`font-bold ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>
                     {tech.status}
                   </span>
                 </div>
@@ -653,14 +677,14 @@ export default function Home() {
       </section>
 
       {/* FEATURED PROJECTS */}
-      <section className="border-t border-emerald-500/20 py-20 sm:py-28 lg:py-32">
+      <section className="relative z-10 border-t border-emerald-500/30 py-20 sm:py-28 lg:py-32">
         <div className="mx-auto w-full max-w-[1700px] px-4 sm:px-8 lg:px-12">
           <div className="mb-14 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
+              <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
                 // ACTIVE_DEPLOYMENTS
               </span>
-              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 FEATURED_TARGETS
               </h2>
             </div>
@@ -680,9 +704,9 @@ export default function Home() {
                 key={project.id}
                 data-aos="fade-up"
                 data-aos-delay={idx * 100}
-                className={`border p-7 sm:p-9 flex flex-col justify-between transition-all duration-200 group ${
+                className={`border-2 rounded-2xl p-7 sm:p-9 flex flex-col justify-between transition-all duration-200 group ${
                   isDark 
-                    ? 'border-emerald-900/80 bg-black hover:border-emerald-400' 
+                    ? 'border-emerald-900/80 bg-black/90 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.25)]' 
                     : 'border-emerald-200 bg-white hover:border-emerald-600 hover:shadow-lg shadow-xs'
                 }`}
               >
@@ -691,9 +715,9 @@ export default function Home() {
                     {project.category.map(cat => (
                       <span
                         key={cat}
-                        className={`text-[10px] border px-2.5 py-1 font-semibold ${
+                        className={`text-[10px] border px-2.5 py-1 font-bold rounded ${
                           isDark 
-                            ? 'bg-emerald-950/40 text-emerald-400 border-emerald-900/80' 
+                            ? 'bg-emerald-950/60 text-emerald-300 border-emerald-700/60' 
                             : 'bg-emerald-50 text-emerald-800 border-emerald-200'
                         }`}
                       >
@@ -703,7 +727,7 @@ export default function Home() {
                   </div>
 
                   <h3
-                    className={`text-lg sm:text-xl font-bold mb-3 transition-colors ${
+                    className={`text-lg sm:text-xl font-black mb-3 transition-colors uppercase tracking-tight ${
                       isDark 
                         ? 'text-white group-hover:text-emerald-400' 
                         : 'text-slate-900 group-hover:text-emerald-700'
@@ -712,7 +736,7 @@ export default function Home() {
                     {project.title}
                   </h3>
 
-                  <p className={`text-sm line-clamp-3 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  <p className={`text-sm line-clamp-3 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                     {language === 'kh' ? project.descriptionKh : project.description}
                   </p>
 
@@ -720,9 +744,9 @@ export default function Home() {
                     {project.technologies.slice(0, 4).map(t => (
                       <span
                         key={t}
-                        className={`text-[11px] border px-2 py-0.5 ${
+                        className={`text-[11px] font-mono border px-2 py-0.5 rounded ${
                           isDark 
-                            ? 'text-emerald-600 border-emerald-950' 
+                            ? 'text-emerald-400 border-emerald-800/80 bg-black' 
                             : 'text-emerald-700 border-emerald-100 bg-emerald-50/50'
                         }`}
                       >
@@ -734,7 +758,7 @@ export default function Home() {
 
                 <div
                   className={`mt-8 pt-5 border-t flex items-center justify-between ${
-                    isDark ? 'border-emerald-950' : 'border-emerald-100'
+                    isDark ? 'border-emerald-900/60' : 'border-emerald-100'
                   }`}
                 >
                   <Link
@@ -752,7 +776,7 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`text-xs hover:underline flex items-center gap-1.5 ${
-                        isDark ? 'text-slate-400 hover:text-emerald-400' : 'text-slate-600 hover:text-emerald-700 font-semibold'
+                        isDark ? 'text-slate-300 hover:text-emerald-400' : 'text-slate-600 hover:text-emerald-700 font-semibold'
                       }`}
                     >
                       <ExternalLink className="h-3.5 w-3.5" /> LIVE_HOST
@@ -765,21 +789,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CRT SCANLINE EFFECTS */}
+      {/* STYLES */}
       <style>{`
-        .scanline-overlay {
-          background: linear-gradient(
-            to bottom,
-            rgba(255,255,255,0),
-            rgba(255,255,255,0) 50%,
-            rgba(0, 0, 0, 0.45) 50%,
-            rgba(0, 0, 0, 0.45)
-          );
-          background-size: 100% 4px;
-        }
-        .glitch-text {
-          text-shadow: 2px 0 #00ff88, -2px 0 #003311;
-        }
         .no-scrollbar::-webkit-scrollbar {
           display: none;
         }

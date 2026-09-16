@@ -393,7 +393,7 @@ export default function Navbar() {
       </header>
 
       {/* MOBILE DRAWER */}
-      <div className={`fixed inset-0 z-[60] transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`fixed inset-0 z-60 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeMenu} />
 
         <aside
@@ -407,7 +407,7 @@ export default function Navbar() {
                 <Terminal className="h-4 w-4" />
               </span>
               <span className={`font-black tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                &lt;NM/&gt;
+                &lt;Dev/&gt;
               </span>
             </div>
             <button
