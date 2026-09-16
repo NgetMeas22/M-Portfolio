@@ -7,13 +7,12 @@ import {
   Server, 
   Wrench, 
   BookOpen, 
+  Briefcase,
   Filter, 
   Terminal, 
-  Cpu, 
   ShieldAlert, 
   Layers, 
   CheckCircle2,
-  Zap,
   Activity
 } from 'lucide-react';
 import { skills, skillCategories, skillLevelLabels } from '../../data/skills';
@@ -25,6 +24,7 @@ const categoryIcons = {
   Backend: Server,
   Database: Database,
   Tools: Wrench,
+  Productivity: Briefcase,
   Learning: BookOpen,
 };
 
@@ -289,7 +289,7 @@ export default function Skills() {
                   <span className={`absolute bottom-2 right-2 h-2.5 w-2.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-600'}`} />
 
                   {groupedSkills[category.id].map((skill) => {
-                    const pct = levelPercent[skill.level] ?? 50;
+                    const pct = skill.percentage ?? levelPercent[skill.level] ?? 50;
                     return (
                       <div
                         key={skill.name}
@@ -329,8 +329,8 @@ export default function Skills() {
                           <div
                             className={`h-full rounded-sm transition-all duration-700 ${
                               isDark
-                                ? 'bg-linear-to-r from-emerald-600 via-emerald-400 to-teal-300 shadow-[0_0_10px_rgba(16,185,129,0.7)]'
-                                : 'bg-linear-to-r from-emerald-500 to-teal-600'
+                                ? 'bg-gradient-to-r from-emerald-600 via-emerald-400 to-teal-300 shadow-[0_0_10px_rgba(16,185,129,0.7)]'
+                                : 'bg-gradient-to-r from-emerald-500 to-teal-600'
                             }`}
                             style={{ width: `${pct}%` }}
                           />

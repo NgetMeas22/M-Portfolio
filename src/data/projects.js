@@ -63,7 +63,7 @@ export const projects = [
     technologies: ['React TypeScript', 'Java', 'Spring Boot', 'MySQL', 'Docker'],
     github: 'https://github.com/NgetMeas22',
     live: null,
-    category: ['React', 'Java', 'Spring Boot', 'MySQL', 'Team Project'],
+    category: ['React TS','Java Spring Boot', 'MySQL', 'Team Project'],
     isTeamProject: true,
     featured: true,
     year: '2026'
@@ -72,39 +72,6 @@ export const projects = [
   // ========================================================
   // កម្រិតទី ២៖ DECOUPLED FULL STACK (VUE/REACT + LARAVEL API)
   // ========================================================
-
-  // 3. G2-2-SUN MPOS (TEAM PROJECT)
-  {
-    id: 'g2-2-sun-mpos',
-    slug: 'g2-2-sun-mpos',
-    title: 'G2-2-Sun MPOS',
-    description: 'Modern Point of Sale (POS) and inventory control solution built as a collaborative team application using Vue.js, Tailwind CSS, Laravel API, and MySQL.',
-    descriptionKh: 'ប្រព័ន្ធចំណុចលក់ (POS) ទំនើបសាងសង់ជាក្រុមជាមួយ Vue.js, Tailwind CSS, Laravel backend, និង REST API។',
-    problem: 'Retail operations require low-latency checkout processing, barcode compatibility, multi-location stock tracking, and shift balancing.',
-    problemKh: 'អាជីវកម្មត្រូវការប្រព័ន្ធម៉ាស៊ីនគិតប្រាក់លឿន និងអាចទុកចិត្តបានដើម្បីដោះស្រាយប្រតិបត្តិការ និងសារពើភ័ណ្ឌ។',
-    solution: 'Constructed an MPOS platform pairing a reactive Vue.js client with an optimized Laravel API database backend.',
-    solutionKh: 'បានអភិវឌ្ឍប្រព័ន្ធពេញលេញ POS ជាមួយ Vue.js + Tailwind CSS frontend ដែលភ្ជាប់ទៅ Laravel API backend ជាមួយ MySQL database។',
-    features: [
-      'Fast barcode-friendly checkout flow and receipt generation',
-      'Live multi-warehouse inventory auditing and threshold alerts',
-      'Daily/Monthly financial analytics and telemetry metrics',
-      'Shift tracking and multi-cashier authorization'
-    ],
-    featuresKh: [
-      'ប្រព័ន្ធគិតលុយរហ័ស និងការបោះពុម្ពវិក្កយបត្រ',
-      'ការតាមដានស្តុកទំនិញច្រើនសាខា',
-      'របាយការណ៍ហិរញ្ញវត្ថុប្រចាំថ្ងៃ និងខែ',
-      'ការគ្រប់គ្រងវេន និងអ្នកគិតលុយច្រើននាក់'
-    ],
-    technologies: ['Vue.js', 'Tailwind CSS', 'Laravel', 'PHP', 'MySQL', 'REST API'],
-    github: 'https://github.com/NgetMeas22',
-    live: 'https://g2-2-sun-mpos-front.vercel.app',
-    category: ['Vue', 'Laravel', 'PHP', 'MySQL', 'Team Project', 'Full Stack'],
-    isTeamProject: true,
-    featured: true,
-    year: '2026'
-  },
-
   // 4. CLINIC MANAGEMENT SYSTEM
   {
     id: 'clinic-management-system',
@@ -136,7 +103,7 @@ export const projects = [
     featured: true,
     year: '2026'
   },
-
+  
   // ==========================================
   // កម្រិតទី ៣៖ MODERN SPA (REACT & VITE)
   // ==========================================
@@ -145,7 +112,7 @@ export const projects = [
   {
     id: 'portfolio-dark',
     slug: 'portfolio-dark',
-    title: 'My Portfolio',
+    title: 'Personal Portfolio II',
     description: 'Personal cyber-terminal styled developer portfolio engineered with React and Tailwind CSS, featuring telemetry stats, bilingual support, and dark theme toggles.',
     descriptionKh: 'គេហទំព័រ Portfolio ផ្ទាល់ខ្លួន បង្កើតឡើងដោយ React និង Tailwind CSS ជាមួយមុខងារប្តូរភាសា និង Theme។',
     problem: 'Developers need a differentiated personal showcase that clearly presents both single and collaborative repositories with filtering capabilities.',
@@ -164,7 +131,7 @@ export const projects = [
       'ប្រព័ន្ធ Filter និង Search គម្រោងបានរហ័ស',
       'ទំព័របង្ហាញព័ត៌មានលម្អិតនៃគម្រោងនីមួយៗ'
     ],
-    technologies: ['React', 'Vite', 'Tailwind CSS', 'Lucide Icons'],
+    technologies: ['React', 'Vite', 'Tailwind CSS'],
     github: 'https://github.com/NgetMeas22',
     live: 'm-portfolio-nine-mu.vercel.app',
     category: ['React', 'Frontend'],
@@ -173,38 +140,7 @@ export const projects = [
     year: '2026'
   },
 
-  // 6. CAFE GOLDEN
-  {
-    id: 'cafe-golden',
-    slug: 'cafe-golden',
-    title: 'Cafe Golden',
-    description: 'Modern coffee lounge and bakery web storefront crafted in React and Vite with fluid catalog navigation, state-driven ordering, and responsive styling.',
-    descriptionKh: 'គេហទំព័របង្ហាញម៉ឺនុយហាងកាហ្វេ និងនំប៉័ងបែបទំនើប បង្កើតឡើងជាមួយ React និង Vite។',
-    problem: 'Traditional paper menus lack customer engagement and do not allow patrons to calculate order costs before approaching counters.',
-    problemKh: 'កាហ្វេត្រូវការប្រព័ន្ធម៉ឺនុយឌីជីថលដើម្បីបង្ហាញផលិតផល និងដោះស្រាយការបញ្ជាអតិថិជនប្រកបដោយប្រសិទ្ធភាព។',
-    solution: 'Developed an interactive SPA powered by Vite and React hooks that provides instant item filtering and shopping cart computation.',
-    solutionKh: 'បានបង្កើតកម្មវិធី React + Vite ជាមួយម៉ឺនុយឌីជីថល ប្រព័ន្ធកន្ត្រកទំនិញ និងការរចនា UI ឆ្លើយតបយ៉ាងរលូន។',
-    features: [
-      'Blazing fast route rendering powered by Vite build tooling',
-      'Interactive beverage and bakery catalog browser',
-      'Client-side cart calculation with local cache persistence',
-      'Mobile-optimized touch layout'
-    ],
-    featuresKh: [
-      'ល្បឿនលឿនជាមួយ Vite build core',
-      'ការជ្រើសរើសម៉ឺនុយភេសជ្ជៈយ៉ាងរលូន',
-      'ការគិតប្រាក់ក្នុង Cart ដោយប្រើ Local Storage',
-      'បង្ហាញបានយ៉ាងស្អាតលើគ្រប់ទូរស័ព្ទ និងកុំព្យូទ័រ'
-    ],
-    technologies: ['React', 'Vite', 'JavaScript', 'Tailwind CSS'],
-    github: 'https://github.com/NgetMeas22/Cafe-Golden',
-    live: 'https://cafe-golden.vercel.app',
-    category: ['React', 'Frontend'],
-    isTeamProject: false,
-    featured: false,
-    year: '2025'
-  },
-
+  
   // ===================================================
   // កម្រិតទី ៤៖ SERVER-SIDE & FULL STACK (PHP & MYSQL)
   // ===================================================
@@ -232,7 +168,7 @@ export const projects = [
       'ការគ្រប់គ្រងច្បាប់ឈប់សម្រាក',
       'ប្រព័ន្ធប្រាក់ខែ'
     ],
-    technologies: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript'],
+    technologies: ['PHP', 'MySQL', 'TailwindCSS', 'JavaScript'],
     github: 'https://github.com/NgetMeas22/Employee-Management-SYS',
     live: 'https://genzsys.infinityfreeapp.com',
     category: ['PHP', 'MySQL', 'Full Stack'],
@@ -264,7 +200,7 @@ export const projects = [
       'កំណត់គោលបំណងប្រចាំថ្ងៃ',
       'Dashboard ឆ្លើយតប'
     ],
-    technologies: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript'],
+    technologies: ['PHP', 'MySQL', 'TailwindCSS', 'JavaScript'],
     github: 'https://github.com/NgetMeas22/Daily-Planner',
     live: 'https://dailyplanner.infinityfreeapp.com',
     category: ['PHP', 'MySQL', 'Full Stack'],
@@ -272,8 +208,40 @@ export const projects = [
     featured: true,
     year: '2026'
   },
+  // 3. G2-2-SUN MPOS (TEAM PROJECT)
+  {
+    id: 'g2-2-sun-mpos',
+    slug: 'g2-2-sun-mpos',
+    title: 'G2-2-Sun MPOS',
+    description: 'Modern Point of Sale (POS) and inventory control solution built as a collaborative team application using Vue.js, Tailwind CSS, Laravel API, and MySQL.',
+    descriptionKh: 'ប្រព័ន្ធចំណុចលក់ (POS) ទំនើបសាងសង់ជាក្រុមជាមួយ Vue.js, Tailwind CSS, Laravel backend, និង REST API។',
+    problem: 'Retail operations require low-latency checkout processing, barcode compatibility, multi-location stock tracking, and shift balancing.',
+    problemKh: 'អាជីវកម្មត្រូវការប្រព័ន្ធម៉ាស៊ីនគិតប្រាក់លឿន និងអាចទុកចិត្តបានដើម្បីដោះស្រាយប្រតិបត្តិការ និងសារពើភ័ណ្ឌ។',
+    solution: 'Constructed an MPOS platform pairing a reactive Vue.js client with an optimized Laravel API database backend.',
+    solutionKh: 'បានអភិវឌ្ឍប្រព័ន្ធពេញលេញ POS ជាមួយ Vue.js + Tailwind CSS frontend ដែលភ្ជាប់ទៅ Laravel API backend ជាមួយ MySQL database។',
+    features: [
+      'Fast barcode-friendly checkout flow and receipt generation',
+      'Live multi-warehouse inventory auditing and threshold alerts',
+      'Daily/Monthly financial analytics and telemetry metrics',
+      'Shift tracking and multi-cashier authorization'
+    ],
+    featuresKh: [
+      'ប្រព័ន្ធគិតលុយរហ័ស និងការបោះពុម្ពវិក្កយបត្រ',
+      'ការតាមដានស្តុកទំនិញច្រើនសាខា',
+      'របាយការណ៍ហិរញ្ញវត្ថុប្រចាំថ្ងៃ និងខែ',
+      'ការគ្រប់គ្រងវេន និងអ្នកគិតលុយច្រើននាក់'
+    ],
+    technologies: ['Vue.js', 'Tailwind CSS', 'Laravel', 'PHP', 'MySQL', 'REST API'],
+    github: 'https://github.com/NgetMeas22',
+    live: 'https://g2-2-sun-mpos-front.vercel.app',
+    category: ['Vue', 'Laravel', 'PHP', 'MySQL', 'Team Project', 'Team Project'],
+    isTeamProject: true,
+    featured: true,
+    year: '2026'
+  },
 
-  // 9. MEXAS RESTAURANT
+
+// 9. MEXAS RESTAURANT
   {
     id: 'mexas-restaurant',
     slug: 'mexas-restaurant',
@@ -296,16 +264,212 @@ export const projects = [
       'ការទទួលការបញ្ជាទិញម្ហូប',
       'សុវត្ថិភាពទិន្នន័យខ្ពស់ជាមួយ SQL Parameter Binding'
     ],
-    technologies: ['PHP', 'MySQL', 'JavaScript', 'CSS3'],
+    technologies: ['PHP', 'MySQL', 'JavaScript', 'CSS'],
     github: 'https://github.com/NgetMeas22/MeXas-Restaurant',
     live: null,
-    category: ['PHP', 'MySQL', 'Backend', 'Full Stack'],
+    category: ['PHP', 'MySQL'],
     isTeamProject: false,
     featured: false,
     year: '2025'
   },
 
-  // ========================================================
+// 14. PERSONAL PORTFOLIO
+  {
+    id: 'personal-portfolio',
+    slug: 'personal-portfolio',
+    title: 'Personal Portfolio I',
+    description: 'Modern, high-performance personal developer portfolio website built with React and Vite featuring responsive UI and interactive showcase components.',
+    descriptionKh: 'គេហទំព័រផលប័ត្រផ្ទាល់ខ្លួន (Portfolio) ទំនើប និងមានល្បឿនលឿន បង្កើតឡើងដោយ React និង Vite ជាមួយការរចនាទាក់ទាញ និងឆ្លើយតបគ្រប់ឧបករណ៍។',
+    problem: 'Developers need an engaging, fast-loading, and responsive platform to present their skills, technical certifications, and featured project repositories.',
+    problemKh: 'អ្នកអភិវឌ្ឍន៍ត្រូវការគេហទំព័រផ្ទាល់ខ្លួនមួយដែលមានល្បឿនលឿន និងទាក់ទាញ ដើម្បីបង្ហាញពីសមត្ថភាព វិញ្ញាបនបត្រ និងគម្រោងស្នាដៃផ្សេងៗ។',
+    solution: 'Engineered a clean, component-driven frontend architecture leveraging Vite for blazing-fast bundling and seamless performance.',
+    solutionKh: 'បានបង្កើតគេហទំព័រផ្អែកលើ Component ដោយប្រើប្រាស់ Vite ជួយឱ្យការដំណើរការទំព័រ និងការបើកមើលគម្រោងមានភាពរលូនបំផុត។',
+    features: [
+      'Component-based architecture powered by React & Vite',
+      'Fully responsive UI layout optimized for all device screens',
+      'Interactive project showcase and certificate viewer',
+      'Direct social connections, deployment tracking, and contact integration'
+    ],
+    featuresKh: [
+      'ស្ថាបត្យកម្មផ្អែកលើ Component បង្កើតដោយ React & Vite',
+      'ទម្រង់ Layout ឆ្លើយតបយ៉ាងពេញលេញលើគ្រប់ទំហំអេក្រង់',
+      'ផ្ទាំងបង្ហាញគម្រោង និងការពិនិត្យមើលវិញ្ញាបនបត្រអន្តរកម្ម',
+      'ការភ្ជាប់បណ្តាញសង្គម និងទម្រង់សម្រាប់ទំនាក់ទំនង'
+    ],
+    technologies: ['React', 'Vite', 'JavaScript', 'HTML5', 'CSS3'],
+    github: 'https://github.com/NgetMeas22/portfolio',
+    live: 'https://portfolio-eight-kappa-69.vercel.app',
+    category: ['Frontend'],
+    isTeamProject: false,
+    featured: true,
+    year: '2025'
+  },
+  // 6. CAFE GOLDEN
+  {
+    id: 'cafe-golden',
+    slug: 'cafe-golden',
+    title: 'Cafe Golden',
+    description: 'Modern coffee lounge and bakery web storefront crafted in React and Vite with fluid catalog navigation, state-driven ordering, and responsive styling.',
+    descriptionKh: 'គេហទំព័របង្ហាញម៉ឺនុយហាងកាហ្វេ និងនំប៉័ងបែបទំនើប បង្កើតឡើងជាមួយ React និង Vite។',
+    problem: 'Traditional paper menus lack customer engagement and do not allow patrons to calculate order costs before approaching counters.',
+    problemKh: 'កាហ្វេត្រូវការប្រព័ន្ធម៉ឺនុយឌីជីថលដើម្បីបង្ហាញផលិតផល និងដោះស្រាយការបញ្ជាអតិថិជនប្រកបដោយប្រសិទ្ធភាព។',
+    solution: 'Developed an interactive SPA powered by Vite and React hooks that provides instant item filtering and shopping cart computation.',
+    solutionKh: 'បានបង្កើតកម្មវិធី React + Vite ជាមួយម៉ឺនុយឌីជីថល ប្រព័ន្ធកន្ត្រកទំនិញ និងការរចនា UI ឆ្លើយតបយ៉ាងរលូន។',
+    features: [
+      'Blazing fast route rendering powered by Vite build tooling',
+      'Interactive beverage and bakery catalog browser',
+      'Client-side cart calculation with local cache persistence',
+      'Mobile-optimized touch layout'
+    ],
+    featuresKh: [
+      'ល្បឿនលឿនជាមួយ Vite build core',
+      'ការជ្រើសរើសម៉ឺនុយភេសជ្ជៈយ៉ាងរលូន',
+      'ការគិតប្រាក់ក្នុង Cart ដោយប្រើ Local Storage',
+      'បង្ហាញបានយ៉ាងស្អាតលើគ្រប់ទូរស័ព្ទ និងកុំព្យូទ័រ'
+    ],
+    technologies: ['React', 'Vite', 'JavaScript', 'Tailwind CSS'],
+    github: 'https://github.com/NgetMeas22/Cafe-Golden',
+    live: 'https://cafe-golden.vercel.app',
+    category: ['React', 'Frontend'],
+    isTeamProject: false,
+    featured: false,
+    year: '2025'
+  },
+  // 13. CAR DEALERSHIP
+  {
+    id: 'car-dealership',
+    slug: 'car-dealership',
+    title: 'Car Dealership',
+    description: 'High-performance automotive showroom web portal built purely with semantic HTML5 structures and custom CSS3 responsive layouts.',
+    descriptionKh: 'គេហទំព័របង្ហាញរថយន្ត និងសេវាកម្មទិញលក់រថយន្ត បង្កើតឡើងដោយ HTML5 និង CSS3 សុទ្ធ។',
+    problem: 'Vehicle showrooms require high-speed asset delivery without client-side script overhead to ensure optimal initial page load speeds.',
+    problemKh: 'អ្នកលក់រថយន្តត្រូវការវេទិកាតាមអ៊ីនធឺណិតដើម្បីបង្ហាញសារពើភ័ណ្ឌរថយន្តរបស់ពួកគេជាមួយល្បឿនផ្ទុករហ័ស។',
+    solution: 'Designed a lightweight frontend interface using flexbox, CSS grid, and optimized static asset packaging.',
+    solutionKh: 'បានបង្កើតវេទិកាអ្នកលក់រថយន្តឆ្លើយតបជាមួយ CSS Grid និង Flexbox ដោយគ្មាន Framework ធ្ងន់ៗ។',
+    features: [
+      'Pure CSS layout grid and responsive vehicle cards',
+      'Zero dependency footprint for near-instant rendering',
+      'Vehicle specification comparison panels',
+      'Direct contact request and appraisal booking forms'
+    ],
+    featuresKh: [
+      'រៀបចំ Layout ដោយ CSS Grid និង Flexbox សុទ្ធ',
+      'ល្បឿនដំណើរការរហ័ស គ្មាន Framework ធ្ងន់ៗ',
+      'ផ្ទាំងបង្ហាញលក្ខណៈបច្ចេកទេសរថយន្ត',
+      'ទម្រង់ទំនាក់ទំនងសម្រាប់សាកសួរតម្លៃ'
+    ],
+    technologies: ['HTML5', 'CSS3', 'JavaScript'],
+    github: 'https://github.com/NgetMeas22/Car-Dealership',
+    live: 'https://car-dealership-five-snowy.vercel.app',
+    category: ['Frontend'],
+    isTeamProject: false,
+    featured: false,
+    year: '2025'
+  },
+
+
+  // 14. ACCESSORIES SHOP
+  {
+    id: 'accessories-shop',
+    slug: 'accessories-shop',
+    title: 'Accessories Shop',
+    description: 'Clean e-commerce product catalog designed strictly with semantic HTML (56.1%) and structured custom CSS (43.9%) for zero-dependency payload efficiency.',
+    descriptionKh: 'ហាងលក់គ្រឿងបន្លាស់ និងសម្ភារៈអេឡិចត្រូនិក បង្កើតឡើងដោយប្រើប្រាស់ HTML (56.1%) និង CSS (43.9%) សុទ្ធ។',
+    problem: 'Online product galleries frequently suffer from excessive client dependencies and slow mobile network performance.',
+    problemKh: 'វិបសាយលក់ទំនិញភាគច្រើនប្រើប្រាស់ Library ច្រើនហួសហេតុ ធ្វើឱ្យមានភាពយឺតយ៉ាវលើទូរស័ព្ទដៃ។',
+    solution: 'Engineered an ultra-lean storefront employing strict markup semantic hierarchies and custom CSS visual hover transformations.',
+    solutionKh: 'បានរៀបចំរចនាសម្ព័ន្ធកូដកម្រិតស្រាលដោយប្រើ HTML 56.1% និង CSS 43.9% ដើម្បីធានាល្បឿនលឿនបំផុត។',
+    features: [
+      'Measured balance: 56.1% HTML semantic structure / 43.9% CSS styling',
+      'Responsive product gallery cards with zoom hover states',
+      'Zero dependency runtime footprint for immediate paint times',
+      'Category badges and price highlight markers'
+    ],
+    featuresKh: [
+      'រចនាសម្ព័ន្ធ HTML 56.1% និង CSS 43.9%',
+      'ផ្ទាំងបង្ហាញទំនិញទំនើបមាន Hover Animation',
+      'ដំណើរការលឿនបំផុតដោយមិនប្រើប្រាស់ Library ខាងក្រៅ',
+      'ការបែងចែកប្រភេទផលិតផល និងស្លាកតម្លៃច្បាស់លាស់'
+    ],
+    technologies: ['HTML5', 'CSS3'],
+    github: 'https://github.com/NgetMeas22',
+    live: 'https://accessories-shop-two.vercel.app',
+    category: ['Frontend'],
+    isTeamProject: false,
+    featured: false,
+    year: '2025'
+  },
+  // 11. GENZ SHOP E-COMMERCE
+  {
+    id: 'genz-shop',
+    slug: 'genz-shop',
+    title: 'GenZ Shop E-commerce',
+    description: 'An e-commerce web application designed for young consumers featuring vibrant aesthetics and reactive shopping cart modules.',
+    descriptionKh: 'កម្មវិធី web ពាណិជ្ជកម្មអេឡិចត្រូនិចដែលរចនាសម្រាប់ទស្សនិកជន Gen Z។',
+    problem: 'Creating an e-commerce platform tailored for youth audiences with an engaging and straightforward shopping flow.',
+    problemKh: 'បង្កើតវេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចដែលងាយស្រួលសម្រាប់អ្នកប្រើប្រាស់វ័យក្មេងជាមួយ UI/UX ទំនើប។',
+    solution: 'Built an e-commerce frontend with instant product listing, search filters, and local checkout calculation.',
+    solutionKh: 'បានបង្កើត frontend ពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបជាមួយបញ្ជីផលិតផល មុខងាររទេះទិញទំនិញ និងការរចនាឆ្លើយតប។',
+    features: [
+      'Dynamic product listing showcase',
+      'Interactive client-side shopping cart',
+      'Full viewport responsive design',
+      'Vibrant Gen-Z styling and palette'
+    ],
+    featuresKh: [
+      'បញ្ជីផលិតផល',
+      'រទេះទិញទំនិញ',
+      'ការរចនាឆ្លើយតប',
+      'UI/UX ទំនើប'
+    ],
+    technologies: ['HTML5', 'CSS', 'JavaScript'],
+    github: 'https://github.com/NgetMeas22/GenZ_Shop_E-commerce',
+    live: 'https://genz-shop-psi.vercel.app',
+    category: ['Frontend'],
+    isTeamProject: false,
+    featured: false,
+    year: '2026'
+  },
+
+  
+
+
+  // ==========================================
+  // កម្រិតទី ៦៖ STATIC FRONTEND (HTML5 & CSS3)
+  // ==========================================
+
+  // 12. PRESSMART
+  {
+    id: 'pressmart',
+    slug: 'pressmart',
+    title: 'PressMart',
+    description: 'Clean e-commerce digital marketplace platform project for merchandise discovery and order transactions.',
+    descriptionKh: 'គម្រោងវេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបសម្រាប់ការលក់ផលិតផល។',
+    problem: 'Retailers need simple, clean digital store layouts that showcase items without distracting visual clutter.',
+    problemKh: 'សាងសង់វេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបសម្រាប់ការលក់ផលិតផល។',
+    solution: 'Developed an uncluttered e-commerce storefront with structured product galleries and item detail cards.',
+    solutionKh: 'បានអភិវឌ្ឍ frontend ពាណិជ្ជកម្មអេឡិចត្រូនិចជាមួយការបង្ហាញផលិតផល និងមុខងារទិញទំនិញ។',
+    features: [
+      'Structured catalog layout',
+      'Custom styled CSS interface components',
+      'Product quick-view interactions',
+      'Adaptive screen breakpoint support'
+    ],
+    featuresKh: [
+      'ការបង្ហាញផលិតផល',
+      'មុខងារទិញទំនិញ',
+      'CSS styling',
+      'ប្លង់ឆ្លើយតប'
+    ],
+    technologies: ['HTML', 'CSS', 'JavaScript'],
+    github: 'https://github.com/NgetMeas22/PressMart',
+    live: null,
+    category: ['Frontend'],
+    isTeamProject: false,
+    featured: false,
+    year: '2025'
+  },
+    // ========================================================
   // កម្រិតទី ៥៖ FRONTEND SCRIPTING & LOGIC (JS / PYTHON)
   // ========================================================
 
@@ -339,137 +503,7 @@ export const projects = [
     isTeamProject: false,
     featured: false,
     year: '2026'
-  },
+  } 
 
-  // 11. GENZ SHOP E-COMMERCE
-  {
-    id: 'genz-shop',
-    slug: 'genz-shop',
-    title: 'GenZ Shop E-commerce',
-    description: 'An e-commerce web application designed for young consumers featuring vibrant aesthetics and reactive shopping cart modules.',
-    descriptionKh: 'កម្មវិធី web ពាណិជ្ជកម្មអេឡិចត្រូនិចដែលរចនាសម្រាប់ទស្សនិកជន Gen Z។',
-    problem: 'Creating an e-commerce platform tailored for youth audiences with an engaging and straightforward shopping flow.',
-    problemKh: 'បង្កើតវេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចដែលងាយស្រួលសម្រាប់អ្នកប្រើប្រាស់វ័យក្មេងជាមួយ UI/UX ទំនើប។',
-    solution: 'Built an e-commerce frontend with instant product listing, search filters, and local checkout calculation.',
-    solutionKh: 'បានបង្កើត frontend ពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបជាមួយបញ្ជីផលិតផល មុខងាររទេះទិញទំនិញ និងការរចនាឆ្លើយតប។',
-    features: [
-      'Dynamic product listing showcase',
-      'Interactive client-side shopping cart',
-      'Full viewport responsive design',
-      'Vibrant Gen-Z styling and palette'
-    ],
-    featuresKh: [
-      'បញ្ជីផលិតផល',
-      'រទេះទិញទំនិញ',
-      'ការរចនាឆ្លើយតប',
-      'UI/UX ទំនើប'
-    ],
-    technologies: ['HTML5', 'CSS3', 'JavaScript'],
-    github: 'https://github.com/NgetMeas22/GenZ_Shop_E-commerce',
-    live: 'https://genz-shop-psi.vercel.app',
-    category: ['Frontend'],
-    isTeamProject: false,
-    featured: false,
-    year: '2026'
-  },
 
-  // ==========================================
-  // កម្រិតទី ៦៖ STATIC FRONTEND (HTML5 & CSS3)
-  // ==========================================
-
-  // 12. PRESSMART
-  {
-    id: 'pressmart',
-    slug: 'pressmart',
-    title: 'PressMart',
-    description: 'Clean e-commerce digital marketplace platform project for merchandise discovery and order transactions.',
-    descriptionKh: 'គម្រោងវេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបសម្រាប់ការលក់ផលិតផល។',
-    problem: 'Retailers need simple, clean digital store layouts that showcase items without distracting visual clutter.',
-    problemKh: 'សាងសង់វេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបសម្រាប់ការលក់ផលិតផល។',
-    solution: 'Developed an uncluttered e-commerce storefront with structured product galleries and item detail cards.',
-    solutionKh: 'បានអភិវឌ្ឍ frontend ពាណិជ្ជកម្មអេឡិចត្រូនិចជាមួយការបង្ហាញផលិតផល និងមុខងារទិញទំនិញ។',
-    features: [
-      'Structured catalog layout',
-      'Custom styled CSS interface components',
-      'Product quick-view interactions',
-      'Adaptive screen breakpoint support'
-    ],
-    featuresKh: [
-      'ការបង្ហាញផលិតផល',
-      'មុខងារទិញទំនិញ',
-      'CSS styling',
-      'ប្លង់ឆ្លើយតប'
-    ],
-    technologies: ['HTML5', 'CSS3', 'JavaScript'],
-    github: 'https://github.com/NgetMeas22/PressMart',
-    live: null,
-    category: ['Frontend'],
-    isTeamProject: false,
-    featured: false,
-    year: '2025'
-  },
-
-  // 13. CAR DEALERSHIP
-  {
-    id: 'car-dealership',
-    slug: 'car-dealership',
-    title: 'Car Dealership',
-    description: 'High-performance automotive showroom web portal built purely with semantic HTML5 structures and custom CSS3 responsive layouts.',
-    descriptionKh: 'គេហទំព័របង្ហាញរថយន្ត និងសេវាកម្មទិញលក់រថយន្ត បង្កើតឡើងដោយ HTML5 និង CSS3 សុទ្ធ។',
-    problem: 'Vehicle showrooms require high-speed asset delivery without client-side script overhead to ensure optimal initial page load speeds.',
-    problemKh: 'អ្នកលក់រថយន្តត្រូវការវេទិកាតាមអ៊ីនធឺណិតដើម្បីបង្ហាញសារពើភ័ណ្ឌរថយន្តរបស់ពួកគេជាមួយល្បឿនផ្ទុករហ័ស។',
-    solution: 'Designed a lightweight frontend interface using flexbox, CSS grid, and optimized static asset packaging.',
-    solutionKh: 'បានបង្កើតវេទិកាអ្នកលក់រថយន្តឆ្លើយតបជាមួយ CSS Grid និង Flexbox ដោយគ្មាន Framework ធ្ងន់ៗ។',
-    features: [
-      'Pure CSS layout grid and responsive vehicle cards',
-      'Zero dependency footprint for near-instant rendering',
-      'Vehicle specification comparison panels',
-      'Direct contact request and appraisal booking forms'
-    ],
-    featuresKh: [
-      'រៀបចំ Layout ដោយ CSS Grid និង Flexbox សុទ្ធ',
-      'ល្បឿនដំណើរការរហ័ស គ្មាន Framework ធ្ងន់ៗ',
-      'ផ្ទាំងបង្ហាញលក្ខណៈបច្ចេកទេសរថយន្ត',
-      'ទម្រង់ទំនាក់ទំនងសម្រាប់សាកសួរតម្លៃ'
-    ],
-    technologies: ['HTML5', 'CSS3', 'JavaScript'],
-    github: 'https://github.com/NgetMeas22/Car-Dealership',
-    live: 'https://car-dealership-five-snowy.vercel.app',
-    category: ['Frontend'],
-    isTeamProject: false,
-    featured: false,
-    year: '2025'
-  },
-
-  // 14. ACCESSORIES SHOP
-  {
-    id: 'accessories-shop',
-    slug: 'accessories-shop',
-    title: 'Accessories Shop',
-    description: 'Clean e-commerce product catalog designed strictly with semantic HTML (56.1%) and structured custom CSS (43.9%) for zero-dependency payload efficiency.',
-    descriptionKh: 'ហាងលក់គ្រឿងបន្លាស់ និងសម្ភារៈអេឡិចត្រូនិក បង្កើតឡើងដោយប្រើប្រាស់ HTML (56.1%) និង CSS (43.9%) សុទ្ធ។',
-    problem: 'Online product galleries frequently suffer from excessive client dependencies and slow mobile network performance.',
-    problemKh: 'វិបសាយលក់ទំនិញភាគច្រើនប្រើប្រាស់ Library ច្រើនហួសហេតុ ធ្វើឱ្យមានភាពយឺតយ៉ាវលើទូរស័ព្ទដៃ។',
-    solution: 'Engineered an ultra-lean storefront employing strict markup semantic hierarchies and custom CSS visual hover transformations.',
-    solutionKh: 'បានរៀបចំរចនាសម្ព័ន្ធកូដកម្រិតស្រាលដោយប្រើ HTML 56.1% និង CSS 43.9% ដើម្បីធានាល្បឿនលឿនបំផុត។',
-    features: [
-      'Measured balance: 56.1% HTML semantic structure / 43.9% CSS styling',
-      'Responsive product gallery cards with zoom hover states',
-      'Zero dependency runtime footprint for immediate paint times',
-      'Category badges and price highlight markers'
-    ],
-    featuresKh: [
-      'រចនាសម្ព័ន្ធ HTML 56.1% និង CSS 43.9%',
-      'ផ្ទាំងបង្ហាញទំនិញទំនើបមាន Hover Animation',
-      'ដំណើរការលឿនបំផុតដោយមិនប្រើប្រាស់ Library ខាងក្រៅ',
-      'ការបែងចែកប្រភេទផលិតផល និងស្លាកតម្លៃច្បាស់លាស់'
-    ],
-    technologies: ['HTML5', 'CSS3'],
-    github: 'https://github.com/NgetMeas22',
-    live: 'https://accessories-shop-two.vercel.app',
-    category: ['Frontend'],
-    isTeamProject: false,
-    featured: false,
-    year: '2025'
-  }
 ];
