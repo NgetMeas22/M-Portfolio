@@ -3,14 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { 
-  Eye, 
   Search, 
   ExternalLink, 
   Terminal, 
-  Layers, 
-  Filter, 
   ArrowUpRight, 
-  Cpu, 
   FolderGit2, 
   Activity 
 } from 'lucide-react';
@@ -69,7 +65,8 @@ export default function Projects() {
         (project) =>
           project.title.toLowerCase().includes(query) ||
           project.description?.toLowerCase().includes(query) ||
-          project.descriptionKh?.toLowerCase().includes(query)
+          project.descriptionKh?.toLowerCase().includes(query) ||
+          project.technologies?.some((tech) => tech.toLowerCase().includes(query))
       );
     }
 
@@ -104,7 +101,6 @@ export default function Projects() {
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-
         {/* HEADER */}
         <div className="mb-12 text-center" data-aos="fade-up">
           <span
@@ -279,14 +275,13 @@ export default function Projects() {
                   : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-lg shadow-xs'
               }`}
             >
-              {/* CORNER RETICLES */}
+              {/* RETICLES */}
               <span className={`absolute top-2 left-2 h-2.5 w-2.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
               <span className={`absolute top-2 right-2 h-2.5 w-2.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
               <span className={`absolute bottom-2 left-2 h-2.5 w-2.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
               <span className={`absolute bottom-2 right-2 h-2.5 w-2.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
 
               <div className="flex flex-col gap-4">
-                {/* CATEGORIES PILLS */}
                 <div className="flex flex-wrap items-center gap-1.5">
                   {project.category.map((cat) => (
                     <span
@@ -302,7 +297,6 @@ export default function Projects() {
                   ))}
                 </div>
 
-                {/* TITLE */}
                 <h3
                   className={`text-lg sm:text-xl font-bold uppercase tracking-tight transition-colors ${
                     isDark
@@ -313,7 +307,6 @@ export default function Projects() {
                   {project.title}
                 </h3>
 
-                {/* DESCRIPTION */}
                 <p
                   className={`text-xs sm:text-sm leading-relaxed line-clamp-3 ${
                     isDark ? 'text-slate-400' : 'text-slate-600'
@@ -322,7 +315,6 @@ export default function Projects() {
                   {language === 'kh' ? project.descriptionKh : project.description}
                 </p>
 
-                {/* TECH STACK TAGS */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {project.technologies.map((tech) => (
                     <span
@@ -339,7 +331,6 @@ export default function Projects() {
                 </div>
               </div>
 
-              {/* CARD ACTION FOOTER */}
               <div
                 className={`mt-6 pt-4 border-t flex items-center justify-between gap-3 ${
                   isDark ? 'border-emerald-950' : 'border-emerald-100'
@@ -347,7 +338,7 @@ export default function Projects() {
               >
                 <button
                   type="button"
-                  onClick={() => navigate(`/projects/${project.id}`)}
+                  onClick={() => navigate(`/projects/${project.slug || project.id}`)}
                   className={`cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
                     isDark
                       ? 'text-emerald-400 hover:text-emerald-300 hover:underline'
@@ -409,7 +400,6 @@ export default function Projects() {
             </button>
           </div>
         )}
-
       </div>
     </section>
   );
