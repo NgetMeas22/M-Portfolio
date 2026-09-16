@@ -9,7 +9,6 @@ import {
   Activity, 
   Radio, 
   ShieldCheck, 
-  Clock, 
   KeyRound, 
   CheckCircle2, 
   Copy, 
@@ -31,14 +30,19 @@ const inputClass = (isDark) =>
 const errorClass = (isDark) =>
   isDark ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-500/20' : 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20';
 
+// មុខងារជំនួយសម្រាប់គេចពីសញ្ញាពិសេសក្នុង Telegram Markdown
+const escapeMarkdown = (text = '') => {
+  return String(text).replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
+};
+
 export default function Contact() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
   const [copiedKey, setCopiedKey] = useState(false);
 
   useEffect(() => {
@@ -72,15 +76,46 @@ export default function Contact() {
     if (!validate()) return;
 
     setStatus('sending');
+
+    const TELEGRAM_BOT_TOKEN = '8795346738:AAFqwRXOye_sRPAlh1F_FnWaH81uE-pTkBw';
+    const TELEGRAM_CHAT_ID = '6494480634';
+
+    const textPayload = `
+🚀 *NEW PORTFOLIO MESSAGE*
+--------------------------------
+👤 *Name:* ${escapeMarkdown(form.name)}
+📧 *Email:* ${escapeMarkdown(form.email)}
+📱 *Phone:* ${escapeMarkdown(form.phone || 'N/A')}
+📌 *Subject:* ${escapeMarkdown(form.subject)}
+
+📝 *Message:*
+${escapeMarkdown(form.message)}
+    `.trim();
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      if (!response.ok) throw new Error('Request failed');
-      setStatus('success');
-      setForm({ name: '', email: '', phone: '', subject: '', message: '' });
+      const response = await fetch(
+        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: textPayload,
+            parse_mode: 'MarkdownV2',
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.ok) {
+        setStatus('success');
+        setForm({ name: '', email: '', phone: '', subject: '', message: '' });
+      } else {
+        setStatus('error');
+      }
     } catch {
       setStatus('error');
     }
@@ -283,7 +318,6 @@ export default function Contact() {
                         : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-md shadow-xs'
                     }`}
                   >
-                    {/* CORNER RETICLES */}
                     <span className={`absolute top-1.5 left-1.5 h-2 w-2 border-t border-l ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
                     <span className={`absolute bottom-1.5 right-1.5 h-2 w-2 border-b border-r ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
 
@@ -412,7 +446,7 @@ export default function Contact() {
                     {`>_ payload_transmission.sh`}
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold border rounded ${isDark ? 'border-emerald-500/30 text-emerald-400 bg-black' : 'border-emerald-200 text-emerald-800 bg-white'}">
+                <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold border rounded ${isDark ? 'border-emerald-500/30 text-emerald-400 bg-black' : 'border-emerald-200 text-emerald-800 bg-white'}`}>
                   <Activity className="h-3 w-3 animate-pulse text-emerald-500" /> BUFFER: READY
                 </span>
               </div>
@@ -466,7 +500,11 @@ export default function Contact() {
                     }`}
                   >
                     <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0" />
-                    <span>{t.contact.success}</span>
+                    <span>
+                      {language === 'kh' 
+                        ? 'សារត្រូវបានបញ្ជូនទៅ Telegram ដោយជោគជ័យ!' 
+                        : t.contact.success}
+                    </span>
                   </div>
                 )}
 
@@ -479,7 +517,11 @@ export default function Contact() {
                     }`}
                   >
                     <ShieldCheck className="h-5 w-5 text-rose-500 shrink-0" />
-                    <span>{t.contact.error}</span>
+                    <span>
+                      {language === 'kh' 
+                        ? 'ការផ្ញើទៅ Telegram បរាជ័យ។ សូមព្យាយាមម្តងទៀត។' 
+                        : t.contact.error}
+                    </span>
                   </div>
                 )}
 
