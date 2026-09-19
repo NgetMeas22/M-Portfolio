@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Mail,
@@ -141,6 +141,44 @@ function MatrixRain({ isDark }) {
   return <canvas ref={canvasRef} className="matrix-rain opacity-50" aria-hidden="true" />;
 }
 
+function useRotatingRole(roleText, { typeSpeed = 45, hold = 2200, transition = 220 } = {}) {
+  const lines = useMemo(() => (roleText ? roleText.split('\n') : []), [roleText]);
+  const [index, setIndex] = useState(0);
+  const [typed, setTyped] = useState('');
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (!lines.length) return;
+    const current = lines[index % lines.length];
+    let typing;
+    let timer;
+    let x = 0;
+
+    typing = setInterval(() => {
+      x += 1;
+      setTyped(current.slice(0, x));
+      if (x >= current.length) {
+        clearInterval(typing);
+        timer = setTimeout(() => {
+          setVisible(false);
+          timer = setTimeout(() => {
+            setIndex((i) => (i + 1) % lines.length);
+            setTyped('');
+            setVisible(true);
+          }, transition);
+        }, hold);
+      }
+    }, typeSpeed);
+
+    return () => {
+      clearInterval(typing);
+      clearTimeout(timer);
+    };
+  }, [lines, index, typeSpeed, hold, transition]);
+
+  return { typed, visible };
+}
+
 function useTerminalTyping(lines) {
   const [shown, setShown] = useState([]);
   const [currentLine, setCurrentLine] = useState(0);
@@ -203,7 +241,7 @@ export default function Home() {
 
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
   const nameParts = t.hero.name.split(' ');
-  const roleLines = t.hero.role.split('\n');
+  const role = useRotatingRole(t.hero.role);
   const { shown: terminalShown, done: terminalDone } = useTerminalTyping(terminalLogs);
 
   useEffect(() => {
@@ -304,8 +342,8 @@ export default function Home() {
                   {'/>'}
                 </h1>
 
-                {/* ROLE LIST */}
-                <div className={`space-y-1.5 text-base sm:text-xl md:text-2xl font-bold ${isDark ? '' : ''}`}>
+                {/* ROTATING ROLE */}
+                <div className={`space-y-1.5 text-base sm:text-xl md:text-2xl ${isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'}`}>
                   <div className={`flex items-center gap-2 ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
                     root@mesh:~#
                     <span
@@ -314,11 +352,13 @@ export default function Home() {
                       }`}
                     />
                   </div>
-                  {roleLines.map((line) => (
-                    <div key={line} className={isDark ? 'text-emerald-300' : 'text-emerald-800'}>
-                      {line}
-                    </div>
-                  ))}
+                  <div
+                    className={`inline-block min-h-[1.4em] transition-all duration-300 ${
+                      role.visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                    }`}
+                  >
+                    {role.typed}
+                  </div>
                 </div>
               </div>
 
