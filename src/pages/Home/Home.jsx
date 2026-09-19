@@ -141,43 +141,6 @@ function MatrixRain({ isDark }) {
   return <canvas ref={canvasRef} className="matrix-rain opacity-50" aria-hidden="true" />;
 }
 
-function useRotatingRole(lines, { typeSpeed = 45, hold = 2400, transition = 240 } = {}) {
-  const [index, setIndex] = useState(0);
-  const [typed, setTyped] = useState('');
-  const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    if (!lines.length) return;
-    const current = lines[index % lines.length];
-    let t1;
-    let t2;
-    let x = 0;
-
-    t1 = setInterval(() => {
-      x += 1;
-      setTyped(current.slice(0, x));
-      if (x >= current.length) {
-        clearInterval(t1);
-        t2 = setTimeout(() => {
-          setVisible(false);
-          t2 = setTimeout(() => {
-            setIndex((idx) => (idx + 1) % lines.length);
-            setTyped('');
-            setVisible(true);
-          }, transition);
-        }, hold);
-      }
-    }, typeSpeed);
-
-    return () => {
-      clearInterval(t1);
-      clearTimeout(t2);
-    };
-  }, [lines, index, typeSpeed, hold, transition]);
-
-  return { typed, visible };
-}
-
 function useTerminalTyping(lines) {
   const [shown, setShown] = useState([]);
   const [currentLine, setCurrentLine] = useState(0);
@@ -240,8 +203,8 @@ export default function Home() {
 
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
   const nameParts = t.hero.name.split(' ');
+  const roleLines = t.hero.role.split('\n');
   const { shown: terminalShown, done: terminalDone } = useTerminalTyping(terminalLogs);
-  const role = useRotatingRole(t.hero.role.split('\n'));
 
   useEffect(() => {
     if (!document.documentElement.classList.contains('aos-init')) {
@@ -341,25 +304,21 @@ export default function Home() {
                   {'/>'}
                 </h1>
 
-                {/* SCRAMBLED ROLE */}
-                <div
-                  className={`flex flex-wrap items-start gap-x-3 gap-y-1 text-base sm:text-xl md:text-2xl ${
-                    isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'
-                  }`}
-                >
-                  <span className={`${isDark ? 'text-emerald-500' : 'text-emerald-700'} shrink-0`}>root@mesh:~#</span>
-                  <span
-                    className={`inline-block min-h-[1.4em] whitespace-pre-line leading-snug transition-all duration-300 ${
-                      role.visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                    }`}
-                  >
-                    {role.typed}
-                  </span>
-                  <span
-                    className={`mt-1.5 inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
-                      isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'
-                    }`}
-                  />
+                {/* ROLE LIST */}
+                <div className={`space-y-1.5 text-base sm:text-xl md:text-2xl font-bold ${isDark ? '' : ''}`}>
+                  <div className={`flex items-center gap-2 ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
+                    root@mesh:~#
+                    <span
+                      className={`inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
+                        isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'
+                      }`}
+                    />
+                  </div>
+                  {roleLines.map((line) => (
+                    <div key={line} className={isDark ? 'text-emerald-300' : 'text-emerald-800'}>
+                      {line}
+                    </div>
+                  ))}
                 </div>
               </div>
 
