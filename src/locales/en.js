@@ -174,6 +174,21 @@ const en = {
     description: 'The page you are looking for doesn\'t exist or has been moved.',
     goHome: 'Go Home',
     goBack: 'Go Back'
+  },
+  home: {
+    availableForWork: 'Available for work',
+    ctaTitle: 'Have a project or a role in mind?',
+    ctaSubtitle: "I'm open to freelance projects and full-time opportunities. Send me a message and I'll get back to you.",
+    emailMe: 'Email me',
+    contactPage: 'Contact page',
+    process01: 'Discovery & planning',
+    process01D: 'We align on goals, scope, and the stack before a single line of code is written.',
+    process02: 'Architecture & design',
+    process02D: 'APIs, database schemas, and component structure are drafted as a blueprint.',
+    process03: 'Build & integrate',
+    process03D: 'Frontend and backend are built together, with tests and code review in the loop.',
+    process04: 'Deploy & support',
+    process04D: 'Shipping to production with CI/CD, monitoring, and follow-up maintenance.'
   }
 };
 

@@ -1,84 +1,246 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Mail,
   ExternalLink,
   Download,
   ArrowRight,
+  Terminal as TerminalIcon,
+  ShieldAlert,
+  Network,
+  Binary,
+  Lock,
+  Activity,
+  Cpu,
+  Server,
+  Zap,
+  CheckCircle2,
+  HardDrive,
+  Search,
   Layers,
-  ShieldCheck,
-  Database,
+  Code2,
+  Rocket,
+  Globe,
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import { projects } from '../../data/projects';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-/* ---------- Content ---------- */
+/* ------------------------------------------------------------------ */
+/*  DATA                                                               */
+/* ------------------------------------------------------------------ */
 
-const stack = [
-  { group: 'Frontend', items: ['React 19', 'TypeScript', 'Tailwind CSS'] },
-  { group: 'Backend', items: ['Laravel 11', 'Node.js', 'REST APIs', 'JWT auth'] },
-  { group: 'Database', items: ['PostgreSQL', 'Redis'] },
-  { group: 'DevOps', items: ['Docker', 'CI/CD', 'Git'] },
+const MATRIX_CHARS = '01<>[]{}#$%ABCDEFGHIJKLMNOPQRSTUVWXYZNGETMEAS*+/=';
+const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/[]{}$#%&*+=_';
+
+const systemStats = [
+  { icon: Cpu, label: 'CPU CORE', value: '8x vCPU @ 3.8GHz', stat: '4.2% LOAD' },
+  { icon: HardDrive, label: 'MEMORY POOL', value: '32GB ECC DDR5', stat: '2.8GB IN-USE' },
+  { icon: Server, label: 'SOCKETS ACTIVE', value: '24 PROTOCOLS', stat: 'ESTABLISHED' },
+  { icon: Zap, label: 'AVAILABILITY', value: '99.98% UPTIME', stat: 'OPTIMAL' },
 ];
 
-const services = [
+const protocolVectors = [
   {
-    icon: Layers,
-    title: 'Full-stack web apps',
-    desc: 'React frontends connected to Laravel or Node.js backends, built to be fast, easy to maintain, and easy to extend.',
+    icon: Network,
+    code: 'SEC-01',
+    badge: 'CORE DIRECTIVE',
+    title: 'FULL-STACK DISTRIBUTED ARCHITECTURE',
+    desc: 'Engineering resilient, scalable single-page interfaces and API gateways. Specialized in decoupled frontend architectures and reactive client stores.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Secure APIs',
-    desc: 'REST endpoints with authentication, input validation, and rate limiting, so your data stays protected.',
+    icon: Binary,
+    code: 'SEC-02',
+    badge: 'ZERO TRUST',
+    title: 'API HARDENING & CRYPTO INTEGRITY',
+    desc: 'Building guarded REST endpoints, rate-limited tokens, cryptographic auth handshakes, and hardened middleware validation logic.',
   },
   {
-    icon: Database,
-    title: 'Database design',
-    desc: 'Clean PostgreSQL schemas, tuned indexes, and Redis caching for quick queries under heavy use.',
+    icon: ShieldAlert,
+    code: 'SEC-03',
+    badge: 'OPTIMIZATION',
+    title: 'DATABASE SCHEMAS & HIGH-CONCURRENCY',
+    desc: 'Structuring normalized relational schemas, query index tuning, caching fallbacks, and transactional database integrity guarantees.',
   },
 ];
 
-// The one "signature" element: a small terminal that introduces me.
-const terminalLines = [
-  { cmd: 'whoami', out: 'nget-meas, full-stack developer' },
-  { cmd: 'stack --list', out: 'React, Node.js, Laravel, PostgreSQL, Docker' },
-  { cmd: 'status', out: 'open to freelance and full-time roles' },
+const techArsenal = [
+  { name: 'React 19', port: ':3000', layer: 'FRONTEND', status: 'ACTIVE' },
+  { name: 'TypeScript', port: ':COMPILER', layer: 'RUNTIME', status: 'SYNCHRONIZED' },
+  { name: 'Laravel 11', port: ':8000', layer: 'BACKEND', status: 'DAEMON_UP' },
+  { name: 'Node.js', port: ':5000', layer: 'RUNTIME', status: 'LISTENING' },
+  { name: 'PostgreSQL', port: ':5432', layer: 'PERSISTENCE', status: 'CONNECTED' },
+  { name: 'Redis Cache', port: ':6379', layer: 'IN-MEMORY', status: 'BOUND' },
+  { name: 'Tailwind CSS', port: ':JIT', layer: 'STYLESHEET', status: 'INJECTED' },
+  { name: 'Docker / CI', port: ':DAEMON', layer: 'CONTAINER', status: 'COMPOSED' },
 ];
 
-/* ---------- Hooks ---------- */
+const terminalLogs = [
+  { command: 'whoami', output: 'NGET MEAS [root@sec-gateway]' },
+  { command: 'cat /etc/security/roles.conf', output: 'Full Stack Developer // Cyber-Style UI Engineer' },
+  { command: 'netstat -tulpn | grep 443', output: 'tcp 0 0 0.0.0.0:443 LISTEN ESTABLISHED' },
+  { command: 'iptables -L --line-numbers', output: 'CHAIN: INCOMING_COMMISSIONS [STATE: ACCEPT]' },
+  { command: 'systemctl check portfolio.service', output: 'STATUS: ACTIVE (RUNNING) :: ZERO_FAILURES' },
+  { command: 'curl -sS api/status | jq .', output: '{"uptime":"99.98%","ready_for":["work","commissions"]}' },
+  { command: 'echo $READY', output: 'OPEN_TO_FREELANCE_AND_FULL_TIME_ROLES' },
+];
 
-function useTerminalTyping(lines) {
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const HEX_STREAM = [
+  '0x7F', '0x45', '0x4C', '0x02', '0xFF', '0x1A', '0x2B', '0xDE',
+  '0xC0', '0xDE', '0x55', '0x21', '0x09', '0x9B', '0xF4', '0xA1',
+];
 
-  const [line, setLine] = useState(prefersReduced ? lines.length : 0);
-  const [chars, setChars] = useState(0);
+const MARQUEE_ITEMS = [
+  'FULL_STACK_DEVELOPER',
+  'API_ENGINEER',
+  'CYBER_UI_DESIGNER',
+  'DATABASE_ARCHITECT',
+  'REACT // LARAVEL // NODE',
+  'OPEN_TO_WORK',
+  'PHNOM_PENH',
+  'DOCKER // CI_CD',
+];
+
+/* ------------------------------------------------------------------ */
+/*  ANIMATION HELPERS                                                  */
+/* ------------------------------------------------------------------ */
+
+function MatrixRain({ isDark }) {
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (line >= lines.length) return;
-    const { cmd } = lines[line];
-    const timer = setTimeout(
-      () => {
-        if (chars < cmd.length) {
-          setChars((c) => c + 1);
-        } else {
-          setLine((l) => l + 1);
-          setChars(0);
-        }
-      },
-      chars < cmd.length ? 45 : 450
-    );
-    return () => clearTimeout(timer);
-  }, [line, chars, lines]);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
 
-  return { line, chars, done: line >= lines.length };
+    const resize = () => {
+      canvas.width = canvas.parentElement ? canvas.parentElement.offsetWidth : window.innerWidth;
+      canvas.height = canvas.parentElement ? canvas.parentElement.offsetHeight : window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array.from({ length: columns }, () => Math.random() * -120);
+
+    let animId;
+    const draw = () => {
+      ctx.fillStyle = isDark ? 'rgba(3, 5, 4, 0.16)' : 'rgba(244, 247, 245, 0.22)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        ctx.fillStyle = isDark
+          ? `rgba(16, 185, 129, ${0.14 + Math.random() * 0.18})`
+          : `rgba(5, 150, 105, ${0.08 + Math.random() * 0.08})`;
+        ctx.fillText(char, x, y);
+
+        if (y > canvas.height && Math.random() > 0.976) drops[i] = 0;
+        drops[i]++;
+      }
+      animId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [isDark]);
+
+  return <canvas ref={canvasRef} className="matrix-rain opacity-50" aria-hidden="true" />;
 }
 
-/* ---------- Page ---------- */
+function useScramble(text, { speed = 55, iterations = 7 } = {}) {
+  const [output, setOutput] = useState('');
+
+  useEffect(() => {
+    let iteration = 0;
+    const id = setInterval(() => {
+      iteration += 1;
+      if (iteration >= iterations) {
+        clearInterval(id);
+        setOutput(text);
+        return;
+      }
+      const reveal = Math.floor((iteration / iterations) * text.length);
+      setOutput(
+        text
+          .split('')
+          .map((ch, i) =>
+            ch === ' ' ? ch : i < reveal ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+          )
+          .join('')
+      );
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed, iterations]);
+
+  return { output };
+}
+
+function useTerminalTyping(lines) {
+  const [shown, setShown] = useState([]);
+  const [currentLine, setCurrentLine] = useState(0);
+  const [currentChar, setCurrentChar] = useState(0);
+  const [showOutput, setShowOutput] = useState(false);
+
+  useEffect(() => {
+    if (currentLine >= lines.length) return;
+    const line = lines[currentLine];
+
+    if (!showOutput) {
+      if (currentChar < line.command.length) {
+        const t1 = setTimeout(() => {
+          setShown((prev) => {
+            const next = [...prev];
+            if (next[currentLine]) {
+              next[currentLine] = { ...next[currentLine], command: line.command.slice(0, currentChar + 1) };
+            } else {
+              next[currentLine] = { command: line.command.slice(0, currentChar + 1), output: '' };
+            }
+            return next;
+          });
+          setCurrentChar((c) => c + 1);
+        }, 26);
+        return () => clearTimeout(t1);
+      }
+      const t2 = setTimeout(() => setShowOutput(true), 120);
+      return () => clearTimeout(t2);
+    }
+
+    const t3 = setTimeout(() => {
+      setShown((prev) => {
+        const next = [...prev];
+        if (next[currentLine]) next[currentLine] = { ...next[currentLine], output: line.output };
+        return next;
+      });
+    }, 0);
+    const t4 = setTimeout(() => {
+      setShowOutput(false);
+      setCurrentChar(0);
+      setCurrentLine((l) => l + 1);
+    }, 170);
+    return () => {
+      clearTimeout(t3);
+      clearTimeout(t4);
+    };
+  }, [currentLine, currentChar, showOutput, lines]);
+
+  return { shown, done: currentLine >= lines.length };
+}
+
+/* ------------------------------------------------------------------ */
+/*  PAGE                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function Home() {
   const { t, language } = useLanguage();
@@ -86,110 +248,197 @@ export default function Home() {
   const isDark = theme === 'dark';
 
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
-  const { line, chars, done } = useTerminalTyping(terminalLines);
+  const nameParts = t.hero.name.split(' ');
+  const { shown: terminalShown, done: terminalDone } = useTerminalTyping(terminalLogs);
+  const role = useScramble(t.hero.role);
 
-  // All theme classes live in one place, so the JSX stays readable.
-  const c = isDark
-    ? {
-        page: 'bg-[#08100d] text-slate-300 selection:bg-emerald-400 selection:text-black',
-        heading: 'text-white',
-        muted: 'text-slate-400',
-        accent: 'text-emerald-400',
-        border: 'border-white/10',
-        surface: 'bg-white/[0.03]',
-        chip: 'border-white/10 bg-white/[0.04] text-slate-200',
-        primary: 'bg-emerald-400 text-black hover:bg-emerald-300',
-        secondary: 'border-white/15 text-slate-100 hover:border-emerald-400/70 hover:text-emerald-300',
-        iconBtn: 'border-white/15 text-slate-200 hover:border-emerald-400/70 hover:text-emerald-300',
-        cardHover: 'hover:border-emerald-400/50',
-        focus: 'focus-visible:outline-emerald-400',
-        glow: 'radial-gradient(circle, rgba(16,185,129,0.16) 0%, transparent 70%)',
-      }
-    : {
-        page: 'bg-[#f7faf8] text-slate-700 selection:bg-emerald-600 selection:text-white',
-        heading: 'text-slate-900',
-        muted: 'text-slate-600',
-        accent: 'text-emerald-700',
-        border: 'border-slate-200',
-        surface: 'bg-white',
-        chip: 'border-slate-200 bg-white text-slate-800',
-        primary: 'bg-emerald-600 text-white hover:bg-emerald-700',
-        secondary: 'border-slate-300 text-slate-800 hover:border-emerald-600 hover:text-emerald-700',
-        iconBtn: 'border-slate-300 text-slate-700 hover:border-emerald-600 hover:text-emerald-700',
-        cardHover: 'hover:border-emerald-500',
-        focus: 'focus-visible:outline-emerald-600',
-        glow: 'radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%)',
-      };
+  useEffect(() => {
+    if (!document.documentElement.classList.contains('aos-init')) {
+      AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 60 });
+    }
+  }, []);
 
-  const container = 'mx-auto w-full max-w-6xl px-6 sm:px-10';
-  const focusRing = `focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${c.focus}`;
+  const container = 'mx-auto w-full max-w-[1600px] px-4 sm:px-8 md:px-14 lg:px-20 xl:px-28';
 
   return (
-    <div className={`relative min-h-screen overflow-x-hidden transition-colors duration-300 ${c.page}`}>
-      {/* One soft glow behind the hero, nothing else in the background */}
+    <section
+      className={`grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
+      }`}
+    >
+      {/* ============================================================ */}
+      {/* GLOBAL BACKGROUND LAYERS                                      */}
+      {/* ============================================================ */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute -left-24 top-10 h-[420px] w-[420px] rounded-full blur-[120px]"
-          style={{ background: c.glow }}
+          className="absolute -left-24 top-24 h-[420px] w-[420px] rounded-full blur-[110px] animate-blob"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle, rgba(16,185,129,0.14) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
+          }}
         />
+        <div
+          className="absolute right-0 top-1/3 h-96 w-96 rounded-full blur-3xl animate-blob"
+          style={{
+            background: isDark
+              ? 'radial-gradient(circle, rgba(20,184,166,0.10) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(20,184,166,0.10) 0%, transparent 70%)',
+            animationDelay: '2.4s',
+          }}
+        />
+        <div className={`absolute inset-0 scanline ${isDark ? 'opacity-40' : 'opacity-20'}`} />
       </div>
 
-      {/* ---------- HERO ---------- */}
-      <section className="relative z-10 pt-16 pb-20 sm:pt-24 sm:pb-28">
-        <div className={container}>
-          <div className="grid items-center gap-12 lg:grid-cols-12">
-            {/* Left: who I am, what I do, what to click */}
-            <div className="lg:col-span-7">
-              <span
-                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm ${c.chip}`}
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 motion-safe:animate-ping" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+      {/* ============================================================ */}
+      {/* HERO                                                            */}
+      {/* ============================================================ */}
+      <section className="relative">
+        <MatrixRain isDark={isDark} />
+
+        <div className={`relative z-10 ${container}`}>
+          <div className="grid items-center gap-12 lg:grid-cols-12 xl:gap-16">
+            {/* ---------- LEFT COLUMN ---------- */}
+            <div data-aos="fade-right" className="lg:col-span-7 flex flex-col space-y-6 sm:space-y-8">
+              {/* BADGES */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <span
+                  className={`inline-flex items-center gap-2 border px-3 py-1.5 text-xs font-bold rounded ${
+                    isDark
+                      ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+                      : 'border-emerald-600/40 bg-emerald-100/80 text-emerald-900'
+                  }`}
+                >
+                  <Lock className={`h-3.5 w-3.5 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
+                  <span className="tracking-wider">// NODE://INIT_OK</span>
                 </span>
-                Available for work
-              </span>
+                <span
+                  className={`border px-2.5 py-1 text-[10px] sm:text-[11px] font-bold rounded ${
+                    isDark
+                      ? 'border-emerald-700/60 bg-emerald-950/30 text-emerald-300'
+                      : 'border-emerald-300 bg-white text-emerald-800 shadow-xs'
+                  }`}
+                >
+                  PORT: 443 [OPEN]
+                </span>
+                <span
+                  className={`border px-2.5 py-1 text-[10px] sm:text-[11px] font-bold rounded ${
+                    isDark
+                      ? 'border-emerald-700/60 bg-emerald-950/30 text-emerald-300'
+                      : 'border-emerald-300 bg-white text-emerald-800 shadow-xs'
+                  }`}
+                >
+                  <Activity className="mr-1 inline h-2.5 w-2.5 animate-pulse text-emerald-400" />
+                  ENCRYPTION: HARDENED
+                </span>
+              </div>
 
-              <p className={`mt-8 text-lg ${c.muted}`}>
-                Hi, I&apos;m <span className={`font-semibold ${c.heading}`}>{t.hero.name}</span>
-              </p>
+              {/* NAME */}
+              <div className="space-y-3 sm:space-y-4">
+                <h1
+                  className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[1.05] break-words ${
+                    isDark ? 'text-white [text-shadow:0_0_30px_rgba(52,211,153,0.25)]' : 'text-slate-900'
+                  }`}
+                >
+                  {'<'}
+                  <span className={isDark ? 'text-emerald-400 drop-shadow-[0_0_30px_rgba(52,211,153,0.6)]' : 'text-emerald-700'}>
+                    {nameParts[0]}
+                  </span>
+                  <span className={isDark ? 'opacity-70' : 'text-slate-500'}>{nameParts.slice(1).join(' ')}</span>
+                  {'/>'}
+                </h1>
 
-              <h1
-                className={`mt-2 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl ${c.heading}`}
+                {/* SCRAMBLED ROLE */}
+                <div
+                  className={`flex flex-wrap items-center gap-2 text-base sm:text-xl md:text-2xl ${
+                    isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'
+                  }`}
+                >
+                  <span className={isDark ? 'text-emerald-500' : 'text-emerald-700'}>root@mesh:~#</span>
+                  <span className="inline-block min-h-[1.4em] underline decoration-emerald-400 decoration-2 underline-offset-4">
+                    {role.output}
+                  </span>
+                  <span
+                    className={`inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
+                      isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'
+                    }`}
+                  />
+                </div>
+              </div>
+
+              {/* BIO */}
+              <p
+                className={`max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed border-l-4 pl-4 sm:pl-6 py-3 rounded-r-xl ${
+                  isDark
+                    ? 'text-slate-100 border-emerald-400 bg-emerald-950/30'
+                    : 'text-slate-800 border-emerald-600 bg-emerald-50/80 shadow-xs'
+                }`}
               >
-                Full-stack developer who builds web apps from database to interface.
-              </h1>
-
-              <p className={`mt-6 max-w-xl text-base leading-relaxed sm:text-lg ${c.muted}`}>
-                I build fast, secure, and reliable web applications with React, Laravel, and Node.js,
-                backed by well-designed APIs and databases.
+                {t.hero.description1}{' '}
+                <span className={isDark ? 'text-emerald-300' : 'text-emerald-700'}>{t.hero.description2}</span>
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              {/* HEX STREAM */}
+              <div
+                className={`flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-xs select-none ${
+                  isDark ? 'text-emerald-400/90 font-bold' : 'text-emerald-800 font-semibold'
+                }`}
+              >
+                {HEX_STREAM.map((hex, i) => (
+                  <span
+                    key={hex}
+                    className={`px-2 py-0.5 border rounded transition-all duration-200 ${
+                      isDark
+                        ? 'bg-black/90 border-emerald-800/80 hover:border-emerald-400 hover:text-emerald-300'
+                        : 'bg-white border-emerald-200 hover:border-emerald-600 shadow-xs'
+                    }`}
+                    style={{ transitionDelay: `${i * 25}ms` }}
+                  >
+                    {hex}
+                  </span>
+                ))}
+              </div>
+
+              {/* ACTIONS & SOCIALS */}
+              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-2">
                 <a
                   href="/CV_NgetMeas.pdf"
                   download="CV_NgetMeas.pdf"
-                  className={`inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors ${c.primary} ${focusRing}`}
+                  className={`inline-flex items-center justify-center gap-3 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md text-center ${
+                    isDark
+                      ? 'bg-emerald-400 text-black font-black hover:bg-emerald-300 hover:shadow-[0_0_25px_rgba(52,211,153,0.6)]'
+                      : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                  }`}
                 >
-                  <Download className="h-4 w-4" />
-                  Download CV
+                  <Download className="h-4 w-4 shrink-0" />
+                  {t.hero.downloadCV}
                 </a>
 
                 <Link
                   to="/projects"
-                  className={`inline-flex items-center gap-2 rounded-lg border px-5 py-3 text-sm font-semibold transition-colors ${c.secondary} ${focusRing}`}
+                  className={`inline-flex items-center justify-center gap-3 border-2 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all text-center ${
+                    isDark
+                      ? 'border-emerald-400/60 bg-emerald-950/30 text-emerald-300 hover:border-emerald-300 hover:bg-emerald-950/60'
+                      : 'border-emerald-600 bg-white text-emerald-900 hover:border-emerald-700 hover:bg-emerald-50 shadow-xs'
+                  }`}
                 >
-                  View my projects
-                  <ArrowRight className="h-4 w-4" />
+                  {t.hero.viewProjects}
+                  <ArrowRight className="h-4 w-4 shrink-0" />
                 </Link>
 
-                <div className="flex items-center gap-2 sm:ml-2">
+                <div className="flex items-center justify-center gap-2.5 pt-2 sm:pt-0">
                   <a
                     href="https://github.com/NgetMeas22"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border-2 transition-all ${
+                      isDark
+                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300'
+                        : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
+                    }`}
                     aria-label="GitHub"
-                    className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${c.iconBtn} ${focusRing}`}
                   >
                     <GitHubIcon size={18} />
                   </a>
@@ -197,15 +446,23 @@ export default function Home() {
                     href="https://linkedin.com/in/nget-meas-6525bb3a6"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border-2 transition-all ${
+                      isDark
+                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300'
+                        : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
+                    }`}
                     aria-label="LinkedIn"
-                    className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${c.iconBtn} ${focusRing}`}
                   >
                     <LinkedInIcon size={18} />
                   </a>
                   <a
                     href="mailto:measm2519@gmail.com"
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border-2 transition-all ${
+                      isDark
+                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300'
+                        : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
+                    }`}
                     aria-label="Email"
-                    className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${c.iconBtn} ${focusRing}`}
                   >
                     <Mail size={18} />
                   </a>
@@ -213,166 +470,464 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: small terminal (always dark, so it looks the same in both themes) */}
-            <div className="lg:col-span-5">
+            {/* ---------- RIGHT COLUMN: TERMINAL HUD ---------- */}
+            <div data-aos="fade-left" className="lg:col-span-5 w-full">
               <div
-                className="overflow-hidden rounded-xl border border-emerald-400/20 bg-[#0a1410] shadow-[0_20px_60px_-20px_rgba(16,185,129,0.35)]"
-                role="img"
-                aria-label="Terminal introducing Nget Meas as a full-stack developer open to work"
+                className={`relative rounded-2xl border-2 transition-all duration-200 overflow-hidden ${
+                  isDark
+                    ? 'border-emerald-400/60 bg-[#050b08] shadow-[0_0_35px_rgba(16,185,129,0.2)]'
+                    : 'border-emerald-600/40 bg-white shadow-xl'
+                }`}
               >
-                <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-                  <span className="ml-3 font-mono text-xs text-slate-400">about.sh</span>
+                <span className={`absolute top-2 left-2 h-3.5 w-3.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                <span className={`absolute top-2 right-2 h-3.5 w-3.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                <span className={`absolute bottom-2 left-2 h-3.5 w-3.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+                <span className={`absolute bottom-2 right-2 h-3.5 w-3.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
+
+                {/* HEADER */}
+                <div
+                  className={`flex flex-wrap items-center justify-between border-b px-4 py-3 text-xs gap-2 ${
+                    isDark
+                      ? 'border-emerald-500/30 bg-emerald-950/60 text-slate-100'
+                      : 'border-emerald-100 bg-emerald-50/90 text-slate-800'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="flex gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+                    </span>
+                    <TerminalIcon className={`h-4 w-4 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
+                    <span className="font-bold tracking-wider truncate">BASH_PORTAL_SESSION.sh</span>
+                  </div>
+                  <span
+                    className={`flex items-center gap-1.5 text-[10px] font-bold border px-2 py-0.5 rounded ${
+                      isDark
+                        ? 'text-emerald-300 bg-emerald-950 border-emerald-500/50'
+                        : 'text-emerald-800 bg-white border-emerald-300'
+                    }`}
+                  >
+                    <Activity className="h-3 w-3 animate-spin text-emerald-400" /> ACTIVE
+                  </span>
                 </div>
 
-                <div className="min-h-[220px] space-y-4 p-5 font-mono text-sm leading-relaxed">
-                  {terminalLines.map((l, i) => {
-                    if (i > line) return null;
-                    const typing = i === line;
-                    return (
-                      <div key={l.cmd}>
-                        <p className="text-slate-100">
-                          <span className="text-emerald-400">$</span>{' '}
-                          {typing ? l.cmd.slice(0, chars) : l.cmd}
-                          {typing && (
-                            <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-emerald-400 motion-safe:animate-pulse" />
-                          )}
-                        </p>
-                        {!typing && <p className="mt-1 pl-4 text-emerald-300/90">{l.out}</p>}
-                      </div>
-                    );
-                  })}
+                {/* BUFFER */}
+                <div className="min-h-[280px] sm:min-h-[340px] p-4 sm:p-5 space-y-3 text-xs sm:text-sm leading-relaxed overflow-y-auto">
+                  <p className={isDark ? 'text-emerald-400/80 font-bold' : 'text-emerald-700 font-semibold'}>
+                    // Remote handshake negotiated. Cipher: ECDHE-RSA-AES128-GCM-SHA256
+                  </p>
 
-                  {done && (
-                    <p className="text-slate-100">
-                      <span className="text-emerald-400">$</span>{' '}
-                      <span className="inline-block h-4 w-2 translate-y-0.5 bg-emerald-400 motion-safe:animate-pulse" />
+                  {terminalShown.map((line, idx) => (
+                    <div key={idx} className="space-y-1">
+                      <p className={`break-all ${isDark ? 'text-white font-semibold' : 'text-slate-900 font-semibold'}`}>
+                        <span className={`font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                          root@sec-gateway:~#
+                        </span>{' '}
+                        {line.command}
+                      </p>
+                      {line.output && (
+                        <p
+                          className={`pl-3 border-l-2 break-all text-xs ${
+                            isDark
+                              ? 'text-emerald-300 border-emerald-400 bg-emerald-950/20 py-1'
+                              : 'text-emerald-900 border-emerald-600 bg-emerald-50/70 py-1 font-semibold'
+                          }`}
+                        >
+                          {line.output}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+
+                  {!terminalDone ? (
+                    <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400 shadow-[0_0_8px_#10b981]' : 'bg-emerald-700'}`} />
+                  ) : (
+                    <p className={`pt-2 border-t text-xs ${isDark ? 'text-emerald-400 border-emerald-900/60' : 'text-emerald-700 border-emerald-100'}`}>
+                      root@sec-gateway:~#{' '}
+                      <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400' : 'bg-emerald-700'}`} />
                     </p>
                   )}
                 </div>
+
+                {/* STATUS BAR */}
+                <div
+                  className={`grid grid-cols-2 sm:grid-cols-4 border-t px-4 py-2.5 text-[10px] sm:text-[11px] font-bold gap-2 ${
+                    isDark
+                      ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400'
+                      : 'border-emerald-100 bg-emerald-50 text-emerald-800'
+                  }`}
+                >
+                  <div>SOCK: <span className={isDark ? 'text-white' : 'text-slate-900'}>0x88F</span></div>
+                  <div>PKTS: <span className={isDark ? 'text-white' : 'text-slate-900'}>204,112</span></div>
+                  <div>PORT: <span className={isDark ? 'text-white' : 'text-slate-900'}>443/TLS</span></div>
+                  <div className={`text-right font-black ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>READY</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- TECH STACK ---------- */}
-      <section className={`relative z-10 border-t py-16 sm:py-20 ${c.border}`}>
-        <div className={container}>
-          <h2 className={`text-2xl font-bold tracking-tight sm:text-3xl ${c.heading}`}>
-            Technologies I work with
-          </h2>
-          <p className={`mt-2 max-w-xl ${c.muted}`}>
-            The tools I use every day to ship complete products.
-          </p>
+      {/* ============================================================ */}
+      {/* MARQUEE TICKER                                                 */}
+      {/* ============================================================ */}
+      <div
+        className={`relative z-10 mt-16 border-y overflow-hidden ${
+          isDark ? 'border-emerald-500/30 bg-black/70' : 'border-emerald-900/10 bg-white/80'
+        }`}
+      >
+        <div className="home-marquee flex w-max whitespace-nowrap py-3">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 items-center">
+              {MARQUEE_ITEMS.map((item) => (
+                <span
+                  key={`${copy}-${item}`}
+                  className={`mx-6 flex items-center gap-4 text-xs sm:text-sm font-bold uppercase tracking-widest ${
+                    isDark ? 'text-emerald-400/80' : 'text-emerald-800'
+                  }`}
+                >
+                  {item}
+                  <Binary className={`h-3.5 w-3.5 ${isDark ? 'text-emerald-600' : 'text-emerald-500'}`} />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {stack.map((s) => (
-              <div key={s.group}>
-                <h3 className={`text-sm font-semibold ${c.accent}`}>{s.group}</h3>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {s.items.map((item) => (
-                    <li
-                      key={item}
-                      className={`rounded-md border px-3 py-1.5 text-sm ${c.chip}`}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+      {/* ============================================================ */}
+      {/* SYSTEM TELEMETRY / STATS                                       */}
+      {/* ============================================================ */}
+      <section className={`relative z-10 py-14 sm:py-16 ${container}`}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {systemStats.map((item, i) => (
+            <div
+              key={item.label}
+              data-aos="fade-up"
+              data-aos-delay={i * 80}
+              className={`border-2 rounded-xl p-4 sm:p-5 flex items-center gap-4 transition-all duration-200 ${
+                isDark
+                  ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400'
+                  : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
+              }`}
+            >
+              <div
+                className={`p-3 rounded-lg border shrink-0 ${
+                  isDark
+                    ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300'
+                    : 'border-emerald-300 bg-emerald-50 text-emerald-700'
+                }`}
+              >
+                <item.icon className="h-5 w-5" />
+              </div>
+              <div className="space-y-1 overflow-hidden">
+                <div className={`text-[10px] uppercase tracking-widest font-bold truncate ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
+                  {item.label}
+                </div>
+                <div className={`text-sm sm:text-base font-black truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  {item.value}
+                </div>
+                <div className={`text-[11px] flex items-center gap-1.5 ${isDark ? 'text-emerald-300 font-bold' : 'text-emerald-700 font-semibold'}`}>
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" /> {item.stat}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* OPERATIONAL CAPABILITIES                                       */}
+      {/* ============================================================ */}
+      <section className="relative z-10 py-16 sm:py-24">
+        <div className={container}>
+          <div className="mb-10 sm:mb-14" data-aos="fade-up">
+            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+              // SECTION: OPERATIONAL_PROFILES
+            </span>
+            <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              SYSTEM_CAPABILITIES
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {protocolVectors.map((vector, i) => (
+              <div
+                key={vector.code}
+                data-aos="fade-up"
+                data-aos-delay={i * 100}
+                className={`relative border-2 rounded-2xl p-6 sm:p-8 transition-all duration-200 group ${
+                  isDark
+                    ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400'
+                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
+                }`}
+              >
+                <span
+                  className={`absolute top-3 right-3 h-2 w-2 rounded-full animate-pulse ${
+                    isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-600'
+                  }`}
+                />
+                <div className="flex items-center justify-between text-xs mb-5">
+                  <span
+                    className={`border px-2.5 py-1 font-bold rounded ${
+                      isDark
+                        ? 'border-emerald-500/50 bg-black text-emerald-300'
+                        : 'border-emerald-300 bg-emerald-50 text-emerald-800'
+                    }`}
+                  >
+                    {vector.code}
+                  </span>
+                  <span
+                    className={`text-[10px] uppercase border px-2 py-0.5 font-bold rounded ${
+                      isDark ? 'border-emerald-700/60 text-emerald-400' : 'border-emerald-200 text-emerald-700'
+                    }`}
+                  >
+                    {vector.badge}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 mb-2.5">
+                  <span
+                    className={`p-2.5 rounded-lg border ${
+                      isDark
+                        ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300'
+                        : 'border-emerald-300 bg-emerald-50 text-emerald-700'
+                    }`}
+                  >
+                    <vector.icon className="h-5 w-5" />
+                  </span>
+                  <h3 className={`text-base sm:text-lg font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                    {vector.title}
+                  </h3>
+                </div>
+                <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  {vector.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- WHAT I DO ---------- */}
-      <section className={`relative z-10 border-t py-16 sm:py-20 ${c.border}`}>
+      {/* ============================================================ */}
+      {/* TECH ARSENAL MATRIX                                             */}
+      {/* ============================================================ */}
+      <section
+        className={`relative z-10 border-t py-16 sm:py-20 ${
+          isDark ? 'border-emerald-500/30 bg-black/70' : 'border-emerald-900/10 bg-white/80'
+        }`}
+      >
         <div className={container}>
-          <h2 className={`text-2xl font-bold tracking-tight sm:text-3xl ${c.heading}`}>
-            What I can build for you
-          </h2>
+          <div className="mb-10 sm:mb-12 text-center" data-aos="fade-up">
+            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+              // DAEMONS & NETWORK RUNTIMES
+            </span>
+            <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              DEPLOYED_TECH_ARSENAL
+            </h2>
+          </div>
 
-          <div className={`mt-10 grid divide-y md:grid-cols-3 md:divide-x md:divide-y-0 ${c.border} divide-inherit`}>
-            {services.map((s) => (
-              <div key={s.title} className="py-6 md:px-8 md:py-2 md:first:pl-0 md:last:pr-0">
-                <s.icon className={`h-6 w-6 ${c.accent}`} aria-hidden="true" />
-                <h3 className={`mt-4 text-lg font-semibold ${c.heading}`}>{s.title}</h3>
-                <p className={`mt-2 text-sm leading-relaxed sm:text-base ${c.muted}`}>{s.desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {techArsenal.map((tech, i) => (
+              <div
+                key={tech.name}
+                data-aos="fade-up"
+                data-aos-delay={(i % 4) * 80}
+                className={`border-2 rounded-xl p-5 transition-all duration-200 group ${
+                  isDark
+                    ? 'border-emerald-900/70 bg-black/90 hover:border-emerald-400'
+                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
+                }`}
+              >
+                <div className={`flex items-center justify-between text-xs font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                  <span className="font-mono">{tech.port}</span>
+                  <span
+                    className={`text-[10px] border px-2 py-0.5 rounded font-bold ${
+                      isDark
+                        ? 'bg-emerald-950 border-emerald-500/50 text-emerald-300'
+                        : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                    }`}
+                  >
+                    {tech.layer}
+                  </span>
+                </div>
+                <div className={`mt-3 text-lg font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  {tech.name}
+                </div>
+                <div
+                  className={`mt-3 flex items-center justify-between text-[10px] sm:text-[11px] border-t pt-2.5 ${
+                    isDark ? 'border-emerald-900/60 text-slate-400' : 'border-emerald-100 text-slate-500'
+                  }`}
+                >
+                  <span className="font-mono">STATE</span>
+                  <span className={`font-bold flex items-center gap-1.5 ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    {tech.status}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- FEATURED PROJECTS ---------- */}
-      <section className={`relative z-10 border-t py-16 sm:py-20 ${c.border}`}>
+      {/* ============================================================ */}
+      {/* WORKFLOW PIPELINE                                               */}
+      {/* ============================================================ */}
+      <section className="relative z-10 py-16 sm:py-24">
         <div className={container}>
-          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+          <div className="mb-10 sm:mb-14" data-aos="fade-up">
+            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+              // DEPLOYMENT_PIPELINE
+            </span>
+            <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              HOW_I_SHIP_PRODUCTS
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            {[
+              { code: '01', icon: Search, title: t.home.process01, desc: t.home.process01D },
+              { code: '02', icon: Layers, title: t.home.process02, desc: t.home.process02D },
+              { code: '03', icon: Code2, title: t.home.process03, desc: t.home.process03D },
+              { code: '04', icon: Rocket, title: t.home.process04, desc: t.home.process04D },
+            ].map((step, i) => (
+              <div
+                key={step.code}
+                data-aos="fade-up"
+                data-aos-delay={i * 100}
+                className={`relative border-2 rounded-2xl p-6 transition-all duration-200 group ${
+                  isDark
+                    ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400'
+                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <span
+                    className={`font-mono text-2xl font-black ${
+                      isDark ? 'text-emerald-400/25' : 'text-emerald-700/20'
+                    } group-hover:text-emerald-400 transition-colors`}
+                  >
+                    {step.code}
+                  </span>
+                  <span
+                    className={`p-2.5 rounded-xl border ${
+                      isDark
+                        ? 'border-emerald-400/40 bg-black text-emerald-300'
+                        : 'border-emerald-300 bg-emerald-50 text-emerald-700'
+                    }`}
+                  >
+                    <step.icon className="h-5 w-5" />
+                  </span>
+                </div>
+                <h3 className={`font-bold uppercase tracking-tight mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  {step.title}
+                </h3>
+                <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* FEATURED PROJECTS                                               */}
+      {/* ============================================================ */}
+      <section
+        className={`relative z-10 border-t py-16 sm:py-24 ${
+          isDark ? 'border-emerald-500/30 bg-black/70' : 'border-emerald-900/10 bg-white/80'
+        }`}
+      >
+        <div className={container}>
+          <div className="mb-10 sm:mb-12 flex flex-col justify-between gap-3 sm:flex-row sm:items-end" data-aos="fade-up">
             <div>
-              <h2 className={`text-2xl font-bold tracking-tight sm:text-3xl ${c.heading}`}>
-                Featured projects
+              <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                // ACTIVE_DEPLOYMENTS
+              </span>
+              <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                {t.projects.title}
               </h2>
-              <p className={`mt-2 ${c.muted}`}>A few things I&apos;ve built recently.</p>
             </div>
             <Link
               to="/projects"
-              className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:underline ${c.accent} ${focusRing}`}
+              className={`text-xs sm:text-sm font-bold uppercase hover:underline flex items-center gap-1.5 ${
+                isDark ? 'text-emerald-400' : 'text-emerald-700'
+              }`}
             >
-              See all projects
-              <ArrowRight className="h-4 w-4" />
+              INSPECT_ALL_REPOSITORIES <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {featuredProjects.map((project, idx) => (
               <article
                 key={project.id}
-                className={`flex flex-col justify-between rounded-xl border p-6 transition-colors ${c.border} ${c.surface} ${c.cardHover}`}
+                data-aos="fade-up"
+                data-aos-delay={idx * 100}
+                className={`border-2 rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 group ${
+                  isDark
+                    ? 'border-emerald-900/80 bg-black/90 hover:border-emerald-400'
+                    : 'border-emerald-200 bg-white hover:border-emerald-600 shadow-xs'
+                }`}
               >
                 <div>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 mb-3">
                     {project.category.map((cat) => (
                       <span
                         key={cat}
-                        className={`rounded-md border px-2 py-0.5 text-xs ${c.chip}`}
+                        className={`text-[9px] sm:text-[10px] border px-2 py-0.5 font-bold rounded ${
+                          isDark
+                            ? 'bg-emerald-950/60 text-emerald-300 border-emerald-700/60'
+                            : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                        }`}
                       >
                         {cat}
                       </span>
                     ))}
                   </div>
 
-                  <h3 className={`mt-4 text-lg font-semibold ${c.heading}`}>
-                    <Link
-                      to={`/projects/${project.id}`}
-                      className={`hover:underline ${focusRing}`}
-                    >
-                      {project.title}
-                    </Link>
+                  <h3
+                    className={`text-base sm:text-lg font-black mb-2.5 transition-colors uppercase tracking-tight ${
+                      isDark ? 'text-white group-hover:text-emerald-400' : 'text-slate-900 group-hover:text-emerald-700'
+                    }`}
+                  >
+                    {project.title}
                   </h3>
 
-                  <p className={`mt-2 line-clamp-3 text-sm leading-relaxed ${c.muted}`}>
+                  <p className={`text-xs sm:text-sm line-clamp-3 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                     {language === 'kh' ? project.descriptionKh : project.description}
                   </p>
 
-                  <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                  <div className="mt-4 flex flex-wrap gap-1.5">
                     {project.technologies.slice(0, 4).map((tech) => (
-                      <li key={tech} className={c.accent}>
-                        {tech}
-                      </li>
+                      <span
+                        key={tech}
+                        className={`text-[10px] font-mono border px-1.5 py-0.5 rounded ${
+                          isDark
+                            ? 'text-emerald-400 border-emerald-800/80 bg-black'
+                            : 'text-emerald-700 border-emerald-100 bg-emerald-50/50'
+                        }`}
+                      >
+                        #{tech}
+                      </span>
                     ))}
-                  </ul>
+                  </div>
                 </div>
 
-                <div className={`mt-6 flex items-center justify-between border-t pt-4 text-sm ${c.border}`}>
+                <div
+                  className={`mt-6 pt-4 border-t flex items-center justify-between text-xs ${
+                    isDark ? 'border-emerald-900/60' : 'border-emerald-100'
+                  }`}
+                >
                   <Link
                     to={`/projects/${project.id}`}
-                    className={`inline-flex items-center gap-1 font-semibold hover:underline ${c.accent} ${focusRing}`}
+                    className={`font-bold hover:underline flex items-center gap-1 ${
+                      isDark ? 'text-emerald-400' : 'text-emerald-700'
+                    }`}
                   >
-                    View details
-                    <ArrowRight className="h-4 w-4" />
+                    {t.projects.viewDetails} →
                   </Link>
 
                   {project.live && (
@@ -380,10 +935,11 @@ export default function Home() {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-1 hover:underline ${c.muted} ${focusRing}`}
+                      className={`hover:underline flex items-center gap-1 ${
+                        isDark ? 'text-slate-300 hover:text-emerald-400' : 'text-slate-600 hover:text-emerald-700 font-semibold'
+                      }`}
                     >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Live site
+                      <ExternalLink className="h-3 w-3" /> LIVE_HOST
                     </a>
                   )}
                 </div>
@@ -393,34 +949,76 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- CONTACT CTA ---------- */}
-      <section className={`relative z-10 border-t py-16 sm:py-24 ${c.border}`}>
-        <div className={`${container} max-w-3xl text-center`}>
-          <h2 className={`text-3xl font-bold tracking-tight sm:text-4xl ${c.heading}`}>
-            Have a project or a role in mind?
-          </h2>
-          <p className={`mx-auto mt-4 max-w-xl text-base sm:text-lg ${c.muted}`}>
-            I&apos;m open to freelance projects and full-time opportunities. Send me a message and I&apos;ll
-            get back to you.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="mailto:measm2519@gmail.com"
-              className={`inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-colors ${c.primary} ${focusRing}`}
+      {/* ============================================================ */}
+      {/* CONTACT CTA                                                      */}
+      {/* ============================================================ */}
+      <section className="relative z-10 py-16 sm:py-28">
+        <div className={`${container} relative`}>
+          <div
+            className={`absolute inset-0 matrix-rain-grid rounded-3xl opacity-40 ${
+              isDark ? 'bg-black/40' : 'bg-white/50'
+            }`}
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 text-center" data-aos="fade-up">
+            <span
+              className={`inline-flex items-center gap-2 border px-3.5 py-1 text-xs uppercase tracking-wider font-bold rounded ${
+                isDark
+                  ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300'
+                  : 'border-emerald-600/30 bg-emerald-100/60 text-emerald-900'
+              }`}
             >
-              <Mail className="h-4 w-4" />
-              Email me
-            </a>
-            <Link
-              to="/contact"
-              className={`inline-flex items-center gap-2 rounded-lg border px-6 py-3 text-sm font-semibold transition-colors ${c.secondary} ${focusRing}`}
-            >
-              Contact page
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+              <Globe className="h-3.5 w-3.5" />
+              {'>_ open.channel'}
+            </span>
+
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              {t.home.ctaTitle}
+            </h2>
+            <p className={`mx-auto mt-4 max-w-2xl text-base sm:text-lg leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              {t.home.ctaSubtitle}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="mailto:measm2519@gmail.com"
+                className={`inline-flex items-center justify-center gap-3 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md ${
+                  isDark
+                    ? 'bg-emerald-400 text-black font-black hover:bg-emerald-300 hover:shadow-[0_0_25px_rgba(52,211,153,0.6)]'
+                    : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                }`}
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                {t.home.emailMe}
+              </a>
+              <Link
+                to="/contact"
+                className={`inline-flex items-center justify-center gap-3 border-2 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all ${
+                  isDark
+                    ? 'border-emerald-400/60 bg-emerald-950/30 text-emerald-300 hover:border-emerald-300 hover:bg-emerald-950/60'
+                    : 'border-emerald-600 bg-white text-emerald-900 hover:border-emerald-700 hover:bg-emerald-50 shadow-xs'
+                }`}
+              >
+                {t.home.contactPage}
+                <ArrowRight className="h-4 w-4 shrink-0" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* __SECTIONS_3__ */}
+
+      <style>{`
+        .home-marquee {
+          animation: homeMarquee 26s linear infinite;
+        }
+        @keyframes homeMarquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+    </section>
   );
 }
