@@ -343,22 +343,24 @@ export default function Home() {
                 </h1>
 
                 {/* ROTATING ROLE */}
-                <div className={`space-y-1.5 text-base sm:text-xl md:text-2xl ${isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'}`}>
-                  <div className={`flex items-center gap-2 ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
-                    root@mesh:~#
-                    <span
-                      className={`inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
-                        isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'
-                      }`}
-                    />
-                  </div>
-                  <div
+                <div
+                  className={`flex flex-wrap items-center gap-x-3 text-base sm:text-xl md:text-2xl font-bold ${
+                    isDark ? 'text-emerald-300' : 'text-emerald-800'
+                  }`}
+                >
+                  <span className={`${isDark ? 'text-emerald-500' : 'text-emerald-700'} shrink-0`}>root@meas:~#</span>
+                  <span
                     className={`inline-block min-h-[1.4em] transition-all duration-300 ${
                       role.visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
                     }`}
                   >
                     {role.typed}
-                  </div>
+                  </span>
+                  <span
+                    className={`inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
+                      isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'
+                    }`}
+                  />
                 </div>
               </div>
 
