@@ -1,349 +1,195 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Mail, 
-  ExternalLink, 
-  Download, 
-  ArrowRight, 
-  Terminal as TerminalIcon,
-  ShieldAlert,
-  Network,
-  Binary,
-  Lock,
-  Activity,
-  Cpu,
-  Server,
-  Zap,
-  CheckCircle2,
-  HardDrive
+import {
+  Mail,
+  ExternalLink,
+  Download,
+  ArrowRight,
+  Layers,
+  ShieldCheck,
+  Database,
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import { projects } from '../../data/projects';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
-const systemStats = [
-  { icon: Cpu, label: 'CPU CORE', value: '8x vCPU @ 3.8GHz', stat: '4.2% LOAD' },
-  { icon: HardDrive, label: 'MEMORY POOL', value: '32GB ECC DDR5', stat: '2.8GB IN-USE' },
-  { icon: Server, label: 'SOCKETS ACTIVE', value: '24 PROTOCOLS', stat: 'ESTABLISHED' },
-  { icon: Zap, label: 'AVAILABILITY', value: '99.98% UPTIME', stat: 'OPTIMAL' },
+/* ---------- Content ---------- */
+
+const stack = [
+  { group: 'Frontend', items: ['React 19', 'TypeScript', 'Tailwind CSS'] },
+  { group: 'Backend', items: ['Laravel 11', 'Node.js', 'REST APIs', 'JWT auth'] },
+  { group: 'Database', items: ['PostgreSQL', 'Redis'] },
+  { group: 'DevOps', items: ['Docker', 'CI/CD', 'Git'] },
 ];
 
-const techArsenal = [
-  { name: 'React 19', port: ':3000', layer: 'FRONTEND', status: 'ACTIVE' },
-  { name: 'TypeScript', port: ':COMPILER', layer: 'RUNTIME', status: 'SYNCHRONIZED' },
-  { name: 'Laravel 11', port: ':8000', layer: 'BACKEND', status: 'DAEMON_UP' },
-  { name: 'Node.js', port: ':5000', layer: 'RUNTIME', status: 'LISTENING' },
-  { name: 'PostgreSQL', port: ':5432', layer: 'PERSISTENCE', status: 'CONNECTED' },
-  { name: 'Redis Cache', port: ':6379', layer: 'IN-MEMORY', status: 'BOUND' },
-  { name: 'Tailwind CSS', port: ':JIT', layer: 'STYLESHEET', status: 'INJECTED' },
-  { name: 'Docker / CI', port: ':DAEMON', layer: 'CONTAINER', status: 'COMPOSED' },
-];
-
-const protocolVectors = [
+const services = [
   {
-    icon: Network,
-    code: 'SEC-01',
-    badge: 'CORE DIRECTIVE',
-    title: 'FULL-STACK DISTRIBUTED ARCHITECTURE',
-    desc: 'Engineering resilient, scalable single-page interfaces and API gateways. Specialized in decoupled frontend architectures and reactive client stores.',
+    icon: Layers,
+    title: 'Full-stack web apps',
+    desc: 'React frontends connected to Laravel or Node.js backends, built to be fast, easy to maintain, and easy to extend.',
   },
   {
-    icon: Binary,
-    code: 'SEC-02',
-    badge: 'ZERO TRUST',
-    title: 'API HARDENING & CRYPTO INTEGRITY',
-    desc: 'Building guarded REST endpoints, rate-limited tokens, cryptographic auth handshakes, and hardened middleware validation logic.',
+    icon: ShieldCheck,
+    title: 'Secure APIs',
+    desc: 'REST endpoints with authentication, input validation, and rate limiting, so your data stays protected.',
   },
   {
-    icon: ShieldAlert,
-    code: 'SEC-03',
-    badge: 'OPTIMIZATION',
-    title: 'DATABASE SCHEMAS & HIGH-CONCURRENCY',
-    desc: 'Structuring normalized relational schemas, query index tuning, caching fallbacks, and transactional database integrity guarantees.',
+    icon: Database,
+    title: 'Database design',
+    desc: 'Clean PostgreSQL schemas, tuned indexes, and Redis caching for quick queries under heavy use.',
   },
 ];
 
-const terminalLogs = [
-  { command: 'whoami', output: 'NGET MEAS [root@sec-gateway]' },
-  { command: 'cat /etc/security/roles.conf', output: 'Full Stack Architect // Cyber Systems Developer' },
-  { command: 'netstat -tulpn | grep 443', output: 'tcp 0 0 0.0.0.0:443 LISTEN ESTABLISHED' },
-  { command: 'iptables -L --line-numbers', output: 'CHAIN: INCOMING_COMMISSIONS [STATE: ACCEPT]' },
-  { command: 'systemctl check production.service', output: 'STATUS: ACTIVE (RUNNING) :: ZERO_FAILURES' },
-  { command: 'echo $STATUS', output: 'READY_FOR_COMMISSIONS_AND_EMPLOYMENT' },
+// The one "signature" element: a small terminal that introduces me.
+const terminalLines = [
+  { cmd: 'whoami', out: 'nget-meas, full-stack developer' },
+  { cmd: 'stack --list', out: 'React, Node.js, Laravel, PostgreSQL, Docker' },
+  { cmd: 'status', out: 'open to freelance and full-time roles' },
 ];
 
-const HEX_STREAM = [
-  '0x7F', '0x45', '0x4C', '0x02', '0xFF', '0x1A', '0x2B', '0xDE',
-  '0xC0', '0xDE', '0x55', '0x21', '0x09', '0x9B', '0xF4', '0xA1'
-];
+/* ---------- Hooks ---------- */
+
+function useTerminalTyping(lines) {
+  const prefersReduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  const [line, setLine] = useState(prefersReduced ? lines.length : 0);
+  const [chars, setChars] = useState(0);
+
+  useEffect(() => {
+    if (line >= lines.length) return;
+    const { cmd } = lines[line];
+    const timer = setTimeout(
+      () => {
+        if (chars < cmd.length) {
+          setChars((c) => c + 1);
+        } else {
+          setLine((l) => l + 1);
+          setChars(0);
+        }
+      },
+      chars < cmd.length ? 45 : 450
+    );
+    return () => clearTimeout(timer);
+  }, [line, chars, lines]);
+
+  return { line, chars, done: line >= lines.length };
+}
+
+/* ---------- Page ---------- */
 
 export default function Home() {
   const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const nameParts = t.hero.name.split(' ');
-  const featuredProjects = projects.filter(project => project.featured).slice(0, 3);
 
-  const [displayedLines, setDisplayedLines] = useState([]);
-  const [currentLine, setCurrentLine] = useState(0);
-  const [currentChar, setCurrentChar] = useState(0);
-  const [showOutput, setShowOutput] = useState(false);
-  const [typingComplete, setTypingComplete] = useState(false);
-  const [roleText, setRoleText] = useState('');
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
+  const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+  const { line, chars, done } = useTerminalTyping(terminalLines);
 
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-  }, []);
-
-  // Terminal Typing Emulation
-  useEffect(() => {
-    if (currentLine >= terminalLogs.length) {
-      const timer = setTimeout(() => setTypingComplete(true), 0);
-      return () => clearTimeout(timer);
-    }
-
-    const line = terminalLogs[currentLine];
-
-    if (!showOutput) {
-      if (currentChar < line.command.length) {
-        const timer = setTimeout(() => {
-          setDisplayedLines(prev => {
-            const updated = [...prev];
-            if (updated[currentLine]) {
-              updated[currentLine] = { ...updated[currentLine], command: line.command.slice(0, currentChar + 1) };
-            } else {
-              updated[currentLine] = { command: line.command.slice(0, currentChar + 1), output: '' };
-            }
-            return updated;
-          });
-          setCurrentChar(c => c + 1);
-        }, 25);
-        return () => clearTimeout(timer);
-      } else {
-        const timer = setTimeout(() => setShowOutput(true), 120);
-        return () => clearTimeout(timer);
+  // All theme classes live in one place, so the JSX stays readable.
+  const c = isDark
+    ? {
+        page: 'bg-[#08100d] text-slate-300 selection:bg-emerald-400 selection:text-black',
+        heading: 'text-white',
+        muted: 'text-slate-400',
+        accent: 'text-emerald-400',
+        border: 'border-white/10',
+        surface: 'bg-white/[0.03]',
+        chip: 'border-white/10 bg-white/[0.04] text-slate-200',
+        primary: 'bg-emerald-400 text-black hover:bg-emerald-300',
+        secondary: 'border-white/15 text-slate-100 hover:border-emerald-400/70 hover:text-emerald-300',
+        iconBtn: 'border-white/15 text-slate-200 hover:border-emerald-400/70 hover:text-emerald-300',
+        cardHover: 'hover:border-emerald-400/50',
+        focus: 'focus-visible:outline-emerald-400',
+        glow: 'radial-gradient(circle, rgba(16,185,129,0.16) 0%, transparent 70%)',
       }
-    } else {
-      const outputTimer = setTimeout(() => {
-        setDisplayedLines(prev => {
-          const updated = [...prev];
-          updated[currentLine] = { ...updated[currentLine], output: line.output };
-          return updated;
-        });
-      }, 0);
-      const timer = setTimeout(() => {
-        setShowOutput(false);
-        setCurrentChar(0);
-        setCurrentLine(l => l + 1);
-      }, 90);
-      return () => {
-        clearTimeout(outputTimer);
-        clearTimeout(timer);
+    : {
+        page: 'bg-[#f7faf8] text-slate-700 selection:bg-emerald-600 selection:text-white',
+        heading: 'text-slate-900',
+        muted: 'text-slate-600',
+        accent: 'text-emerald-700',
+        border: 'border-slate-200',
+        surface: 'bg-white',
+        chip: 'border-slate-200 bg-white text-slate-800',
+        primary: 'bg-emerald-600 text-white hover:bg-emerald-700',
+        secondary: 'border-slate-300 text-slate-800 hover:border-emerald-600 hover:text-emerald-700',
+        iconBtn: 'border-slate-300 text-slate-700 hover:border-emerald-600 hover:text-emerald-700',
+        cardHover: 'hover:border-emerald-500',
+        focus: 'focus-visible:outline-emerald-600',
+        glow: 'radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%)',
       };
-    }
-  }, [currentLine, currentChar, showOutput]);
 
-  // Cypher Role Rotating Hook
-  useEffect(() => {
-    const roles = [
-      'FULL_STACK_ARCHITECT',
-      'CYBER_DEFENSE_UI_ENGINEER',
-      'API_SYSTEMS_SPECIALIST',
-      'HIGH_THROUGHPUT_DEVELOPER'
-    ];
-    const current = roles[roleIndex % roles.length];
-
-    if (deleting && roleText.length === 0) {
-      const timer = setTimeout(() => {
-        setRoleIndex(i => i + 1);
-        setDeleting(false);
-      }, 350);
-      return () => clearTimeout(timer);
-    }
-
-    if (!deleting && roleText.length === current.length) {
-      const timer = setTimeout(() => setDeleting(true), 1800);
-      return () => clearTimeout(timer);
-    }
-
-    const timer = setTimeout(() => {
-      setRoleText(
-        deleting
-          ? current.slice(0, roleText.length - 1)
-          : current.slice(0, roleText.length + 1)
-      );
-    }, deleting ? 20 : 50);
-    return () => clearTimeout(timer);
-  }, [roleText, deleting, roleIndex]);
+  const container = 'mx-auto w-full max-w-6xl px-6 sm:px-10';
+  const focusRing = `focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${c.focus}`;
 
   return (
-    <div
-      className={`relative min-h-screen font-mono transition-colors duration-300 overflow-x-hidden ${
-        isDark 
-          ? 'bg-[#030705] text-emerald-400 selection:bg-emerald-500 selection:text-black' 
-          : 'bg-[#f8faf9] text-slate-900 selection:bg-emerald-600 selection:text-white'
-      }`}
-    >
-      {/* BACKGROUND ACCENTS */}
+    <div className={`relative min-h-screen overflow-x-hidden transition-colors duration-300 ${c.page}`}>
+      {/* One soft glow behind the hero, nothing else in the background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div
-          className="absolute -left-20 top-20 h-[350px] sm:h-[500px] w-[350px] sm:w-[500px] rounded-full blur-[100px] sm:blur-[140px]"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
-          }}
-        />
-        <div
-          className={`absolute inset-0 bg-[linear-gradient(to_right,#10b9810d_1px,transparent_1px),linear-gradient(to_bottom,#10b9810d_1px,transparent_1px)] bg-[size:3rem_3rem] sm:bg-[size:4rem_4rem] ${
-            isDark ? 'opacity-30' : 'opacity-20'
-          }`}
+          className="absolute -left-24 top-10 h-[420px] w-[420px] rounded-full blur-[120px]"
+          style={{ background: c.glow }}
         />
       </div>
 
-      {/* HERO SECTION */}
-      <section className="relative z-10 px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32 pt-16 pb-16 sm:pt-24 sm:pb-24 lg:pt-28 lg:pb-28">
-        <div className="mx-auto w-full max-w-[1600px]">
-          <div className="grid items-center gap-12 lg:grid-cols-12 xl:gap-16">
-
-            {/* LEFT COLUMN: HERO CONTENT */}
-            <div data-aos="fade-right" className="lg:col-span-7 flex flex-col space-y-6 sm:space-y-8">
-              
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <div
-                  className={`inline-flex items-center gap-2 border px-3 py-1.5 text-xs font-bold rounded ${
-                    isDark 
-                      ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)]' 
-                      : 'border-emerald-600/40 bg-emerald-100/80 text-emerald-900'
-                  }`}
-                >
-                  <Lock className={`h-3.5 w-3.5 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
-                  <span className="tracking-wider">// NODE://INIT_OK</span>
-                </div>
-                <span
-                  className={`border px-2.5 py-1 text-[10px] sm:text-[11px] font-bold rounded ${
-                    isDark 
-                      ? 'border-emerald-700/60 bg-emerald-950/30 text-emerald-300' 
-                      : 'border-emerald-300 bg-white text-emerald-800 shadow-xs'
-                  }`}
-                >
-                  PORT: 443 [OPEN]
-                </span>
-                <span
-                  className={`border px-2.5 py-1 text-[10px] sm:text-[11px] font-bold rounded ${
-                    isDark 
-                      ? 'border-emerald-700/60 bg-emerald-950/30 text-emerald-300' 
-                      : 'border-emerald-300 bg-white text-emerald-800 shadow-xs'
-                  }`}
-                >
-                  ENCRYPTION: HARDENED
-                </span>
-              </div>
-
-              <div className="space-y-3 sm:space-y-4">
-                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight leading-[1.08] break-words">
-                  <span className={isDark ? 'text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'text-slate-900'}>
-                    {nameParts[0]}
-                  </span>{' '}
-                  <span
-                    className={`font-black ${
-                      isDark 
-                        ? 'text-emerald-400 drop-shadow-[0_0_35px_rgba(52,211,153,0.7)]' 
-                        : 'text-emerald-700 drop-shadow-[0_0_15px_rgba(4,120,87,0.2)]'
-                    }`}
-                  >
-                    {nameParts.slice(1).join(' ')}
-                  </span>
-                </h1>
-
-                {/* ROLE ROTATOR */}
-                <div
-                  className={`flex flex-wrap items-center gap-2 text-base sm:text-xl md:text-2xl pt-1 ${
-                    isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'
-                  }`}
-                >
-                  <span className={isDark ? 'text-emerald-500' : 'text-emerald-700'}>root@mesh:~#</span>
-                  <span className="underline decoration-emerald-400 decoration-2 underline-offset-4 break-all">
-                    {roleText}
-                  </span>
-                  <span className={`inline-block w-2.5 h-5 sm:h-6 animate-pulse ${isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'}`} />
-                </div>
-              </div>
-
-              {/* BIO BOX */}
-              <p
-                className={`max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed border-l-4 pl-4 sm:pl-6 py-3 rounded-r-xl ${
-                  isDark 
-                    ? 'text-slate-100 border-emerald-400 bg-emerald-950/30' 
-                    : 'text-slate-800 border-emerald-600 bg-emerald-50/80 shadow-xs'
-                }`}
+      {/* ---------- HERO ---------- */}
+      <section className="relative z-10 pt-16 pb-20 sm:pt-24 sm:pb-28">
+        <div className={container}>
+          <div className="grid items-center gap-12 lg:grid-cols-12">
+            {/* Left: who I am, what I do, what to click */}
+            <div className="lg:col-span-7">
+              <span
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm ${c.chip}`}
               >
-                Constructing hardened, full-stack digital assets. Focusing on fault-tolerant backend infrastructures, resilient state distribution, and defensive web software engineering.
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 motion-safe:animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Available for work
+              </span>
+
+              <p className={`mt-8 text-lg ${c.muted}`}>
+                Hi, I&apos;m <span className={`font-semibold ${c.heading}`}>{t.hero.name}</span>
               </p>
 
-              {/* HEX STREAM */}
-              <div
-                className={`flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-xs select-none ${
-                  isDark ? 'text-emerald-400/90 font-bold' : 'text-emerald-800 font-semibold'
-                }`}
+              <h1
+                className={`mt-2 text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl ${c.heading}`}
               >
-                {HEX_STREAM.map((hex, i) => (
-                  <span
-                    key={i}
-                    className={`px-2 py-0.5 border rounded transition-all ${
-                      isDark 
-                        ? 'bg-black/90 border-emerald-800/80 hover:border-emerald-400 hover:text-emerald-300' 
-                        : 'bg-white border-emerald-200 hover:border-emerald-600 shadow-xs'
-                    }`}
-                  >
-                    {hex}
-                  </span>
-                ))}
-              </div>
+                Full-stack developer who builds web apps from database to interface.
+              </h1>
 
-              {/* ACTIONS & SOCIALS */}
-              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-2">
+              <p className={`mt-6 max-w-xl text-base leading-relaxed sm:text-lg ${c.muted}`}>
+                I build fast, secure, and reliable web applications with React, Laravel, and Node.js,
+                backed by well-designed APIs and databases.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
                   href="/CV_NgetMeas.pdf"
                   download="CV_NgetMeas.pdf"
-                  className={`inline-flex items-center justify-center gap-3 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md text-center ${
-                    isDark
-                      ? 'bg-emerald-400 text-black font-black hover:bg-emerald-300 hover:shadow-[0_0_25px_rgba(52,211,153,0.6)]'
-                      : 'bg-emerald-600 text-white hover:bg-emerald-700'
-                  }`}
+                  className={`inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors ${c.primary} ${focusRing}`}
                 >
-                  <Download className="h-4 w-4 shrink-0" />
-                  EXEC_DOWNLOAD_CV
+                  <Download className="h-4 w-4" />
+                  Download CV
                 </a>
-                
+
                 <Link
                   to="/projects"
-                  className={`inline-flex items-center justify-center gap-3 border-2 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all text-center ${
-                    isDark
-                      ? 'border-emerald-400/60 bg-emerald-950/30 text-emerald-300 hover:border-emerald-300 hover:bg-emerald-950/60'
-                      : 'border-emerald-600 bg-white text-emerald-900 hover:border-emerald-700 hover:bg-emerald-50 shadow-xs'
-                  }`}
+                  className={`inline-flex items-center gap-2 rounded-lg border px-5 py-3 text-sm font-semibold transition-colors ${c.secondary} ${focusRing}`}
                 >
-                  AUDIT_ARCHIVES
-                  <ArrowRight className="h-4 w-4 shrink-0" />
+                  View my projects
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
 
-                <div className="flex items-center justify-center gap-2.5 pt-2 sm:pt-0">
+                <div className="flex items-center gap-2 sm:ml-2">
                   <a
                     href="https://github.com/NgetMeas22"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex h-11 w-11 items-center justify-center rounded-xl border-2 transition-all ${
-                      isDark
-                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300'
-                        : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
-                    }`}
                     aria-label="GitHub"
+                    className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${c.iconBtn} ${focusRing}`}
                   >
                     <GitHubIcon size={18} />
                   </a>
@@ -351,377 +197,182 @@ export default function Home() {
                     href="https://linkedin.com/in/nget-meas-6525bb3a6"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex h-11 w-11 items-center justify-center rounded-xl border-2 transition-all ${
-                      isDark
-                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300'
-                        : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
-                    }`}
                     aria-label="LinkedIn"
+                    className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${c.iconBtn} ${focusRing}`}
                   >
                     <LinkedInIcon size={18} />
                   </a>
                   <a
                     href="mailto:measm2519@gmail.com"
-                    className={`flex h-11 w-11 items-center justify-center rounded-xl border-2 transition-all ${
-                      isDark
-                        ? 'border-emerald-500/40 bg-black text-emerald-400 hover:border-emerald-300'
-                        : 'border-emerald-300 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50 shadow-xs'
-                    }`}
                     aria-label="Email"
+                    className={`flex h-11 w-11 items-center justify-center rounded-lg border transition-colors ${c.iconBtn} ${focusRing}`}
                   >
                     <Mail size={18} />
                   </a>
                 </div>
               </div>
-
             </div>
 
-            {/* RIGHT COLUMN: ILLUMINATED TERMINAL HUD */}
-            <div data-aos="fade-left" className="lg:col-span-5 w-full">
+            {/* Right: small terminal (always dark, so it looks the same in both themes) */}
+            <div className="lg:col-span-5">
               <div
-                className={`relative rounded-2xl border-2 transition-all duration-200 overflow-hidden ${
-                  isDark 
-                    ? 'border-emerald-400/60 bg-[#050b08] shadow-[0_0_35px_rgba(16,185,129,0.2)]' 
-                    : 'border-emerald-600/40 bg-white shadow-xl'
-                }`}
+                className="overflow-hidden rounded-xl border border-emerald-400/20 bg-[#0a1410] shadow-[0_20px_60px_-20px_rgba(16,185,129,0.35)]"
+                role="img"
+                aria-label="Terminal introducing Nget Meas as a full-stack developer open to work"
               >
-                {/* HUD CORNER RETICLES */}
-                <span className={`absolute top-2 left-2 h-3.5 w-3.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute top-2 right-2 h-3.5 w-3.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute bottom-2 left-2 h-3.5 w-3.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute bottom-2 right-2 h-3.5 w-3.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-
-                {/* TERMINAL HEADER */}
-                <div
-                  className={`flex flex-wrap items-center justify-between border-b px-4 py-3 text-xs gap-2 ${
-                    isDark 
-                      ? 'border-emerald-500/30 bg-emerald-950/60 text-slate-100' 
-                      : 'border-emerald-100 bg-emerald-50/90 text-slate-800'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <TerminalIcon className={`h-4 w-4 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
-                    <span className="font-bold tracking-wider truncate">BASH_PORTAL_SESSION.sh</span>
-                  </div>
-                  <span
-                    className={`flex items-center gap-1.5 text-[10px] font-bold border px-2 py-0.5 rounded ${
-                      isDark 
-                        ? 'text-emerald-300 bg-emerald-950 border-emerald-500/50' 
-                        : 'text-emerald-800 bg-white border-emerald-300'
-                    }`}
-                  >
-                    <Activity className="h-3 w-3 animate-spin text-emerald-400" /> ACTIVE
-                  </span>
+                <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                  <span className="ml-3 font-mono text-xs text-slate-400">about.sh</span>
                 </div>
 
-                {/* TERMINAL BUFFER VIEWPORT */}
-                <div className="min-h-[280px] sm:min-h-[380px] p-4 sm:p-6 space-y-3.5 text-xs sm:text-sm leading-relaxed overflow-y-auto">
-                  <p className={isDark ? 'text-emerald-400/80 font-bold' : 'text-emerald-700 font-semibold'}>
-                    // Remote handshake negotiated. Cipher: ECDHE-RSA-AES128-GCM-SHA256
-                  </p>
-                  
-                  {displayedLines.map((line, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <p className={`break-all ${isDark ? 'text-white font-semibold' : 'text-slate-900 font-semibold'}`}>
-                        <span className={`font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>root@sec-gateway:~#</span> {line.command}
-                      </p>
-                      {line.output && (
-                        <p
-                          className={`pl-3 border-l-2 font-mono break-all text-xs ${
-                            isDark 
-                              ? 'text-emerald-300 border-emerald-400 bg-emerald-950/20 py-1' 
-                              : 'text-emerald-900 border-emerald-600 bg-emerald-50/70 py-1 font-semibold'
-                          }`}
-                        >
-                          {line.output}
+                <div className="min-h-[220px] space-y-4 p-5 font-mono text-sm leading-relaxed">
+                  {terminalLines.map((l, i) => {
+                    if (i > line) return null;
+                    const typing = i === line;
+                    return (
+                      <div key={l.cmd}>
+                        <p className="text-slate-100">
+                          <span className="text-emerald-400">$</span>{' '}
+                          {typing ? l.cmd.slice(0, chars) : l.cmd}
+                          {typing && (
+                            <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-emerald-400 motion-safe:animate-pulse" />
+                          )}
                         </p>
-                      )}
-                    </div>
-                  ))}
+                        {!typing && <p className="mt-1 pl-4 text-emerald-300/90">{l.out}</p>}
+                      </div>
+                    );
+                  })}
 
-                  {!typingComplete ? (
-                    <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400 shadow-[0_0_8px_#10b981]' : 'bg-emerald-700'}`} />
-                  ) : (
-                    <p className={`pt-2 border-t text-xs ${isDark ? 'text-emerald-400 border-emerald-900/60' : 'text-emerald-700 border-emerald-100'}`}>
-                      root@sec-gateway:~# <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400' : 'bg-emerald-700'}`} />
+                  {done && (
+                    <p className="text-slate-100">
+                      <span className="text-emerald-400">$</span>{' '}
+                      <span className="inline-block h-4 w-2 translate-y-0.5 bg-emerald-400 motion-safe:animate-pulse" />
                     </p>
                   )}
                 </div>
-
-                {/* TERMINAL STATUS BAR */}
-                <div
-                  className={`grid grid-cols-2 sm:grid-cols-4 border-t px-4 py-2.5 text-[10px] sm:text-[11px] font-bold gap-2 ${
-                    isDark 
-                      ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400' 
-                      : 'border-emerald-100 bg-emerald-50 text-emerald-800'
-                  }`}
-                >
-                  <div>SOCK: <span className={isDark ? 'text-white' : 'text-slate-900'}>0x88F</span></div>
-                  <div>PKTS: <span className={isDark ? 'text-white' : 'text-slate-900'}>204,112</span></div>
-                  <div>PORT: <span className={isDark ? 'text-white' : 'text-slate-900'}>443/TLS</span></div>
-                  <div className={`text-right font-black ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>READY</div>
-                </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* SYSTEM TELEMETRY / HARDWARE PANEL */}
-      <section
-        className={`relative z-10 border-y py-12 sm:py-16 ${
-          isDark 
-            ? 'border-emerald-500/30 bg-black/70' 
-            : 'border-emerald-900/10 bg-white/90 shadow-xs'
-        }`}
-      >
-        <div className="mx-auto w-full max-w-[1600px] px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {systemStats.map((item, i) => (
-              <div
-                key={i}
-                className={`border-2 rounded-xl p-4 sm:p-5 flex items-center gap-4 transition-all duration-200 ${
-                  isDark 
-                    ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400' 
-                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
-                }`}
-              >
-                <div
-                  className={`p-3 rounded-lg border shrink-0 ${
-                    isDark 
-                      ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300' 
-                      : 'border-emerald-300 bg-emerald-50 text-emerald-700'
-                  }`}
-                >
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <div className="space-y-1 overflow-hidden">
-                  <div className={`text-[10px] uppercase tracking-widest font-bold truncate ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
-                    {item.label}
-                  </div>
-                  <div className={`text-sm sm:text-base font-black truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                    {item.value}
-                  </div>
-                  <div className={`text-[11px] font-mono flex items-center gap-1.5 ${isDark ? 'text-emerald-300 font-bold' : 'text-emerald-700 font-semibold'}`}>
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" /> {item.stat}
-                  </div>
-                </div>
+      {/* ---------- TECH STACK ---------- */}
+      <section className={`relative z-10 border-t py-16 sm:py-20 ${c.border}`}>
+        <div className={container}>
+          <h2 className={`text-2xl font-bold tracking-tight sm:text-3xl ${c.heading}`}>
+            Technologies I work with
+          </h2>
+          <p className={`mt-2 max-w-xl ${c.muted}`}>
+            The tools I use every day to ship complete products.
+          </p>
+
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {stack.map((s) => (
+              <div key={s.group}>
+                <h3 className={`text-sm font-semibold ${c.accent}`}>{s.group}</h3>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {s.items.map((item) => (
+                    <li
+                      key={item}
+                      className={`rounded-md border px-3 py-1.5 text-sm ${c.chip}`}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* OPERATIONAL CAPABILITIES */}
-      <section className="relative z-10 py-16 sm:py-24 lg:py-28">
-        <div className="mx-auto w-full max-w-[1600px] px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">
-          <div className="mb-10 sm:mb-14">
-            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-              // SECTION: OPERATIONAL_PROFILES
-            </span>
-            <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              SYSTEM_CAPABILITIES
-            </h2>
-          </div>
+      {/* ---------- WHAT I DO ---------- */}
+      <section className={`relative z-10 border-t py-16 sm:py-20 ${c.border}`}>
+        <div className={container}>
+          <h2 className={`text-2xl font-bold tracking-tight sm:text-3xl ${c.heading}`}>
+            What I can build for you
+          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {protocolVectors.map((vector, i) => (
-              <div
-                key={i}
-                data-aos="fade-up"
-                data-aos-delay={i * 100}
-                className={`relative border-2 rounded-2xl p-6 sm:p-8 transition-all duration-200 ${
-                  isDark 
-                    ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400' 
-                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
-                }`}
-              >
-                <div className="flex items-center justify-between text-xs mb-5">
-                  <span
-                    className={`border px-2.5 py-1 font-bold rounded ${
-                      isDark 
-                        ? 'border-emerald-500/50 bg-black text-emerald-300' 
-                        : 'border-emerald-300 bg-emerald-50 text-emerald-800'
-                    }`}
-                  >
-                    {vector.code}
-                  </span>
-                  <span
-                    className={`text-[10px] uppercase border px-2 py-0.5 font-bold rounded ${
-                      isDark 
-                        ? 'border-emerald-700/60 text-emerald-400' 
-                        : 'border-emerald-200 text-emerald-700'
-                    }`}
-                  >
-                    {vector.badge}
-                  </span>
-                </div>
-                <h3 className={`text-base sm:text-lg font-black mb-2.5 uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  {vector.title}
-                </h3>
-                <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                  {vector.desc}
-                </p>
+          <div className={`mt-10 grid divide-y md:grid-cols-3 md:divide-x md:divide-y-0 ${c.border} divide-inherit`}>
+            {services.map((s) => (
+              <div key={s.title} className="py-6 md:px-8 md:py-2 md:first:pl-0 md:last:pr-0">
+                <s.icon className={`h-6 w-6 ${c.accent}`} aria-hidden="true" />
+                <h3 className={`mt-4 text-lg font-semibold ${c.heading}`}>{s.title}</h3>
+                <p className={`mt-2 text-sm leading-relaxed sm:text-base ${c.muted}`}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* TECH ARSENAL MATRIX */}
-      <section
-        className={`relative z-10 border-t py-16 sm:py-24 lg:py-28 ${
-          isDark 
-            ? 'border-emerald-500/30 bg-black/80' 
-            : 'border-emerald-900/10 bg-white/70'
-        }`}
-      >
-        <div className="mx-auto w-full max-w-[1600px] px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">
-          <div className="mb-10 sm:mb-12 text-center">
-            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-              // DAEMONS & NETWORK RUNTIMES
-            </span>
-            <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              DEPLOYED_TECH_ARSENAL
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {techArsenal.map(tech => (
-              <div
-                key={tech.name}
-                className={`border-2 rounded-xl p-5 transition-all duration-200 ${
-                  isDark 
-                    ? 'border-emerald-900/70 bg-black/90 hover:border-emerald-400' 
-                    : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
-                }`}
-              >
-                <div className={`flex items-center justify-between text-xs font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-                  <span>{tech.port}</span>
-                  <span
-                    className={`text-[10px] border px-2 py-0.5 rounded font-bold ${
-                      isDark 
-                        ? 'bg-emerald-950 border-emerald-500/50 text-emerald-300' 
-                        : 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                    }`}
-                  >
-                    {tech.layer}
-                  </span>
-                </div>
-                <div className={`mt-3 text-lg font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  {tech.name}
-                </div>
-                <div
-                  className={`mt-3 flex items-center justify-between text-[10px] sm:text-[11px] border-t pt-2.5 ${
-                    isDark 
-                      ? 'border-emerald-900/60 text-slate-400' 
-                      : 'border-emerald-100 text-slate-500'
-                  }`}
-                >
-                  <span className="font-mono">STATE</span>
-                  <span className={`font-bold ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>
-                    {tech.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURED PROJECTS */}
-      <section className="relative z-10 border-t border-emerald-500/30 py-16 sm:py-24 lg:py-28">
-        <div className="mx-auto w-full max-w-[1600px] px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">
-          <div className="mb-10 sm:mb-12 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+      {/* ---------- FEATURED PROJECTS ---------- */}
+      <section className={`relative z-10 border-t py-16 sm:py-20 ${c.border}`}>
+        <div className={container}>
+          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-                // ACTIVE_DEPLOYMENTS
-              </span>
-              <h2 className={`text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                FEATURED_TARGETS
+              <h2 className={`text-2xl font-bold tracking-tight sm:text-3xl ${c.heading}`}>
+                Featured projects
               </h2>
+              <p className={`mt-2 ${c.muted}`}>A few things I&apos;ve built recently.</p>
             </div>
             <Link
               to="/projects"
-              className={`text-xs sm:text-sm font-bold uppercase hover:underline flex items-center gap-1.5 ${
-                isDark ? 'text-emerald-400' : 'text-emerald-700'
-              }`}
+              className={`inline-flex items-center gap-1.5 text-sm font-semibold hover:underline ${c.accent} ${focusRing}`}
             >
-              INSPECT_ALL_REPOSITORIES <ArrowRight className="h-4 w-4" />
+              See all projects
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {featuredProjects.map((project, idx) => (
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((project) => (
               <article
                 key={project.id}
-                data-aos="fade-up"
-                data-aos-delay={idx * 100}
-                className={`border-2 rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 group ${
-                  isDark 
-                    ? 'border-emerald-900/80 bg-black/90 hover:border-emerald-400' 
-                    : 'border-emerald-200 bg-white hover:border-emerald-600 shadow-xs'
-                }`}
+                className={`flex flex-col justify-between rounded-xl border p-6 transition-colors ${c.border} ${c.surface} ${c.cardHover}`}
               >
                 <div>
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {project.category.map(cat => (
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.category.map((cat) => (
                       <span
                         key={cat}
-                        className={`text-[9px] sm:text-[10px] border px-2 py-0.5 font-bold rounded ${
-                          isDark 
-                            ? 'bg-emerald-950/60 text-emerald-300 border-emerald-700/60' 
-                            : 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                        }`}
+                        className={`rounded-md border px-2 py-0.5 text-xs ${c.chip}`}
                       >
                         {cat}
                       </span>
                     ))}
                   </div>
 
-                  <h3
-                    className={`text-base sm:text-lg font-black mb-2.5 transition-colors uppercase tracking-tight ${
-                      isDark 
-                        ? 'text-white group-hover:text-emerald-400' 
-                        : 'text-slate-900 group-hover:text-emerald-700'
-                    }`}
-                  >
-                    {project.title}
+                  <h3 className={`mt-4 text-lg font-semibold ${c.heading}`}>
+                    <Link
+                      to={`/projects/${project.id}`}
+                      className={`hover:underline ${focusRing}`}
+                    >
+                      {project.title}
+                    </Link>
                   </h3>
 
-                  <p className={`text-xs sm:text-sm line-clamp-3 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                  <p className={`mt-2 line-clamp-3 text-sm leading-relaxed ${c.muted}`}>
                     {language === 'kh' ? project.descriptionKh : project.description}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {project.technologies.slice(0, 4).map(t => (
-                      <span
-                        key={t}
-                        className={`text-[10px] font-mono border px-1.5 py-0.5 rounded ${
-                          isDark 
-                            ? 'text-emerald-400 border-emerald-800/80 bg-black' 
-                            : 'text-emerald-700 border-emerald-100 bg-emerald-50/50'
-                        }`}
-                      >
-                        #{t}
-                      </span>
+                  <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                    {project.technologies.slice(0, 4).map((tech) => (
+                      <li key={tech} className={c.accent}>
+                        {tech}
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
-                <div
-                  className={`mt-6 pt-4 border-t flex items-center justify-between text-xs ${
-                    isDark ? 'border-emerald-900/60' : 'border-emerald-100'
-                  }`}
-                >
+                <div className={`mt-6 flex items-center justify-between border-t pt-4 text-sm ${c.border}`}>
                   <Link
                     to={`/projects/${project.id}`}
-                    className={`font-bold hover:underline flex items-center gap-1 ${
-                      isDark ? 'text-emerald-400' : 'text-emerald-700'
-                    }`}
+                    className={`inline-flex items-center gap-1 font-semibold hover:underline ${c.accent} ${focusRing}`}
                   >
-                    EXPLOIT_SOURCE →
+                    View details
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
 
                   {project.live && (
@@ -729,16 +380,44 @@ export default function Home() {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`hover:underline flex items-center gap-1 ${
-                        isDark ? 'text-slate-300 hover:text-emerald-400' : 'text-slate-600 hover:text-emerald-700 font-semibold'
-                      }`}
+                      className={`inline-flex items-center gap-1 hover:underline ${c.muted} ${focusRing}`}
                     >
-                      <ExternalLink className="h-3 w-3" /> LIVE_HOST
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Live site
                     </a>
                   )}
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- CONTACT CTA ---------- */}
+      <section className={`relative z-10 border-t py-16 sm:py-24 ${c.border}`}>
+        <div className={`${container} max-w-3xl text-center`}>
+          <h2 className={`text-3xl font-bold tracking-tight sm:text-4xl ${c.heading}`}>
+            Have a project or a role in mind?
+          </h2>
+          <p className={`mx-auto mt-4 max-w-xl text-base sm:text-lg ${c.muted}`}>
+            I&apos;m open to freelance projects and full-time opportunities. Send me a message and I&apos;ll
+            get back to you.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="mailto:measm2519@gmail.com"
+              className={`inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-colors ${c.primary} ${focusRing}`}
+            >
+              <Mail className="h-4 w-4" />
+              Email me
+            </a>
+            <Link
+              to="/contact"
+              className={`inline-flex items-center gap-2 rounded-lg border px-6 py-3 text-sm font-semibold transition-colors ${c.secondary} ${focusRing}`}
+            >
+              Contact page
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

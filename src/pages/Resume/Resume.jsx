@@ -33,7 +33,7 @@ const profile = {
 
 const languages = [
   { nameEn: 'Khmer', nameKh: 'ភាសាខ្មែរ', levelEn: 'Native', levelKh: 'ភាសាមាតុភាសា' },
-  { nameEn: 'English', nameKh: 'ភាសាអង់គ្លេស', levelEn: 'Intermediate (ACE Level 7A)', levelKh: 'កម្រិតមធ្យម (ACE កម្រិត 7A)' },
+  { nameEn: 'English', nameKh: 'ភាសាអង់គ្លេស', levelEn: 'Intermediate (ACE Level 7B)', levelKh: 'កម្រិតមធ្យម (ACE កម្រិត 7B)' },
 ];
 
 const levelPercent = (level) => {

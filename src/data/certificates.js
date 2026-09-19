@@ -5,8 +5,22 @@ import webDevCertImage from '../assets/certificates/6.jpg';
 import internshipCertImage from '../assets/certificates/4.jpg';
 import phpLaravelCertImage from '../assets/certificates/5.jpg';
 import officeCertImage from '../assets/certificates/2.bmp';
+import ruppCertImage from '../assets/certificates/0.jpg';
 
 export const certificates = [
+  {
+    id: 'rupp-cs-engineering',
+    title: 'Computer Science and Engineering',
+    titleKh: 'វិទ្យាសាស្ត្រកុំព្យូទ័រ និងវិស្វកម្ម',
+    organization: 'Royal University of Phnom Penh',
+    organizationKh: 'សាកលវិទ្យាល័យភូមិន្ទភ្នំពេញ',
+    date: '2024-2025',
+    credentialId: '0074/2026 RUPP',
+    description: 'Undergraduate Academic Record (Student Year 1) with Cumulative GPA: 2.81.',
+    descriptionKh: 'កំណត់ត្រាសិក្សាថ្នាក់បរិញ្ញាបត្រ (និស្សិតឆ្នាំទី១) ពិន្ទុមធ្យមភាគសរុប (CGPA)៖ ២.៨១។',
+    image: ruppCertImage,
+    category: 'Education'
+  },
     {
     id: 'ace-gep-level-7b',
     title: 'General English Program (GEP) - Level 7B',
