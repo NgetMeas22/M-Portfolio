@@ -15,9 +15,9 @@ const en = {
   hero: {
     greeting: "Hi, I'm",
     name: 'NGET MEAS',
-    role: 'Full Stack Developer',
-    description1: 'I build modern web applications,',
-    description2: 'APIs, and database-driven systems.',
+    role: '1. full-stack developer\n2. AI software engineer\n3. REST API engineer\n4. database architect',
+    description1: "I'm a full-stack developer who turns ideas into fast, secure web applications. From pixel-perfect React interfaces to hardened REST APIs and optimized databases, I own every layer of the stack. I care about clean code, thoughtful UX, and shipping features that actually solve problems.",
+    description2: "Open to freelance and full-time roles — let's build something great.",
     currentlyLearning: 'Currently learning',
     viewProjects: 'View My Projects',
     downloadCV: 'Download CV',

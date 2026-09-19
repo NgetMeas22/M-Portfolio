@@ -11,11 +11,6 @@ import {
   Binary,
   Lock,
   Activity,
-  Cpu,
-  Server,
-  Zap,
-  CheckCircle2,
-  HardDrive,
   Search,
   Layers,
   Code2,
@@ -34,14 +29,6 @@ import 'aos/dist/aos.css';
 /* ------------------------------------------------------------------ */
 
 const MATRIX_CHARS = '01<>[]{}#$%ABCDEFGHIJKLMNOPQRSTUVWXYZNGETMEAS*+/=';
-const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/[]{}$#%&*+=_';
-
-const systemStats = [
-  { icon: Cpu, label: 'CPU CORE', value: '8x vCPU @ 3.8GHz', stat: '4.2% LOAD' },
-  { icon: HardDrive, label: 'MEMORY POOL', value: '32GB ECC DDR5', stat: '2.8GB IN-USE' },
-  { icon: Server, label: 'SOCKETS ACTIVE', value: '24 PROTOCOLS', stat: 'ESTABLISHED' },
-  { icon: Zap, label: 'AVAILABILITY', value: '99.98% UPTIME', stat: 'OPTIMAL' },
-];
 
 const protocolVectors = [
   {
@@ -86,11 +73,6 @@ const terminalLogs = [
   { command: 'systemctl check portfolio.service', output: 'STATUS: ACTIVE (RUNNING) :: ZERO_FAILURES' },
   { command: 'curl -sS api/status | jq .', output: '{"uptime":"99.98%","ready_for":["work","commissions"]}' },
   { command: 'echo $READY', output: 'OPEN_TO_FREELANCE_AND_FULL_TIME_ROLES' },
-];
-
-const HEX_STREAM = [
-  '0x7F', '0x45', '0x4C', '0x02', '0xFF', '0x1A', '0x2B', '0xDE',
-  '0xC0', '0xDE', '0x55', '0x21', '0x09', '0x9B', '0xF4', '0xA1',
 ];
 
 const MARQUEE_ITEMS = [
@@ -159,32 +141,41 @@ function MatrixRain({ isDark }) {
   return <canvas ref={canvasRef} className="matrix-rain opacity-50" aria-hidden="true" />;
 }
 
-function useScramble(text, { speed = 55, iterations = 7 } = {}) {
-  const [output, setOutput] = useState('');
+function useRotatingRole(lines, { typeSpeed = 45, hold = 2400, transition = 240 } = {}) {
+  const [index, setIndex] = useState(0);
+  const [typed, setTyped] = useState('');
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    let iteration = 0;
-    const id = setInterval(() => {
-      iteration += 1;
-      if (iteration >= iterations) {
-        clearInterval(id);
-        setOutput(text);
-        return;
-      }
-      const reveal = Math.floor((iteration / iterations) * text.length);
-      setOutput(
-        text
-          .split('')
-          .map((ch, i) =>
-            ch === ' ' ? ch : i < reveal ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
-          )
-          .join('')
-      );
-    }, speed);
-    return () => clearInterval(id);
-  }, [text, speed, iterations]);
+    if (!lines.length) return;
+    const current = lines[index % lines.length];
+    let t1;
+    let t2;
+    let x = 0;
 
-  return { output };
+    t1 = setInterval(() => {
+      x += 1;
+      setTyped(current.slice(0, x));
+      if (x >= current.length) {
+        clearInterval(t1);
+        t2 = setTimeout(() => {
+          setVisible(false);
+          t2 = setTimeout(() => {
+            setIndex((idx) => (idx + 1) % lines.length);
+            setTyped('');
+            setVisible(true);
+          }, transition);
+        }, hold);
+      }
+    }, typeSpeed);
+
+    return () => {
+      clearInterval(t1);
+      clearTimeout(t2);
+    };
+  }, [lines, index, typeSpeed, hold, transition]);
+
+  return { typed, visible };
 }
 
 function useTerminalTyping(lines) {
@@ -250,7 +241,7 @@ export default function Home() {
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
   const nameParts = t.hero.name.split(' ');
   const { shown: terminalShown, done: terminalDone } = useTerminalTyping(terminalLogs);
-  const role = useScramble(t.hero.role);
+  const role = useRotatingRole(t.hero.role.split('\n'));
 
   useEffect(() => {
     if (!document.documentElement.classList.contains('aos-init')) {
@@ -352,16 +343,20 @@ export default function Home() {
 
                 {/* SCRAMBLED ROLE */}
                 <div
-                  className={`flex flex-wrap items-center gap-2 text-base sm:text-xl md:text-2xl ${
+                  className={`flex flex-wrap items-start gap-x-3 gap-y-1 text-base sm:text-xl md:text-2xl ${
                     isDark ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold'
                   }`}
                 >
-                  <span className={isDark ? 'text-emerald-500' : 'text-emerald-700'}>root@mesh:~#</span>
-                  <span className="inline-block min-h-[1.4em] underline decoration-emerald-400 decoration-2 underline-offset-4">
-                    {role.output}
+                  <span className={`${isDark ? 'text-emerald-500' : 'text-emerald-700'} shrink-0`}>root@mesh:~#</span>
+                  <span
+                    className={`inline-block min-h-[1.4em] whitespace-pre-line leading-snug transition-all duration-300 ${
+                      role.visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+                    }`}
+                  >
+                    {role.typed}
                   </span>
                   <span
-                    className={`inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
+                    className={`mt-1.5 inline-block h-5 sm:h-6 w-2.5 animate-pulse ${
                       isDark ? 'bg-emerald-400 shadow-[0_0_10px_#10b981]' : 'bg-emerald-700'
                     }`}
                   />
@@ -379,27 +374,6 @@ export default function Home() {
                 {t.hero.description1}{' '}
                 <span className={isDark ? 'text-emerald-300' : 'text-emerald-700'}>{t.hero.description2}</span>
               </p>
-
-              {/* HEX STREAM */}
-              <div
-                className={`flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-xs select-none ${
-                  isDark ? 'text-emerald-400/90 font-bold' : 'text-emerald-800 font-semibold'
-                }`}
-              >
-                {HEX_STREAM.map((hex, i) => (
-                  <span
-                    key={hex}
-                    className={`px-2 py-0.5 border rounded transition-all duration-200 ${
-                      isDark
-                        ? 'bg-black/90 border-emerald-800/80 hover:border-emerald-400 hover:text-emerald-300'
-                        : 'bg-white border-emerald-200 hover:border-emerald-600 shadow-xs'
-                    }`}
-                    style={{ transitionDelay: `${i * 25}ms` }}
-                  >
-                    {hex}
-                  </span>
-                ))}
-              </div>
 
               {/* ACTIONS & SOCIALS */}
               <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-2">
@@ -595,47 +569,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      {/* ============================================================ */}
-      {/* SYSTEM TELEMETRY / STATS                                       */}
-      {/* ============================================================ */}
-      <section className={`relative z-10 py-14 sm:py-16 ${container}`}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {systemStats.map((item, i) => (
-            <div
-              key={item.label}
-              data-aos="fade-up"
-              data-aos-delay={i * 80}
-              className={`border-2 rounded-xl p-4 sm:p-5 flex items-center gap-4 transition-all duration-200 ${
-                isDark
-                  ? 'border-emerald-800/60 bg-emerald-950/20 hover:border-emerald-400'
-                  : 'border-emerald-200 bg-white hover:border-emerald-500 shadow-xs'
-              }`}
-            >
-              <div
-                className={`p-3 rounded-lg border shrink-0 ${
-                  isDark
-                    ? 'border-emerald-400/50 bg-emerald-950/60 text-emerald-300'
-                    : 'border-emerald-300 bg-emerald-50 text-emerald-700'
-                }`}
-              >
-                <item.icon className="h-5 w-5" />
-              </div>
-              <div className="space-y-1 overflow-hidden">
-                <div className={`text-[10px] uppercase tracking-widest font-bold truncate ${isDark ? 'text-emerald-500' : 'text-emerald-700'}`}>
-                  {item.label}
-                </div>
-                <div className={`text-sm sm:text-base font-black truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  {item.value}
-                </div>
-                <div className={`text-[11px] flex items-center gap-1.5 ${isDark ? 'text-emerald-300 font-bold' : 'text-emerald-700 font-semibold'}`}>
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" /> {item.stat}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ============================================================ */}
       {/* OPERATIONAL CAPABILITIES                                       */}
