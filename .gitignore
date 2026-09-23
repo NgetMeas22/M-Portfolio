@@ -29,3 +29,10 @@ dist-ssr
 *.sw?
 
 nul
+agent_guide.md
+
+src/data/blog.js
+src/data/certificates.js
+src/data/experience.js
+src/data/projects.js
+src/data/skills.js
