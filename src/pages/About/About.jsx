@@ -25,7 +25,7 @@ import {
   Fingerprint
 } from 'lucide-react';
 // Exact relative path to verified image
-import profileImage from '../../assets/image/profile.PNG';
+import profileImage from '../../assets/image/profile.jpg';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 
