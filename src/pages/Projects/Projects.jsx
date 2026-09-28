@@ -13,19 +13,14 @@ import {
 import { projects } from '../../data/projects';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 const filterTabs = [
   { id: 'all', label: 'All', labelKh: 'ទាំងអស់' },
-  { id: 'React', label: 'React', labelKh: 'React' },
-  { id: 'Vue', label: 'Vue', labelKh: 'Vue' },
-  { id: 'Laravel', label: 'Laravel', labelKh: 'Laravel' },
-  { id: 'PHP', label: 'PHP', labelKh: 'PHP' },
-  { id: 'Spring Boot', label: 'Spring Boot', labelKh: 'Spring Boot' },
-  { id: 'Java', label: 'Java', labelKh: 'Java' },
-  { id: 'MySQL', label: 'MySQL', labelKh: 'MySQL' },
-  { id: 'Frontend', label: 'Frontend', labelKh: 'Frontend' },
-  { id: 'Backend', label: 'Backend', labelKh: 'Backend' },
   { id: 'Full Stack', label: 'Full Stack', labelKh: 'Full Stack' },
+  { id: 'React', label: 'React', labelKh: 'React' },
+  { id: 'Laravel', label: 'Laravel', labelKh: 'Laravel' },
+  { id: 'Spring Boot', label: 'Spring Boot', labelKh: 'Spring Boot' },
   { id: 'Team Project', label: 'Team Project', labelKh: 'គម្រោងក្រុម' }
 ];
 
@@ -76,45 +71,29 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className={`relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
-        isDark ? 'bg-[#030504] text-emerald-400' : 'bg-[#f4f7f5] text-slate-900'
+      className={`grid-bg grid-pattern relative min-h-screen pt-20 sm:pt-28 lg:pt-36 pb-12 sm:pb-24 font-mono transition-colors duration-300 overflow-hidden ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      {/* AMBIENT GLOW BACKDROPS */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -left-20 top-24 h-96 w-96 rounded-full blur-3xl animate-blob"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-12 right-0 h-96 w-96 rounded-full blur-3xl animate-flicker"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(45,212,191,0.06), transparent 70%)'
-              : 'radial-gradient(circle, rgba(20,184,166,0.1), transparent 70%)',
-          }}
-        />
-      </div>
+      <PageBackground isDark={isDark} />
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
         {/* HEADER */}
-        <div className="mb-12 text-center" data-aos="fade-up">
+        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
           <span
-            className={`mb-4 inline-flex items-center gap-2 border px-3.5 py-1 text-xs uppercase tracking-wider font-bold ${
+            className={`mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold rounded ${
               isDark
                 ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300'
                 : 'border-emerald-600/30 bg-emerald-100/60 text-emerald-900'
             }`}
           >
-            <Terminal className="h-3.5 w-3.5" />
+            <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             {'>_ projects.archive'}
           </span>
           <h1
-            className={`text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight ${
+            className={`text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}
             style={{
@@ -126,7 +105,7 @@ export default function Projects() {
             {t.projects.title}
           </h1>
           <p
-            className={`mx-auto mt-3 max-w-2xl text-base sm:text-lg ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -136,7 +115,7 @@ export default function Projects() {
 
         {/* REPO TELEMETRY STATUS BAR */}
         <div
-          className={`mb-10 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 border p-4 sm:p-5 rounded-xl ${
+          className={`mb-6 sm:mb-10 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 border p-3 sm:p-5 rounded-xl ${
             isDark
               ? 'border-emerald-500/30 bg-black/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
               : 'border-emerald-200 bg-white shadow-xs'
@@ -223,7 +202,7 @@ export default function Projects() {
 
         {/* CATEGORY FILTER SWITCHES */}
         <div
-          className="mb-12 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5"
+          className="mb-8 sm:mb-12 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5"
           data-aos="fade-up"
           data-aos-delay="150"
         >
@@ -243,7 +222,7 @@ export default function Projects() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveFilter(tab.id)}
-                className={`cursor-pointer rounded-lg border px-3.5 py-1.5 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 active:scale-95 ${
+                className={`cursor-pointer rounded-lg border px-2.5 sm:px-3.5 py-1 sm:py-1.5 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 active:scale-95 ${
                   active
                     ? isDark
                       ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
@@ -281,21 +260,20 @@ export default function Projects() {
               <span className={`absolute bottom-2 left-2 h-2.5 w-2.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
               <span className={`absolute bottom-2 right-2 h-2.5 w-2.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
 
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {project.category.map((cat) => (
+              <div className="flex flex-col gap-3">
+                {project.isTeamProject && (
+                  <div className="flex items-center gap-1.5">
                     <span
-                      key={cat}
                       className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border ${
                         isDark
-                          ? 'bg-emerald-950/50 border-emerald-800/60 text-emerald-400'
-                          : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                          ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300'
+                          : 'bg-emerald-100/70 border-emerald-300 text-emerald-800'
                       }`}
                     >
-                      {categoryLabel(cat)}
+                      {t.projects.teamProject}
                     </span>
-                  ))}
-                </div>
+                  </div>
+                )}
 
                 <h3
                   className={`text-lg sm:text-xl font-bold uppercase tracking-tight transition-colors ${
@@ -319,10 +297,10 @@ export default function Projects() {
                   {project.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className={`text-[10px] font-mono px-2 py-0.5 border ${
+                      className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
                         isDark
-                          ? 'border-emerald-950 text-emerald-600 bg-black/60'
-                          : 'border-emerald-100 text-emerald-700 bg-emerald-50/50'
+                          ? 'border-emerald-900/60 text-emerald-400 bg-black/60'
+                          : 'border-emerald-200 text-emerald-800 bg-emerald-50/60'
                       }`}
                     >
                       #{tech}

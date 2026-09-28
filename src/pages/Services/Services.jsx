@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 const serviceItems = [
   {
@@ -94,46 +95,30 @@ export default function Services() {
   return (
     <section
       id="services"
-      className={`relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
-        isDark ? 'bg-[#030504] text-emerald-400' : 'bg-[#f4f7f5] text-slate-900'
+      className={`grid-bg grid-pattern relative min-h-screen pt-20 sm:pt-28 lg:pt-36 pb-12 sm:pb-24 font-mono transition-colors duration-300 overflow-hidden ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      {/* AMBIENT GLOW BACKDROPS */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -left-20 top-24 h-96 w-96 rounded-full blur-3xl animate-blob"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-12 right-0 h-96 w-96 rounded-full blur-3xl animate-flicker"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(45,212,191,0.06), transparent 70%)'
-              : 'radial-gradient(circle, rgba(20,184,166,0.1), transparent 70%)',
-          }}
-        />
-      </div>
+      <PageBackground isDark={isDark} />
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
 
         {/* HEADER */}
-        <div className="mb-12 text-center" data-aos="fade-up">
+        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
           <span
-            className={`mb-4 inline-flex items-center gap-2 border px-3.5 py-1 text-xs uppercase tracking-wider font-bold ${
+            className={`mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold rounded ${
               isDark
                 ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300'
                 : 'border-emerald-600/30 bg-emerald-100/60 text-emerald-900'
             }`}
           >
-            <Terminal className="h-3.5 w-3.5" />
+            <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             {'>_ system.services'}
           </span>
           <h1
-            className={`text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight ${
+            className={`text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}
             style={{
@@ -145,7 +130,7 @@ export default function Services() {
             {t.services.title}
           </h1>
           <p
-            className={`mx-auto mt-3 max-w-2xl text-base sm:text-lg ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -164,34 +149,34 @@ export default function Services() {
         >
           <div className="space-y-0.5">
             <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              DEPLOYED VECTORS
+              SERVICES OFFERED
             </span>
             <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              {serviceItems.length} DAEMONS
+              {serviceItems.length} DOMAINS
             </div>
           </div>
           <div className="space-y-0.5">
             <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              CODE ARCHITECTURE
+              ARCHITECTURE
             </span>
             <div className="text-xl font-black text-emerald-500 flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4" /> ZERO TRUST
+              <ShieldCheck className="h-4 w-4" /> FULL STACK
             </div>
           </div>
           <div className="space-y-0.5">
             <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              SLA GUARANTEE
+              CODE QUALITY
             </span>
             <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              99.9% RELIABLE
+              CLEAN & TESTED
             </div>
           </div>
           <div className="space-y-0.5">
             <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              NETWORK CAPACITY
+              DELIVERY
             </span>
             <div className="text-xl font-black text-emerald-500 flex items-center gap-1.5">
-              <Activity className="h-4 w-4 animate-spin" /> SCALE READY
+              <Activity className="h-4 w-4 animate-spin" /> FAST & TIMELY
             </div>
           </div>
         </div>

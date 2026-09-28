@@ -9,14 +9,12 @@ import {
   Activity, 
   Radio, 
   ShieldCheck, 
-  KeyRound, 
-  CheckCircle2, 
-  Copy, 
-  Check 
+  CheckCircle2 
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -43,7 +41,6 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
-  const [copiedKey, setCopiedKey] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 60 });
@@ -121,16 +118,10 @@ ${escapeMarkdown(form.message)}
     }
   };
 
-  const handleCopyKey = () => {
-    navigator.clipboard.writeText('4A9F 82C1 09DE 5521 B378 99AA DE02 7F45');
-    setCopiedKey(true);
-    setTimeout(() => setCopiedKey(false), 2000);
-  };
-
   const infoItems = [
-    { icon: MapPin, label: t.contact.location, value: t.contact.locationValue, code: 'LOC_GATEWAY' },
-    { icon: Mail, label: 'EMAIL DISPATCH', value: t.contact.emailValue, code: 'SMTP_TLS_465' },
-    { icon: Phone, label: 'DIRECT COMMS', value: t.contact.phoneValue, code: 'VOICE_SECURE' },
+    { icon: MapPin, label: t.contact.location, value: t.contact.locationValue, code: 'LOCATION' },
+    { icon: Mail, label: 'EMAIL', value: t.contact.emailValue, code: 'PRIMARY' },
+    { icon: Phone, label: 'PHONE', value: t.contact.phoneValue, code: 'DIRECT' },
   ];
 
   const socials = [
@@ -185,46 +176,30 @@ ${escapeMarkdown(form.message)}
   return (
     <section
       id="contact"
-      className={`relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
-        isDark ? 'bg-[#030504] text-emerald-400' : 'bg-[#f4f7f5] text-slate-900'
+      className={`grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      {/* AMBIENT GLOW BACKDROPS */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -left-20 top-24 h-96 w-96 rounded-full blur-3xl animate-blob"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-12 right-0 h-96 w-96 rounded-full blur-3xl animate-flicker"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(45,212,191,0.06), transparent 70%)'
-              : 'radial-gradient(circle, rgba(20,184,166,0.1), transparent 70%)',
-          }}
-        />
-      </div>
+      <PageBackground isDark={isDark} />
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
 
         {/* HEADER */}
-        <div className="mb-12 text-center" data-aos="fade-up">
+        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
           <span
-            className={`mb-4 inline-flex items-center gap-2 border px-3.5 py-1 text-xs uppercase tracking-wider font-bold ${
+            className={`mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold rounded ${
               isDark
                 ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300'
                 : 'border-emerald-600/30 bg-emerald-100/60 text-emerald-900'
             }`}
           >
-            <Terminal className="h-3.5 w-3.5" />
+            <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             {'>_ contact.transmission'}
           </span>
           <h1
-            className={`text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight ${
+            className={`text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}
             style={{
@@ -236,7 +211,7 @@ ${escapeMarkdown(form.message)}
             {t.contact.title}
           </h1>
           <p
-            className={`mx-auto mt-3 max-w-2xl text-base sm:text-lg ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -246,7 +221,7 @@ ${escapeMarkdown(form.message)}
 
         {/* TRANSMISSION TELEMETRY HUD STRIP */}
         <div
-          className={`mb-14 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 border p-4 sm:p-5 rounded-xl ${
+          className={`mb-6 sm:mb-14 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 border p-3 sm:p-5 rounded-xl ${
             isDark
               ? 'border-emerald-500/30 bg-black/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
               : 'border-emerald-200 bg-white shadow-xs'
@@ -353,36 +328,6 @@ ${escapeMarkdown(form.message)}
                   </div>
                 );
               })}
-            </div>
-
-            {/* PGP KEY SECURITY CHIP */}
-            <div
-              className={`rounded-xl border p-5 ${
-                isDark
-                  ? 'border-emerald-900/60 bg-emerald-950/15 text-slate-300'
-                  : 'border-emerald-200 bg-white text-slate-700 shadow-xs'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className={`flex items-center gap-1.5 text-xs font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-                  <KeyRound className="h-4 w-4" /> PGP_FINGERPRINT
-                </span>
-                <button
-                  type="button"
-                  onClick={handleCopyKey}
-                  className={`inline-flex items-center gap-1 text-[10px] uppercase font-bold px-2 py-0.5 rounded border transition-colors cursor-pointer ${
-                    isDark
-                      ? 'border-emerald-800 bg-black text-emerald-400 hover:border-emerald-400'
-                      : 'border-emerald-300 bg-emerald-50 text-emerald-800 hover:border-emerald-600'
-                  }`}
-                >
-                  {copiedKey ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                  {copiedKey ? 'COPIED' : 'COPY'}
-                </button>
-              </div>
-              <p className={`text-[11px] tracking-widest font-mono break-all ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                4A9F 82C1 09DE 5521 B378 99AA DE02 7F45
-              </p>
             </div>
 
             {/* SOCIAL IDENTITIES */}
@@ -529,7 +474,7 @@ ${escapeMarkdown(form.message)}
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className={`w-full sm:w-auto inline-flex items-center justify-center gap-2.5 py-4 px-8 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 ${
+                  className={`w-full sm:w-auto inline-flex items-center justify-center gap-2.5 py-2.5 sm:py-3.5 px-6 sm:px-8 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 ${
                     isDark
                       ? 'bg-emerald-500 text-black hover:bg-emerald-400 hover:shadow-[0_0_28px_rgba(16,185,129,0.55)]'
                       : 'bg-emerald-600 text-white hover:bg-emerald-700 hover:shadow-lg'

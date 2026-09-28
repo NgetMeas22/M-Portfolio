@@ -23,6 +23,7 @@ import {
 import { certificates } from '../../data/certificates';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 const categoryConfig = {
   Programming: {
@@ -93,77 +94,33 @@ export default function Certificates() {
   return (
     <section
       id="certificates"
-      className={`relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-500 overflow-hidden ${
-        isDark ? 'bg-[#030504] text-emerald-400' : 'bg-[#f4f7f5] text-slate-900'
+      className={`grid-bg grid-pattern relative min-h-screen pt-20 sm:pt-28 lg:pt-36 pb-12 sm:pb-24 font-mono transition-colors duration-500 overflow-hidden ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      <style>{`
-        @keyframes scanline {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(1000%); }
-        }
-        @keyframes radarSweep {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes shimmerGlow {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
-        .animate-scanline {
-          animation: scanline 8s linear infinite;
-        }
-        .animate-radar {
-          animation: radarSweep 12s linear infinite;
-        }
-        .animate-shimmer {
-          animation: shimmerGlow 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
-      `}</style>
+      <PageBackground isDark={isDark} />
 
-      {/* AMBIENT GLOW BACKDROPS & RADAR GRID */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -left-20 top-24 h-96 w-96 rounded-full blur-3xl animate-pulse"
-          style={{
-            animationDuration: '6s',
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.15), transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-12 right-0 h-96 w-96 rounded-full blur-3xl animate-pulse"
-          style={{
-            animationDuration: '8s',
-            background: isDark
-              ? 'radial-gradient(circle, rgba(45,212,191,0.08), transparent 70%)'
-              : 'radial-gradient(circle, rgba(20,184,166,0.12), transparent 70%)',
-          }}
-        />
-        {/* SCANLINE OVERLAY */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/[0.03] to-transparent h-48 w-full animate-scanline pointer-events-none" />
-      </div>
-
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
         
         {/* HEADER */}
-        <div className="mb-12 text-center" data-aos="fade-up">
+        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
           <span
-            className={`group inline-flex items-center gap-2 border px-3.5 py-1 text-xs uppercase tracking-wider font-bold transition-all duration-300 hover:scale-105 ${
+            className={`group inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold transition-all duration-300 hover:scale-105 rounded ${
               isDark
                 ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
                 : 'border-emerald-600/30 bg-emerald-100/60 text-emerald-900 shadow-xs'
             }`}
           >
-            <Terminal className="h-3.5 w-3.5 animate-bounce" />
+            <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5 animate-bounce" />
             <span className="relative overflow-hidden">
               {'>_ credentials.verify'}
               <span className="absolute inset-x-0 bottom-0 h-[2px] bg-emerald-400 -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
             </span>
           </span>
           <h1
-            className={`mt-4 text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight transition-transform duration-500 hover:scale-[1.01] ${
+            className={`mt-2 sm:mt-4 text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight transition-transform duration-500 hover:scale-[1.01] ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}
             style={{
@@ -175,7 +132,7 @@ export default function Certificates() {
             {t.certificates.title}
           </h1>
           <p
-            className={`mx-auto mt-3 max-w-2xl text-base sm:text-lg ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >

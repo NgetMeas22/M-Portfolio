@@ -18,6 +18,7 @@ import {
 import { skills, skillCategories, skillLevelLabels } from '../../data/skills';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 const categoryIcons = {
   Frontend: Code,
@@ -37,21 +38,21 @@ const levelPercent = {
 const architectureDomains = [
   {
     icon: Layers,
-    title: 'Reactive Frontend',
-    desc: 'SPA/PWA applications, component lifecycle state trees, SSR/SSG workflows, and design systems.',
+    title: 'Frontend Engineering',
+    desc: 'Modular single-page apps, responsive design, and clean component state trees.',
     status: 'OPTIMIZED',
   },
   {
     icon: Server,
-    title: 'Backend Services',
-    desc: 'RESTful architectures, microservice communications, token authorization, and ORM pipelines.',
+    title: 'Backend & APIs',
+    desc: 'RESTful architectures, token-based authentication, and scalable service endpoints.',
     status: 'ACTIVE',
   },
   {
     icon: ShieldAlert,
-    title: 'Defensive Execution',
-    desc: 'Input sanitation, cryptographic handshakes, SQL-injection prevention, and token security.',
-    status: 'HARDENED',
+    title: 'Data & Security',
+    desc: 'Relational data modeling, SQL query tuning, and input validation security.',
+    status: 'SECURE',
   },
 ];
 
@@ -96,46 +97,30 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className={`relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
-        isDark ? 'bg-[#030504] text-emerald-400' : 'bg-[#f4f7f5] text-slate-900'
+      className={`grid-bg grid-pattern relative min-h-screen pt-20 sm:pt-28 lg:pt-36 pb-12 sm:pb-24 font-mono transition-colors duration-300 overflow-hidden ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      {/* BACKGROUND AMBIENT GLOWS */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -left-20 top-20 h-96 w-96 rounded-full blur-3xl animate-blob"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-10 right-0 h-96 w-96 rounded-full blur-3xl animate-flicker"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(45,212,191,0.06), transparent 70%)'
-              : 'radial-gradient(circle, rgba(20,184,166,0.1), transparent 70%)',
-          }}
-        />
-      </div>
+      <PageBackground isDark={isDark} />
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
 
         {/* HEADER */}
-        <div className="mb-12 text-center" data-aos="fade-up">
+        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
           <span
-            className={`mb-4 inline-flex items-center gap-2 border px-3.5 py-1 text-xs uppercase tracking-wider font-bold ${
+            className={`mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold rounded ${
               isDark
                 ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-300'
                 : 'border-emerald-600/30 bg-emerald-100/60 text-emerald-900'
             }`}
           >
-            <Terminal className="h-3.5 w-3.5" />
+            <Terminal className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             {'>_ skills.matrix'}
           </span>
           <h1
-            className={`text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight ${
+            className={`text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}
             style={{
@@ -147,7 +132,7 @@ export default function Skills() {
             Skills<span className="text-emerald-500"> // </span>Capabilities
           </h1>
           <p
-            className={`mx-auto mt-3 max-w-2xl text-base sm:text-lg ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -200,16 +185,16 @@ export default function Skills() {
 
         {/* CATEGORY FILTER SWITCHER */}
         <div
-          className="mb-12 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3"
+          className="mb-8 sm:mb-12 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5"
           data-aos="fade-up"
           data-aos-delay="100"
         >
           <span
-            className={`mr-2 inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold ${
+            className={`mr-1 sm:mr-2 inline-flex items-center gap-1.5 text-[11px] sm:text-xs uppercase tracking-widest font-bold ${
               isDark ? 'text-emerald-600' : 'text-emerald-800'
             }`}
           >
-            <Filter className="h-4 w-4 text-emerald-500" />
+            <Filter className="h-3.5 w-3.5 text-emerald-500" />
             <span>FILTER:</span>
           </span>
           {skillCategories.map((category) => {
@@ -219,7 +204,7 @@ export default function Skills() {
                 key={category.id}
                 type="button"
                 onClick={() => setActiveCategory(category.id)}
-                className={`cursor-pointer rounded-lg border px-4 py-2 text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-200 active:scale-95 ${
+                className={`cursor-pointer rounded-lg border px-2.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm font-bold tracking-wider uppercase transition-all duration-200 active:scale-95 ${
                   active
                     ? isDark
                       ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.3)]'

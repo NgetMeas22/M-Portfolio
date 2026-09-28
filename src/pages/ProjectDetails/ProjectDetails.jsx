@@ -21,6 +21,7 @@ import 'aos/dist/aos.css';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import { projects } from '../../data/projects';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 export default function ProjectDetails() {
   const { id } = useParams();
@@ -84,29 +85,13 @@ export default function ProjectDetails() {
   return (
     <section
       id="project-details"
-      className={`relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
-        isDark ? 'bg-[#030504] text-emerald-400' : 'bg-[#f4f7f5] text-slate-900'
+      className={`grid-bg grid-pattern relative min-h-screen pt-28 lg:pt-36 pb-24 font-mono transition-colors duration-300 overflow-hidden ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
       }`}
     >
-      {/* AMBIENT GLOW BACKDROPS */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className="absolute -left-20 top-24 h-96 w-96 rounded-full blur-3xl animate-blob"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%)'
-              : 'radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute bottom-12 right-0 h-96 w-96 rounded-full blur-3xl animate-flicker"
-          style={{
-            background: isDark
-              ? 'radial-gradient(circle, rgba(45,212,191,0.06), transparent 70%)'
-              : 'radial-gradient(circle, rgba(20,184,166,0.1), transparent 70%)',
-          }}
-        />
-      </div>
+      <PageBackground isDark={isDark} />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 

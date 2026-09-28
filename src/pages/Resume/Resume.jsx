@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
+import { useTheme } from '../../hooks/useTheme';
+import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 import { skills, skillCategories } from '../../data/skills';
 import { projects } from '../../data/projects';
@@ -47,6 +49,8 @@ const levelPercent = (level) => {
 
 export default function Resume() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const isKh = language === 'kh';
 
   useEffect(() => {
@@ -64,8 +68,13 @@ export default function Resume() {
   return (
     <section
       id="resume"
-      className="grid-bg grid-pattern relative min-h-screen overflow-hidden pt-28 lg:pt-32 pb-16 px-4 sm:px-6 lg:px-8"
+      className={`grid-bg grid-pattern relative min-h-screen overflow-hidden pt-20 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 px-3.5 sm:px-6 lg:px-8 font-mono transition-colors duration-300 ${
+        isDark
+          ? 'bg-[#030504] text-emerald-400 selection:bg-emerald-500 selection:text-black'
+          : 'bg-[#f4f7f5] text-slate-900 selection:bg-emerald-600 selection:text-white'
+      }`}
     >
+      <PageBackground isDark={isDark} />
       <style>{`
         @media print {
           body * { visibility: hidden; }
@@ -99,17 +108,17 @@ export default function Resume() {
 
       <div className="mx-auto max-w-5xl">
         {/* Page Header */}
-        <div className="mb-10 text-center" data-aos="fade-up">
-          <span className="cyber-badge mb-4 inline-flex items-center gap-2">
-            <Code className="h-3.5 w-3.5" />
+        <div className="mb-6 sm:mb-10 text-center" data-aos="fade-up">
+          <span className="cyber-badge mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
+            <Code className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             {`>_ resume.init`}
           </span>
-          <h1 className="section-title font-mono text-3xl sm:text-4xl lg:text-5xl">
+          <h1 className="section-title font-mono text-2xl sm:text-4xl lg:text-5xl font-black">
             {t.resume.title}
             <span className="text-primary"> // </span>
             <span className="animate-flicker text-emerald-400">&gt;_</span>
           </h1>
-          <p className="section-subtitle mt-3 text-lg">{t.resume.subtitle}</p>
+          <p className="section-subtitle mt-2 sm:mt-3 text-xs sm:text-base">{t.resume.subtitle}</p>
 
           <div className="no-print mt-4 flex flex-wrap items-center justify-center gap-3">
             <a

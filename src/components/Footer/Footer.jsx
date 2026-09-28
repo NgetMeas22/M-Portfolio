@@ -154,14 +154,14 @@ export default function Footer() {
       </div>
 
       {/* MAIN FOOTER CONTAINER */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 items-start">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-6 sm:pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8 lg:gap-10 items-start">
 
           {/* COLUMN 1: SYSTEM IDENTITY & LIVE REAL-TIME TELEMETRY */}
-          <div className="md:col-span-6 lg:col-span-5 space-y-4">
+          <div className="md:col-span-6 lg:col-span-5 space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2.5">
               <span
-                className={`flex h-9 w-9 items-center justify-center rounded-xl border ${
+                className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border ${
                   isDark
                     ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
                     : 'border-emerald-400 bg-emerald-100 text-emerald-800 shadow-xs'
@@ -169,7 +169,7 @@ export default function Footer() {
               >
                 <Terminal className="h-4 w-4" />
               </span>
-              <span className="text-xl font-black uppercase tracking-wider font-mono">
+              <span className="text-lg sm:text-xl font-black uppercase tracking-wider font-mono">
                 <span className="text-emerald-500">&lt;</span>
                 <span className={isDark ? 'text-white' : 'text-slate-900'}>NGET</span>
                 <span className={isDark ? 'text-emerald-400' : 'text-emerald-600'}>MEAS</span>
@@ -177,13 +177,13 @@ export default function Footer() {
               </span>
             </div>
 
-            <p className={`text-xs sm:text-sm leading-relaxed max-w-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            <p className={`text-[11px] sm:text-xs md:text-sm leading-relaxed max-w-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Full Stack Developer & Cyber UI Architect. Building hardened web applications, scalable backends, and responsive client experiences.
             </p>
 
             {/* LIVE TELEMETRY & GLOBAL VISITOR COUNTER */}
             <div
-              className={`rounded-xl border p-4 space-y-2.5 max-w-sm transition-all ${
+              className={`rounded-xl border p-3 sm:p-4 space-y-2 sm:space-y-2.5 max-w-sm transition-all ${
                 isDark 
                   ? 'border-emerald-900/80 bg-black/80 shadow-[0_0_20px_rgba(0,0,0,0.8)]' 
                   : 'border-emerald-200 bg-white shadow-sm'
@@ -206,7 +206,7 @@ export default function Footer() {
                   <Eye className="h-3.5 w-3.5" />
                   <span>{language === 'kh' ? 'ចំនួនអ្នកចូលមើល:' : 'TOTAL_VISITORS:'}</span>
                 </span>
-                <span className={`font-mono font-black px-2.5 py-0.5 rounded border text-[11px] ${
+                <span className={`font-mono font-black px-2 py-0.5 rounded border text-[10px] sm:text-[11px] ${
                   isDark
                     ? 'border-emerald-500/40 bg-emerald-950/60 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
                     : 'border-emerald-300 bg-emerald-50 text-emerald-900'
@@ -216,7 +216,7 @@ export default function Footer() {
               </div>
 
               {/* NETWORK LATENCY */}
-              <div className="flex items-center justify-between text-[11px] pt-1 border-t border-emerald-500/15">
+              <div className="flex items-center justify-between text-[10px] sm:text-[11px] pt-1 border-t border-emerald-500/15">
                 <span className={isDark ? 'text-slate-500' : 'text-slate-500'}>LATENCY / PROD:</span>
                 <span className="font-bold text-emerald-500 flex items-center gap-1">
                   <Radio className="h-3 w-3 animate-pulse" /> {latency}ms [OPTIMAL]
@@ -256,9 +256,9 @@ export default function Footer() {
           </div>
 
           {/* COLUMN 3: OUTBOUND LINKS & RETURN TO TOP */}
-          <div className="md:col-span-12 lg:col-span-3 space-y-4">
+          <div className="md:col-span-12 lg:col-span-3 space-y-3 sm:space-y-4">
             <h4
-              className={`text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 ${
+              className={`text-[11px] sm:text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 ${
                 isDark ? 'text-emerald-400' : 'text-emerald-800'
               }`}
             >
@@ -266,51 +266,51 @@ export default function Footer() {
               // OUTBOUND_NODES
             </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5">
+            <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-1 gap-1.5 sm:gap-2.5">
               <a
                 href="https://github.com/NgetMeas22"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-bold transition-all ${
+                className={`flex flex-col sm:flex-row items-center justify-center sm:justify-between py-2 px-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border text-xs font-bold transition-all ${
                   isDark
                     ? 'border-emerald-950 bg-black text-slate-300 hover:border-emerald-400 hover:text-emerald-400'
                     : 'border-emerald-200 bg-white text-slate-700 hover:border-emerald-500 hover:text-emerald-700 shadow-xs'
                 }`}
               >
-                <span className="flex items-center gap-2">
-                  <GitHubIcon size={16} /> GitHub
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <GitHubIcon size={14} /> <span className="text-[11px] sm:text-xs">GitHub</span>
                 </span>
-                <span className="text-[10px] text-emerald-500 font-mono">@NgetMeas22</span>
+                <span className="hidden sm:inline text-[10px] text-emerald-500 font-mono">@NgetMeas22</span>
               </a>
 
               <a
                 href="https://linkedin.com/in/nget-meas-6525bb3a6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-bold transition-all ${
+                className={`flex flex-col sm:flex-row items-center justify-center sm:justify-between py-2 px-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border text-xs font-bold transition-all ${
                   isDark
                     ? 'border-emerald-950 bg-black text-slate-300 hover:border-emerald-400 hover:text-emerald-400'
                     : 'border-emerald-200 bg-white text-slate-700 hover:border-emerald-500 hover:text-emerald-700 shadow-xs'
                 }`}
               >
-                <span className="flex items-center gap-2">
-                  <LinkedInIcon size={16} /> LinkedIn
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <LinkedInIcon size={14} /> <span className="text-[11px] sm:text-xs">LinkedIn</span>
                 </span>
-                <span className="text-[10px] text-emerald-500 font-mono">in/nget-meas</span>
+                <span className="hidden sm:inline text-[10px] text-emerald-500 font-mono">in/nget-meas</span>
               </a>
 
               <a
                 href="mailto:measm2519@gmail.com"
-                className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-bold transition-all ${
+                className={`flex flex-col sm:flex-row items-center justify-center sm:justify-between py-2 px-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border text-xs font-bold transition-all ${
                   isDark
                     ? 'border-emerald-950 bg-black text-slate-300 hover:border-emerald-400 hover:text-emerald-400'
                     : 'border-emerald-200 bg-white text-slate-700 hover:border-emerald-500 hover:text-emerald-700 shadow-xs'
                 }`}
               >
-                <span className="flex items-center gap-2">
-                  <Mail size={16} /> Email
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  <Mail size={14} /> <span className="text-[11px] sm:text-xs">Email</span>
                 </span>
-                <span className="text-[10px] text-emerald-500 font-mono">DIRECT_MAIL</span>
+                <span className="hidden sm:inline text-[10px] text-emerald-500 font-mono">DIRECT_MAIL</span>
               </a>
             </div>
 
@@ -318,7 +318,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className={`w-full mt-2 cursor-pointer flex items-center justify-center gap-2 py-3 px-4 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all active:scale-95 ${
+              className={`w-full mt-1.5 sm:mt-2 cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 px-3 rounded-lg sm:rounded-xl border text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all active:scale-95 ${
                 isDark
                   ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
                   : 'border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
@@ -334,7 +334,7 @@ export default function Footer() {
 
       {/* COPYRIGHT & SYSTEM INTEGRITY BAR */}
       <div
-        className={`border-t py-4 text-xs font-mono transition-colors ${
+        className={`border-t py-2.5 sm:py-3.5 text-[10px] sm:text-xs font-mono transition-colors ${
           isDark ? 'border-emerald-950/80 bg-black/95 text-slate-400' : 'border-emerald-100 bg-emerald-50/70 text-slate-600'
         }`}
       >
