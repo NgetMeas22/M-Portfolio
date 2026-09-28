@@ -28,9 +28,12 @@ const inputClass = (isDark) =>
 const errorClass = (isDark) =>
   isDark ? 'border-rose-500/80 focus:border-rose-400 focus:ring-rose-500/20' : 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20';
 
-// មុខងារជំនួយសម្រាប់គេចពីសញ្ញាពិសេសក្នុង Telegram Markdown
-const escapeMarkdown = (text = '') => {
-  return String(text).replace(/[_*[\]()~`>#+-=|{}.!]/g, '\\$&');
+// មុខងារជំនួយសម្រាប់គេចពីសញ្ញាពិសេសក្នុង Telegram HTML
+const escapeHtml = (str = '') => {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 };
 
 export default function Contact() {
@@ -78,15 +81,15 @@ export default function Contact() {
     const TELEGRAM_CHAT_ID = '6494480634';
 
     const textPayload = `
-🚀 *NEW PORTFOLIO MESSAGE*
---------------------------------
-👤 *Name:* ${escapeMarkdown(form.name)}
-📧 *Email:* ${escapeMarkdown(form.email)}
-📱 *Phone:* ${escapeMarkdown(form.phone || 'N/A')}
-📌 *Subject:* ${escapeMarkdown(form.subject)}
+<b>🚀 NEW PORTFOLIO MESSAGE</b>
+━━━━━━━━━━━━━━━━━━━━
+<b>👤 Name:</b> ${escapeHtml(form.name)}
+<b>📧 Email:</b> ${escapeHtml(form.email)}
+<b>📱 Phone:</b> ${escapeHtml(form.phone || 'N/A')}
+<b>📌 Subject:</b> ${escapeHtml(form.subject)}
 
-📝 *Message:*
-${escapeMarkdown(form.message)}
+<b>📝 Message:</b>
+${escapeHtml(form.message)}
     `.trim();
 
     try {
@@ -100,7 +103,7 @@ ${escapeMarkdown(form.message)}
           body: JSON.stringify({
             chat_id: TELEGRAM_CHAT_ID,
             text: textPayload,
-            parse_mode: 'MarkdownV2',
+            parse_mode: 'HTML',
           }),
         }
       );
@@ -111,9 +114,11 @@ ${escapeMarkdown(form.message)}
         setStatus('success');
         setForm({ name: '', email: '', phone: '', subject: '', message: '' });
       } else {
+        console.error('Telegram send failure:', result);
         setStatus('error');
       }
-    } catch {
+    } catch (err) {
+      console.error('Telegram request error:', err);
       setStatus('error');
     }
   };
