@@ -1,87 +1,32 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { 
-  Globe, 
-  Layout, 
-  Server, 
-  Database, 
-  Smartphone, 
-  Settings, 
-  Code, 
-  Terminal, 
-  Activity, 
-  ShieldCheck, 
-  Cpu, 
-  Zap, 
-  Radio,
-  ArrowUpRight
+import {
+  Globe,
+  Layout,
+  Server,
+  Database,
+  Smartphone,
+  Settings,
+  Code,
+  Terminal,
+  ArrowRight,
+  MessageSquare,
 } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 const serviceItems = [
-  {
-    icon: Globe,
-    titleKey: 'webDev',
-    descKey: 'webDevDesc',
-    code: 'SRV-01',
-    status: 'ACTIVE'
-  },
-  {
-    icon: Layout,
-    titleKey: 'frontend',
-    descKey: 'frontendDesc',
-    code: 'SRV-02',
-    status: 'OPTIMIZED'
-  },
-  {
-    icon: Server,
-    titleKey: 'backend',
-    descKey: 'backendDesc',
-    code: 'SRV-03',
-    status: 'DAEMON_UP'
-  },
-  {
-    icon: Code,
-    titleKey: 'api',
-    descKey: 'apiDesc',
-    code: 'SRV-04',
-    status: 'HARDENED'
-  },
-  {
-    icon: Database,
-    titleKey: 'database',
-    descKey: 'databaseDesc',
-    code: 'SRV-05',
-    status: 'PERSISTENT'
-  },
-  {
-    icon: Smartphone,
-    titleKey: 'responsive',
-    descKey: 'responsiveDesc',
-    code: 'SRV-06',
-    status: 'ADAPTIVE'
-  },
-  {
-    icon: Settings,
-    titleKey: 'maintenance',
-    descKey: 'maintenanceDesc',
-    code: 'SRV-07',
-    status: 'STANDBY'
-  }
+  { icon: Globe, titleKey: 'webDev', descKey: 'webDevDesc', tags: ['React', 'Laravel'] },
+  { icon: Layout, titleKey: 'frontend', descKey: 'frontendDesc', tags: ['React', 'Tailwind'] },
+  { icon: Server, titleKey: 'backend', descKey: 'backendDesc', tags: ['PHP', 'Laravel'] },
+  { icon: Code, titleKey: 'api', descKey: 'apiDesc', tags: ['REST', 'JSON'] },
+  { icon: Database, titleKey: 'database', descKey: 'databaseDesc', tags: ['MySQL', 'SQL'] },
+  { icon: Smartphone, titleKey: 'responsive', descKey: 'responsiveDesc', tags: ['Mobile-First'] },
+  { icon: Settings, titleKey: 'maintenance', descKey: 'maintenanceDesc', tags: ['Bugfix', 'Speed'] },
 ];
-
-const serviceKeywords = {
-  webDev: ['React', 'Laravel', 'Full-Stack'],
-  frontend: ['React', 'Vue.js', 'Tailwind'],
-  backend: ['PHP', 'Laravel', 'REST'],
-  api: ['RESTful', 'JSON', 'Auth'],
-  database: ['MySQL', 'PostgreSQL', 'SQLite'],
-  responsive: ['Mobile-First', 'Fluid', 'Viewport'],
-  maintenance: ['Audit', 'Bugfix', 'DevOps'],
-};
 
 export default function Services() {
   const { t } = useLanguage();
@@ -89,7 +34,7 @@ export default function Services() {
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+    AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' });
   }, []);
 
   return (
@@ -103,10 +48,10 @@ export default function Services() {
     >
       <PageBackground isDark={isDark} />
 
-      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-6xl px-3.5 sm:px-6 lg:px-8">
 
         {/* HEADER */}
-        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
+        <div className="mb-8 sm:mb-12 text-center" data-aos="fade-up">
           <span
             className={`mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold rounded ${
               isDark
@@ -130,7 +75,7 @@ export default function Services() {
             {t.services.title}
           </h1>
           <p
-            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -138,144 +83,101 @@ export default function Services() {
           </p>
         </div>
 
-        {/* SERVICE TELEMETRY HUD STRIP */}
-        <div
-          className={`mb-14 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 border p-4 sm:p-5 rounded-xl ${
-            isDark
-              ? 'border-emerald-500/30 bg-black/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
-              : 'border-emerald-200 bg-white shadow-xs'
-          }`}
-          data-aos="fade-up"
-        >
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              SERVICES OFFERED
-            </span>
-            <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              {serviceItems.length} DOMAINS
-            </div>
-          </div>
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              ARCHITECTURE
-            </span>
-            <div className="text-xl font-black text-emerald-500 flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4" /> FULL STACK
-            </div>
-          </div>
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              CODE QUALITY
-            </span>
-            <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              CLEAN & TESTED
-            </div>
-          </div>
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              DELIVERY
-            </span>
-            <div className="text-xl font-black text-emerald-500 flex items-center gap-1.5">
-              <Activity className="h-4 w-4 animate-spin" /> FAST & TIMELY
-            </div>
-          </div>
-        </div>
-
         {/* SERVICES GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {serviceItems.map((service, index) => {
-            const IconComponent = service.icon;
+            const Icon = service.icon;
             return (
               <article
                 key={service.titleKey}
                 data-aos="fade-up"
-                data-aos-delay={index * 80}
-                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 sm:p-7 transition-all duration-300 ${
+                data-aos-delay={Math.min(index * 60, 300)}
+                className={`group flex gap-4 rounded-2xl border p-5 transition-all duration-200 hover:-translate-y-0.5 ${
                   isDark
-                    ? 'border-emerald-900/60 bg-black/90 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]'
-                    : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-lg shadow-xs'
+                    ? 'border-emerald-900/60 bg-black/80 hover:border-emerald-500/70 hover:shadow-[0_0_24px_rgba(16,185,129,0.12)]'
+                    : 'border-emerald-200 bg-white shadow-xs hover:border-emerald-500 hover:shadow-md'
                 }`}
               >
-                {/* CORNER RETICLES */}
-                <span className={`absolute top-2 left-2 h-2.5 w-2.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-                <span className={`absolute top-2 right-2 h-2.5 w-2.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-                <span className={`absolute bottom-2 left-2 h-2.5 w-2.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-                <span className={`absolute bottom-2 right-2 h-2.5 w-2.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-
-                <div>
-                  {/* CARD HEADER WITH PROTOCOL TAG */}
-                  <div
-                    className={`flex items-center justify-between border-b pb-3 mb-4 text-xs ${
-                      isDark ? 'border-emerald-950' : 'border-emerald-100'
-                    }`}
-                  >
-                    <span className={`font-mono text-[11px] font-bold flex items-center gap-1.5 ${isDark ? 'text-emerald-500' : 'text-emerald-800'}`}>
-                      <Radio className="h-3 w-3 text-emerald-500 animate-pulse" /> {service.code}
-                    </span>
-                    <span
-                      className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${
-                        isDark
-                          ? 'border-emerald-900 bg-emerald-950/40 text-emerald-400'
-                          : 'border-emerald-200 bg-emerald-50 text-emerald-800'
-                      }`}
-                    >
-                      {service.status}
-                    </span>
-                  </div>
-
-                  {/* ICON & TITLE */}
-                  <div className="flex items-center gap-4 mb-3">
-                    <div
-                      className={`inline-flex h-12 w-12 items-center justify-center rounded-xl border transition-transform duration-300 group-hover:scale-105 ${
-                        isDark
-                          ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-                          : 'border-emerald-300 bg-emerald-50 text-emerald-700 shadow-xs'
-                      }`}
-                    >
-                      <IconComponent className="h-6 w-6" />
-                    </div>
-
-                    <h3
-                      className={`text-lg sm:text-xl font-bold uppercase tracking-tight transition-colors ${
-                        isDark ? 'text-white group-hover:text-emerald-400' : 'text-slate-900 group-hover:text-emerald-700'
-                      }`}
-                    >
-                      {t.services[service.titleKey]}
-                    </h3>
-                  </div>
-
-                  {/* DESCRIPTION */}
-                  <p
-                    className={`mt-3 text-xs sm:text-sm leading-relaxed ${
-                      isDark ? 'text-slate-400' : 'text-slate-600'
-                    }`}
-                  >
-                    {t.services[service.descKey]}
-                  </p>
-                </div>
-
-                {/* TECH STACK KEYWORDS */}
-                <div
-                  className={`mt-6 pt-4 border-t flex flex-wrap items-center gap-1.5 ${
-                    isDark ? 'border-emerald-950' : 'border-emerald-100'
+                <span
+                  className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-transform duration-200 group-hover:scale-105 ${
+                    isDark
+                      ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400'
+                      : 'border-emerald-300 bg-emerald-50 text-emerald-700'
                   }`}
                 >
-                  {(serviceKeywords[service.titleKey] || []).map((kw) => (
-                    <span
-                      key={kw}
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                        isDark
-                          ? 'border-emerald-950 bg-black/60 text-emerald-500'
-                          : 'border-emerald-100 bg-emerald-50 text-emerald-800'
-                      }`}
-                    >
-                      #{kw}
-                    </span>
-                  ))}
+                  <Icon className="h-5 w-5" />
+                </span>
+
+                <div className="min-w-0">
+                  <h2
+                    className={`text-base font-bold tracking-tight ${
+                      isDark ? 'text-white group-hover:text-emerald-300' : 'text-slate-900 group-hover:text-emerald-700'
+                    }`}
+                  >
+                    {t.services[service.titleKey]}
+                  </h2>
+                  <p className={`mt-1 text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    {t.services[service.descKey]}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {service.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`rounded border px-2 py-0.5 text-[10px] font-bold ${
+                          isDark
+                            ? 'border-emerald-900 bg-emerald-950/30 text-emerald-500'
+                            : 'border-emerald-100 bg-emerald-50 text-emerald-800'
+                        }`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </article>
             );
           })}
+        </div>
+
+        {/* CONTACT PROMPT */}
+        <div
+          className={`mt-10 sm:mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border p-6 text-center sm:flex-row sm:text-left ${
+            isDark
+              ? 'border-emerald-500/30 bg-emerald-950/20'
+              : 'border-emerald-200 bg-white shadow-xs'
+          }`}
+          data-aos="fade-up"
+        >
+          <div className="flex items-center gap-4">
+            <span
+              className={`hidden sm:inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${
+                isDark
+                  ? 'border-emerald-500/40 bg-black text-emerald-300'
+                  : 'border-emerald-300 bg-emerald-50 text-emerald-700'
+              }`}
+            >
+              <MessageSquare className="h-5 w-5" />
+            </span>
+            <div>
+              <h2 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                {t.services.ctaTitle}
+              </h2>
+              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                {t.services.ctaText}
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/contact"
+            className={`inline-flex shrink-0 items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all active:scale-95 ${
+              isDark
+                ? 'bg-emerald-500 text-black hover:bg-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.35)]'
+                : 'bg-emerald-600 text-white hover:bg-emerald-700'
+            }`}
+          >
+            {t.services.ctaButton}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
       </div>

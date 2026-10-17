@@ -1,18 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  BookOpen, 
-  Calendar, 
-  Clock, 
-  Tag, 
-  ArrowRight, 
-  Terminal, 
-  Radio, 
-  Activity, 
-  FileCode2, 
-  BookmarkCheck,
-  Flame
-} from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Terminal } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import { blogPosts } from '../../data/blog';
@@ -24,17 +12,60 @@ export default function Blog() {
   const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const isKh = language === 'kh';
 
   useEffect(() => {
-    AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 60 });
+    AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
   }, []);
 
+  const posts = useMemo(
+    () => [...blogPosts].sort((a, b) => new Date(b.date) - new Date(a.date)),
+    []
+  );
+  const [featured, ...rest] = posts;
+
   const formatDate = (date) =>
-    new Date(date).toLocaleDateString(language === 'kh' ? 'km-KH' : 'en-US', {
+    new Date(date).toLocaleDateString(isKh ? 'km-KH' : 'en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
+
+  const readTime = (post) => (isKh ? post.readTime : `${post.readTime} ${t.blog.readTime}`);
+
+  const renderMeta = (post) => (
+    <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 text-xs ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+      <span className="inline-flex items-center gap-1.5">
+        <Calendar className="h-3.5 w-3.5 text-emerald-500" />
+        {formatDate(post.date)}
+      </span>
+      <span className="inline-flex items-center gap-1.5">
+        <Clock className="h-3.5 w-3.5 text-emerald-500" />
+        {readTime(post)}
+      </span>
+    </div>
+  );
+
+  const renderTags = (post, max = 3) => (
+    <div className="flex flex-wrap gap-1.5">
+      {post.tags.slice(0, max).map((tag) => (
+        <span
+          key={tag}
+          className={`rounded border px-2 py-0.5 text-[10px] font-bold ${
+            isDark
+              ? 'border-emerald-900 bg-emerald-950/30 text-emerald-500'
+              : 'border-emerald-100 bg-emerald-50 text-emerald-800'
+          }`}
+        >
+          #{tag}
+        </span>
+      ))}
+    </div>
+  );
+
+  const cardBase = isDark
+    ? 'border-emerald-900/60 bg-black/80 hover:border-emerald-500/70 hover:shadow-[0_0_24px_rgba(16,185,129,0.12)]'
+    : 'border-emerald-200 bg-white shadow-xs hover:border-emerald-500 hover:shadow-md';
 
   return (
     <section
@@ -47,10 +78,10 @@ export default function Blog() {
     >
       <PageBackground isDark={isDark} />
 
-      <div className="relative mx-auto w-full max-w-7xl px-3.5 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-4xl px-3.5 sm:px-6 lg:px-8">
 
         {/* HEADER */}
-        <div className="mb-6 sm:mb-12 text-center" data-aos="fade-up">
+        <div className="mb-8 sm:mb-12 text-center" data-aos="fade-up">
           <span
             className={`mb-2 sm:mb-4 inline-flex items-center gap-1.5 sm:gap-2 border px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs uppercase tracking-wider font-bold rounded ${
               isDark
@@ -74,7 +105,7 @@ export default function Blog() {
             {t.blog.title}
           </h1>
           <p
-            className={`mx-auto mt-2 sm:mt-3 max-w-2xl text-xs sm:text-base ${
+            className={`mx-auto mt-2 sm:mt-3 max-w-xl text-xs sm:text-base ${
               isDark ? 'text-slate-400' : 'text-slate-600'
             }`}
           >
@@ -82,181 +113,73 @@ export default function Blog() {
           </p>
         </div>
 
-        {/* BLOG TELEMETRY HUD STRIP */}
-        <div
-          className={`mb-6 sm:mb-14 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 border p-3 sm:p-5 rounded-xl ${
-            isDark
-              ? 'border-emerald-500/30 bg-black/60 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
-              : 'border-emerald-200 bg-white shadow-xs'
-          }`}
-          data-aos="fade-up"
-        >
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              ARTICLES PUBLISHED
+        {/* FEATURED (LATEST) POST */}
+        {featured && (
+          <Link
+            to={`/blog/${featured.slug}`}
+            data-aos="fade-up"
+            className={`group mb-6 block rounded-2xl border-2 p-5 sm:p-7 no-underline transition-all duration-200 ${cardBase}`}
+          >
+            <span
+              className={`mb-3 inline-block rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${
+                isDark ? 'bg-emerald-500 text-black' : 'bg-emerald-600 text-white'
+              }`}
+            >
+              {t.blog.latest}
             </span>
-            <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              {blogPosts.length} DISPATCHES
+            <h2
+              className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                isDark ? 'text-white group-hover:text-emerald-300' : 'text-slate-900 group-hover:text-emerald-700'
+              }`}
+            >
+              {isKh ? featured.titleKh : featured.title}
+            </h2>
+            <p className={`mt-2 text-sm leading-relaxed line-clamp-2 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              {isKh ? featured.excerptKh : featured.excerpt}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              {renderMeta(featured)}
+              <span className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                {t.blog.readMore}
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              </span>
             </div>
-          </div>
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              CONTENT STREAM
-            </span>
-            <div className="text-xl font-black text-emerald-500 flex items-center gap-1.5">
-              <Activity className="h-4 w-4 animate-spin" /> LIVE_SYNC
-            </div>
-          </div>
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              KNOWLEDGE DOMAIN
-            </span>
-            <div className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              WEB & DEV OPS
-            </div>
-          </div>
-          <div className="space-y-0.5">
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${isDark ? 'text-emerald-600' : 'text-emerald-700'}`}>
-              READ INTEGRITY
-            </span>
-            <div className="text-xl font-black text-emerald-500 flex items-center gap-1.5">
-              <BookmarkCheck className="h-4 w-4" /> PEER_VERIFIED
-            </div>
-          </div>
-        </div>
+          </Link>
+        )}
 
-        {/* ARTICLES GRID */}
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post, index) => {
-            const title = language === 'kh' ? post.titleKh : post.title;
-            const excerpt = language === 'kh' ? post.excerptKh : post.excerpt;
-
-            return (
-              <Link
-                key={post.id}
-                to={`/blog/${post.slug}`}
-                data-aos="fade-up"
-                data-aos-delay={Math.min(index * 60, 300)}
-                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-6 sm:p-7 transition-all duration-300 no-underline ${
-                  isDark
-                    ? 'border-emerald-900/60 bg-black/90 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]'
-                    : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-lg shadow-xs'
+        {/* OTHER POSTS */}
+        <div className="space-y-3 sm:space-y-4">
+          {rest.map((post, index) => (
+            <Link
+              key={post.id}
+              to={`/blog/${post.slug}`}
+              data-aos="fade-up"
+              data-aos-delay={Math.min(index * 60, 240)}
+              className={`group flex items-center gap-4 rounded-2xl border p-4 sm:p-5 no-underline transition-all duration-200 ${cardBase}`}
+            >
+              <div className="min-w-0 flex-1">
+                {renderMeta(post)}
+                <h3
+                  className={`mt-1.5 text-base sm:text-lg font-bold tracking-tight ${
+                    isDark ? 'text-white group-hover:text-emerald-300' : 'text-slate-900 group-hover:text-emerald-700'
+                  }`}
+                >
+                  {isKh ? post.titleKh : post.title}
+                </h3>
+                <p className={`mt-1 text-sm leading-relaxed line-clamp-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  {isKh ? post.excerptKh : post.excerpt}
+                </p>
+                <div className="mt-2.5">
+                  {renderTags(post)}
+                </div>
+              </div>
+              <ArrowRight
+                className={`h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1 ${
+                  isDark ? 'text-emerald-500' : 'text-emerald-700'
                 }`}
-              >
-                {/* HUD CORNER RETICLES */}
-                <span className={`absolute top-2 left-2 h-2.5 w-2.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-                <span className={`absolute top-2 right-2 h-2.5 w-2.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-                <span className={`absolute bottom-2 left-2 h-2.5 w-2.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-                <span className={`absolute bottom-2 right-2 h-2.5 w-2.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-
-                <div>
-                  {/* CARD TOP META BAR */}
-                  <div
-                    className={`flex items-center justify-between border-b pb-3 mb-4 text-xs ${
-                      isDark ? 'border-emerald-950' : 'border-emerald-100'
-                    }`}
-                  >
-                    <span className={`font-mono text-[11px] font-bold flex items-center gap-1.5 ${isDark ? 'text-emerald-500' : 'text-emerald-800'}`}>
-                      <FileCode2 className="h-3.5 w-3.5" /> POST // #{String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span
-                      className={`inline-flex items-center gap-1.5 text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${
-                        isDark
-                          ? 'border-emerald-900 bg-emerald-950/40 text-emerald-400'
-                          : 'border-emerald-200 bg-emerald-50 text-emerald-800'
-                      }`}
-                    >
-                      <Radio className="h-2.5 w-2.5 animate-pulse text-emerald-500" />
-                      DISPATCH
-                    </span>
-                  </div>
-
-                  {/* DATE & TAGS */}
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span
-                      className={`inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-0.5 rounded border ${
-                        isDark
-                          ? 'border-emerald-900/60 bg-black text-slate-300'
-                          : 'border-emerald-200 bg-emerald-50 text-emerald-900'
-                      }`}
-                    >
-                      <Calendar className="h-3 w-3 text-emerald-500" />
-                      {formatDate(post.date)}
-                    </span>
-                    {post.tags[0] && (
-                      <span
-                        className={`text-[11px] font-bold px-2 py-0.5 rounded border ${
-                          isDark
-                            ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400'
-                            : 'border-emerald-300 bg-emerald-100 text-emerald-800'
-                        }`}
-                      >
-                        #{post.tags[0]}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* TITLE */}
-                  <h3
-                    className={`text-lg sm:text-xl font-bold uppercase tracking-tight transition-colors mb-2 ${
-                      isDark ? 'text-white group-hover:text-emerald-400' : 'text-slate-900 group-hover:text-emerald-700'
-                    }`}
-                  >
-                    {title}
-                  </h3>
-
-                  {/* EXCERPT */}
-                  <p
-                    className={`text-xs sm:text-sm leading-relaxed line-clamp-3 mb-4 ${
-                      isDark ? 'text-slate-400' : 'text-slate-600'
-                    }`}
-                  >
-                    {excerpt}
-                  </p>
-                </div>
-
-                {/* BOTTOM METADATA & LINK */}
-                <div>
-                  <div
-                    className={`flex items-center gap-3 text-xs mb-4 ${
-                      isDark ? 'text-slate-500' : 'text-slate-500'
-                    }`}
-                  >
-                    <span className="inline-flex items-center gap-1.5">
-                      <Clock className="h-3.5 w-3.5 text-emerald-500" />
-                      {language === 'en' ? `${post.readTime} ${t.blog.readTime}` : post.readTime}
-                    </span>
-
-                    {post.tags.slice(1).length > 0 && (
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <Tag className="h-3 w-3 text-emerald-500" />
-                        {post.tags.slice(1).map((tg) => (
-                          <span
-                            key={tg}
-                            className={`text-[10px] ${
-                              isDark ? 'text-emerald-600' : 'text-slate-500'
-                            }`}
-                          >
-                            #{tg}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* CARD FOOTER */}
-                  <div
-                    className={`flex items-center justify-between border-t pt-4 text-xs font-bold uppercase tracking-wider ${
-                      isDark ? 'border-emerald-950 text-emerald-400' : 'border-emerald-100 text-emerald-700'
-                    }`}
-                  >
-                    <span>{t.blog.readMore}</span>
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+              />
+            </Link>
+          ))}
         </div>
 
       </div>

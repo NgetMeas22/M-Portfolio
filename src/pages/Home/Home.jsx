@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
+import GitHubSnake from '../../components/GitHubSnake/GitHubSnake.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import AOS from 'aos';
@@ -774,6 +775,23 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* GITHUB CONTRIBUTION SNAKE                                     */}
+      {/* ============================================================ */}
+      <section className="relative z-10 py-10 sm:py-16 md:py-20">
+        <div className={container}>
+          <div className="mb-8 sm:mb-12" data-aos="fade-up">
+            <span className={`text-xs uppercase tracking-widest font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+              // ACTIVITY
+            </span>
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight mt-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              {t.home.snakeTitle}
+            </h2>
+          </div>
+          <GitHubSnake isDark={isDark} t={t} />
         </div>
       </section>
 

@@ -6,6 +6,7 @@ import internshipCertImage from '../assets/certificates/4.jpg';
 import phpLaravelCertImage from '../assets/certificates/5.jpg';
 import officeCertImage from '../assets/certificates/2.bmp';
 import ruppCertImage from '../assets/certificates/0.jpg';
+import javaSpringCertImage from '../assets/certificates/8.jpg';
 
 export const certificates = [
   {
@@ -39,12 +40,12 @@ export const certificates = [
     title: 'Java Spring Boot Development',
     titleKh: 'ការអភិវឌ្ឍន៍ Java Spring Boot',
     organization: 'ETEC Center',
-    organizationKh: 'មជ្ឈមណ្ឌលបណ្តុះបណ្តាល ETEC',
-    date: '2025',
-    credentialId: null,
+    organizationKh: 'មជ្ឈមណ្ឌលវិស្វកម្មបច្ចេកវិទ្យា និងអេឡិចត្រូនិក (ETEC)',
+    date: 'September 15, 2026',
+    credentialId: '2610432 ETEC',
     description: 'Enterprise REST APIs, Spring Security, Hibernate/JPA, and microservices.',
     descriptionKh: 'REST API សហគ្រាស, Spring Security, Hibernate/JPA និងស្ថាបត្យកម្ម microservices។',
-    image: null,
+    image: javaSpringCertImage,
     category: 'Backend'
   },
   {

@@ -1,6 +1,7 @@
 export const skills = [
   {
     name: 'HTML',
+    short: 'HTML',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 75,
@@ -10,6 +11,7 @@ export const skills = [
   },
   {
     name: 'CSS',
+    short: 'CSS',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 75,
@@ -19,6 +21,7 @@ export const skills = [
   },
   {
     name: 'JavaScript',
+    short: 'JS',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 70,
@@ -28,6 +31,7 @@ export const skills = [
   },
   {
     name: 'React',
+    short: 'RE',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 90,
@@ -37,6 +41,7 @@ export const skills = [
   },
   {
     name: 'React TypeScript',
+    short: 'TSX',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 60,
@@ -46,6 +51,7 @@ export const skills = [
   },
   {
     name: 'Vue.js',
+    short: 'VUE',
     category: 'Frontend',
     level: 'familiar',
     percentage: 60,
@@ -55,6 +61,7 @@ export const skills = [
   },
   {
     name: 'Tailwind CSS',
+    short: 'TW',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 75,
@@ -64,6 +71,7 @@ export const skills = [
   },
   {
     name: 'Bootstrap',
+    short: 'BS',
     category: 'Frontend',
     level: 'comfortable',
     percentage: 70,
@@ -73,6 +81,7 @@ export const skills = [
   },
   {
     name: 'PHP',
+    short: 'PHP',
     category: 'Backend',
     level: 'comfortable',
     percentage: 75,
@@ -82,6 +91,7 @@ export const skills = [
   },
   {
     name: 'Laravel',
+    short: 'LV',
     category: 'Backend',
     level: 'comfortable',
     percentage: 80,
@@ -91,6 +101,7 @@ export const skills = [
   },
   {
     name: 'REST API',
+    short: 'API',
     category: 'Backend',
     level: 'comfortable',
     percentage: 75,
@@ -100,6 +111,7 @@ export const skills = [
   },
   {
     name: 'MySQL',
+    short: 'MY',
     category: 'Database',
     level: 'comfortable',
     percentage: 80,
@@ -109,6 +121,7 @@ export const skills = [
   },
   {
     name: 'SQL',
+    short: 'SQL',
     category: 'Database',
     level: 'comfortable',
     percentage: 70,
@@ -118,6 +131,7 @@ export const skills = [
   },
   {
     name: 'SQL Server',
+    short: 'MSSQL',
     category: 'Database',
     level: 'familiar',
     percentage: 60,
@@ -127,6 +141,7 @@ export const skills = [
   },
   {
     name: 'SQLite',
+    short: 'LITE',
     category: 'Database',
     level: 'familiar',
     percentage: 50,
@@ -136,6 +151,7 @@ export const skills = [
   },
   {
     name: 'Git',
+    short: 'GIT',
     category: 'Tools',
     level: 'comfortable',
     percentage: 80,
@@ -145,6 +161,7 @@ export const skills = [
   },
   {
     name: 'GitHub',
+    short: 'GH',
     category: 'Tools',
     level: 'comfortable',
     percentage: 80,
@@ -154,6 +171,7 @@ export const skills = [
   },
   {
     name: 'VS Code',
+    short: 'VSC',
     category: 'Tools',
     level: 'comfortable',
     percentage: 85,
@@ -163,6 +181,7 @@ export const skills = [
   },
   {
     name: 'Docker',
+    short: 'DKR',
     category: 'Tools',
     level: 'familiar',
     percentage: 55,
@@ -172,6 +191,7 @@ export const skills = [
   },
   {
     name: 'Vercel',
+    short: 'VCL',
     category: 'Tools',
     level: 'comfortable',
     percentage: 90,
@@ -181,6 +201,7 @@ export const skills = [
   },
   {
     name: 'Figma',
+    short: 'FIG',
     category: 'Tools',
     level: 'familiar',
     percentage: 50,
@@ -190,6 +211,7 @@ export const skills = [
   },  
   {
     name: 'Microsoft Word',
+    short: 'DOC',
     category: 'Productivity',
     level: 'comfortable',
     percentage: 70,
@@ -199,6 +221,7 @@ export const skills = [
   },
   {
     name: 'Microsoft Excel',
+    short: 'XLS',
     category: 'Productivity',
     level: 'familiar',
     percentage: 60,
@@ -208,6 +231,7 @@ export const skills = [
   },
   {
     name: 'Microsoft PowerPoint',
+    short: 'PPT',
     category: 'Productivity',
     level: 'familiar',
     percentage: 50,
@@ -217,6 +241,7 @@ export const skills = [
   },
   {
     name: 'Next.js',
+    short: 'NEXT',
     category: 'Learning',
     level: 'learning',
     percentage: 10,
@@ -226,6 +251,7 @@ export const skills = [
   },
   {
     name: 'Express.js',
+    short: 'EXP',
     category: 'Learning',
     level: 'learning',
     percentage: 10,
@@ -235,6 +261,7 @@ export const skills = [
   },
   {
     name: 'PostgreSQL',
+    short: 'PG',
     category: 'Learning',
     level: 'learning',
     percentage: 10,
@@ -244,6 +271,7 @@ export const skills = [
   },
   {
     name: 'Python',
+    short: 'PY',
     category: 'Learning',
     level: 'learning',
     percentage: 75,
@@ -253,6 +281,7 @@ export const skills = [
   },
   {
     name: 'AI',
+    short: 'AI',
     category: 'Learning',
     level: 'learning',
     percentage: 30,
@@ -262,6 +291,7 @@ export const skills = [
   },
   {
     name: 'C# .NET',
+    short: '.NET',
     category: 'Learning',
     level: 'learning',
     percentage: 25,
@@ -271,6 +301,7 @@ export const skills = [
   },
   {
     name: 'Java Spring Boot',
+    short: 'SPR',
     category: 'Learning',
     level: 'learning',
     percentage: 75,
