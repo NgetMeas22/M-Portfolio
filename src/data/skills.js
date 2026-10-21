@@ -245,7 +245,7 @@ export const skills = [
     category: 'Tools',
     level: 'familiar',
     percentage: 55,
-    description: 'Containerization for development and deployment.',
+    description: 'Containerizing apps and databases for consistent development and deployment.',
     icon: 'docker',
     color: '#2496ed'
   },
@@ -270,24 +270,34 @@ export const skills = [
     color: '#ff6c37'
   },
   {
-    name: 'npm',
-    short: 'NPM',
+    name: 'AI Coding Tools (Claude)',
+    short: 'AI',
     category: 'Tools',
     level: 'comfortable',
     percentage: 75,
-    description: 'Package management, scripts, and monorepo workspaces.',
-    icon: 'npm',
-    color: '#cb3837'
-  },
-  {
-    name: 'AI Coding Tools',
-    short: 'AI',
-    category: 'Tools',
-    level: 'familiar',
-    percentage: 70,
-    description: 'Claude Code and Gemini for faster prototyping, refactoring, and debugging.',
+    description: 'Claude as an AI pair programmer to plan features, write and refactor code, and debug faster.',
     icon: 'ai',
     color: '#d97757'
+  },
+  {
+    name: 'Testing',
+    short: 'TEST',
+    category: 'Tools',
+    level: 'familiar',
+    percentage: 55,
+    description: 'API testing with Postman, manual QA, and debugging before each deploy.',
+    icon: 'testing',
+    color: '#15c39a'
+  },
+  {
+    name: 'CI/CD',
+    short: 'CI',
+    category: 'Tools',
+    level: 'familiar',
+    percentage: 55,
+    description: 'Automatic build and deploy from GitHub to Vercel, Render, and Railway.',
+    icon: 'cicd',
+    color: '#2088ff'
   },
   {
     name: 'Vercel',
@@ -298,6 +308,16 @@ export const skills = [
     description: 'Deploying React, Vite, and Next.js frontends with preview builds.',
     icon: 'vercel',
     color: '#000000'
+  },
+  {
+    name: 'Railway',
+    short: 'RLWY',
+    category: 'Cloud',
+    level: 'familiar',
+    percentage: 60,
+    description: 'Deploying backend services and databases with Git-based deploys.',
+    icon: 'railway',
+    color: '#a855f7'
   },
   {
     name: 'Render',

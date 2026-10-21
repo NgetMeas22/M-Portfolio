@@ -8,8 +8,12 @@ import {
   Terminal, 
   ArrowUpRight, 
   FolderGit2, 
-  Activity 
+  Activity,
+  Sparkles,
+  Users,
 } from 'lucide-react';
+import { GitHubIcon } from '../../components/SocialIcons.jsx';
+import ProjectCover from '../../components/ProjectCover/ProjectCover.jsx';
 import { projects } from '../../data/projects';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
@@ -246,109 +250,159 @@ export default function Projects() {
           key={`${activeFilter}-${searchQuery}`}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {filteredProjects.map((project, index) => (
-            <article
-              key={project.id}
-              data-aos="fade-up"
-              data-aos-delay={Math.min(index * 50, 300)}
-              className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border transition-all duration-300 p-6 sm:p-7 ${
-                isDark
-                  ? 'border-emerald-900/60 bg-black/90 hover:border-emerald-400 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]'
-                  : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-lg shadow-xs'
-              }`}
-            >
-              {/* RETICLES */}
-              <span className={`absolute top-2 left-2 h-2.5 w-2.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-              <span className={`absolute top-2 right-2 h-2.5 w-2.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-              <span className={`absolute bottom-2 left-2 h-2.5 w-2.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-              <span className={`absolute bottom-2 right-2 h-2.5 w-2.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-500/40 group-hover:border-emerald-400' : 'border-emerald-300 group-hover:border-emerald-600'}`} />
-
-              <div className="flex flex-col gap-3">
-                {project.isTeamProject && (
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border ${
-                        isDark
-                          ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300'
-                          : 'bg-emerald-100/70 border-emerald-300 text-emerald-800'
-                      }`}
-                    >
-                      {t.projects.teamProject}
-                    </span>
-                  </div>
-                )}
-
-                <h3
-                  className={`text-lg sm:text-xl font-bold uppercase tracking-tight transition-colors ${
-                    isDark
-                      ? 'text-white group-hover:text-emerald-400'
-                      : 'text-slate-900 group-hover:text-emerald-700'
-                  }`}
-                >
-                  {project.title}
-                </h3>
-
-                <p
-                  className={`text-xs sm:text-sm leading-relaxed line-clamp-3 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}
-                >
-                  {language === 'kh' ? project.descriptionKh : project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                        isDark
-                          ? 'border-emerald-900/60 text-emerald-400 bg-black/60'
-                          : 'border-emerald-200 text-emerald-800 bg-emerald-50/60'
-                      }`}
-                    >
-                      #{tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div
-                className={`mt-6 pt-4 border-t flex items-center justify-between gap-3 ${
-                  isDark ? 'border-emerald-950' : 'border-emerald-100'
+          {filteredProjects.map((project, index) => {
+            const visibleTech = project.technologies.slice(0, 3);
+            const hiddenTech = project.technologies.length - visibleTech.length;
+            const openDetails = () => navigate(`/projects/${project.slug || project.id}`);
+            return (
+              <article
+                key={project.id}
+                data-aos="fade-up"
+                data-aos-delay={Math.min(index * 50, 300)}
+                className={`group relative flex flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
+                  isDark
+                    ? 'border-emerald-900/60 bg-black/90 hover:border-emerald-500/70 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]'
+                    : 'border-emerald-200 bg-white hover:border-emerald-500 hover:shadow-lg shadow-xs'
                 }`}
               >
+                {/* COVER */}
                 <button
                   type="button"
-                  onClick={() => navigate(`/projects/${project.slug || project.id}`)}
-                  className={`cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
-                    isDark
-                      ? 'text-emerald-400 hover:text-emerald-300 hover:underline'
-                      : 'text-emerald-700 hover:text-emerald-800 hover:underline'
-                  }`}
+                  onClick={openDetails}
+                  className="relative block w-full cursor-pointer text-left"
+                  aria-label={`${t.projects.viewDetails}: ${project.title}`}
                 >
-                  {t.projects.viewDetails}
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ProjectCover project={project} isDark={isDark} />
+
+                  {/* BADGES OVER COVER */}
+                  <div className="absolute bottom-2.5 left-3 right-3 flex flex-wrap items-center gap-1.5">
+                    <span className="rounded border border-white/20 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
+                      {project.year}
+                    </span>
+                    {project.isTeamProject && (
+                      <span className="inline-flex items-center gap-1 rounded border border-emerald-400/40 bg-emerald-950/80 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-300 backdrop-blur-sm">
+                        <Users className="h-3 w-3" />
+                        {t.projects.teamProject}
+                      </span>
+                    )}
+                    {project.builtWith && (
+                      <span className="inline-flex items-center gap-1 rounded border border-orange-300/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-orange-200 backdrop-blur-sm">
+                        <Sparkles className="h-3 w-3" />
+                        {language === 'kh' ? `បង្កើតជាមួយ ${project.builtWith}` : `Built with ${project.builtWith}`}
+                      </span>
+                    )}
+                    {project.live && (
+                      <span className="ml-auto inline-flex items-center gap-1 rounded border border-emerald-400/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold uppercase text-emerald-300 backdrop-blur-sm">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                        Live
+                      </span>
+                    )}
+                  </div>
                 </button>
 
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded border transition-all ${
+                {/* BODY */}
+                <div className="flex flex-1 flex-col gap-2.5 p-5">
+                  <h3
+                    className={`line-clamp-2 text-base sm:text-lg font-bold uppercase leading-snug tracking-tight transition-colors ${
                       isDark
-                        ? 'border-emerald-900 bg-black text-emerald-400 hover:border-emerald-500'
-                        : 'border-emerald-200 bg-emerald-50 text-emerald-800 hover:border-emerald-400 shadow-xs'
+                        ? 'text-white group-hover:text-emerald-400'
+                        : 'text-slate-900 group-hover:text-emerald-700'
                     }`}
-                    title={t.projects.viewLive}
                   >
-                    <ExternalLink className="h-3 w-3" />
-                    {t.projects.viewLive}
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
+                    {project.title}
+                  </h3>
+
+                  <p
+                    className={`text-xs sm:text-[13px] leading-relaxed line-clamp-2 ${
+                      isDark ? 'text-slate-400' : 'text-slate-600'
+                    }`}
+                  >
+                    {language === 'kh' ? project.descriptionKh : project.description}
+                  </p>
+
+                  <div className="mt-auto flex flex-wrap gap-1.5 pt-1">
+                    {visibleTech.map((tech) => (
+                      <span
+                        key={tech}
+                        className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                          isDark
+                            ? 'border-emerald-900/60 text-emerald-400 bg-black/60'
+                            : 'border-emerald-200 text-emerald-800 bg-emerald-50/60'
+                        }`}
+                      >
+                        #{tech}
+                      </span>
+                    ))}
+                    {hiddenTech > 0 && (
+                      <span
+                        className={`text-[10px] font-mono px-2 py-0.5 rounded border border-dashed ${
+                          isDark ? 'border-emerald-900/60 text-slate-500' : 'border-slate-300 text-slate-500'
+                        }`}
+                        title={project.technologies.slice(3).join(', ')}
+                      >
+                        +{hiddenTech}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* FOOTER */}
+                <div
+                  className={`flex items-center justify-between gap-2 border-t px-5 py-3 ${
+                    isDark ? 'border-emerald-950' : 'border-emerald-100'
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={openDetails}
+                    className={`cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
+                      isDark
+                        ? 'text-emerald-400 hover:text-emerald-300'
+                        : 'text-emerald-700 hover:text-emerald-800'
+                    }`}
+                  >
+                    {t.projects.viewDetails}
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </button>
+
+                  <div className="flex items-center gap-1.5">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border transition-all ${
+                          isDark
+                            ? 'border-emerald-900 bg-black text-slate-400 hover:border-emerald-500 hover:text-emerald-300'
+                            : 'border-emerald-200 bg-white text-slate-600 hover:border-emerald-400 hover:text-emerald-800'
+                        }`}
+                        title={t.projects.viewGitHub}
+                        aria-label={`${t.projects.viewGitHub}: ${project.title}`}
+                      >
+                        <GitHubIcon size={15} />
+                      </a>
+                    )}
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inline-flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-[11px] font-bold uppercase tracking-wider transition-all ${
+                          isDark
+                            ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500 hover:text-black'
+                            : 'border-emerald-500 bg-emerald-600 text-white hover:bg-emerald-700'
+                        }`}
+                        title={t.projects.viewLive}
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {t.projects.viewLive}
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {/* EMPTY STATE */}

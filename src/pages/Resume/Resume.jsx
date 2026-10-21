@@ -16,7 +16,8 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
-import { skills, skillCategories } from '../../data/skills';
+import { skills, skillCategories, skillLevelLabels } from '../../data/skills';
+import { readableColor } from '../../utils/color.js';
 import { projects } from '../../data/projects';
 import { experience, education } from '../../data/experience';
 import { certificates } from '../../data/certificates';
@@ -63,7 +64,8 @@ export default function Resume() {
     .map((cat) => ({
       ...cat,
       items: skills.filter((s) => s.category === cat.id),
-    }));
+    }))
+    .filter((group) => group.items.length);
 
   return (
     <section
@@ -234,35 +236,57 @@ export default function Resume() {
           <h2 className="mb-4 font-mono text-lg font-bold uppercase tracking-wider text-emerald-400">
             <span className="text-slate-600">{`>_`}</span> {t.resume.skills}
           </h2>
-          <div className="space-y-5">
+          <div className="grid gap-4 md:grid-cols-2">
             {groupedSkills.map((group) => (
-              <div key={group.id}>
-                <h3 className="mb-3 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  {isKh ? group.labelKh : group.label}
-                </h3>
+              <div
+                key={group.id}
+                className={`break-inside-avoid rounded-xl border p-4 ${
+                  isDark ? 'border-slate-800 bg-slate-900/30' : 'border-emerald-100 bg-white'
+                }`}
+              >
+                <div className="mb-3 flex items-center justify-between">
+                  <h3 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                    {'// '}{isKh ? group.labelKh : group.label}
+                  </h3>
+                  <span className={`rounded px-1.5 py-px font-mono text-[10px] font-bold ${isDark ? 'bg-emerald-950/60 text-emerald-600' : 'bg-emerald-50 text-emerald-700'}`}>
+                    {group.items.length}
+                  </span>
+                </div>
                 <div className="space-y-2.5">
-                  {group.items.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="mb-1 flex items-center justify-between">
-                        <span className="font-mono text-xs text-slate-300">
-                          <span
-                            className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full"
-                            style={{ backgroundColor: skill.color }}
+                  {group.items.map((skill) => {
+                    const pct = skill.percentage ?? levelPercent(skill.level);
+                    return (
+                      <div key={skill.name}>
+                        <div className="mb-1 flex items-center justify-between gap-3">
+                          <span className={`flex min-w-0 items-center gap-2 font-mono text-xs ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                            <span
+                              className="h-2 w-2 shrink-0 rounded-full"
+                              style={{ backgroundColor: readableColor(skill.color, isDark) }}
+                            />
+                            <span className="truncate">{skill.name}</span>
+                          </span>
+                          <span className="flex shrink-0 items-center gap-2 font-mono text-[10px]">
+                            <span className={isDark ? 'text-slate-500' : 'text-slate-500'}>
+                              {skillLevelLabels[skill.level]?.[isKh ? 'kh' : 'en'] || skill.level}
+                            </span>
+                            <span className={`w-8 text-right font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                              {pct}%
+                            </span>
+                          </span>
+                        </div>
+                        <div className={`h-1.5 w-full overflow-hidden rounded-full ${isDark ? 'bg-slate-800' : 'bg-emerald-50'}`}>
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${
+                              skill.level === 'learning'
+                                ? 'bg-gradient-to-r from-slate-500 to-slate-400'
+                                : 'bg-gradient-to-r from-emerald-600 to-emerald-400'
+                            }`}
+                            style={{ width: `${pct}%` }}
                           />
-                          {skill.name}
-                        </span>
-                        <span className="font-mono text-[10px] text-slate-500">
-                          {skill.level}
-                        </span>
+                        </div>
                       </div>
-                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500"
-                          style={{ width: `${levelPercent(skill.level)}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}

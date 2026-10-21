@@ -45,6 +45,8 @@ export const projects = [
   {
     id: 'dyd-property',
     slug: 'dyd-property',
+    cover: '/projects/dyd-property.webp',
+    builtWith: 'Claude',
     title: 'DYD Property',
     description: 'Full-stack real estate marketplace for Cambodia built with Next.js, an Express REST API, and PostgreSQL — featuring map-based search, a listing wizard, agent dashboards, and an admin moderation console.',
     descriptionKh: 'វេទិកាទីផ្សារអចលនទ្រព្យពេញលេញសម្រាប់កម្ពុជា បង្កើតឡើងដោយ Next.js, Express REST API និង PostgreSQL ជាមួយការស្វែងរកលើផែនទី ផ្ទាំងភ្នាក់ងារ និងផ្ទាំងគ្រប់គ្រង Admin។',
@@ -79,7 +81,9 @@ export const projects = [
   {
     id: 'phsar-ai-ledger',
     slug: 'phsar-ai-ledger',
-    title: 'Phsar Ledger — AI Bookkeeping',
+    cover: '/projects/phsar-ai-ledger.webp',
+    builtWith: 'Claude',
+    title: 'Phsar AI Ledger',
     description: 'AI-powered income and expense ledger for Cambodian small businesses that scans receipts with Google Gemini and records transactions in USD and KHR.',
     descriptionKh: 'សៀវភៅកត់ត្រាចំណូលចំណាយដោយ AI សម្រាប់អាជីវកម្មខ្នាតតូចនៅកម្ពុជា ដែលស្កេនវិក្កយបត្រជាមួយ Google Gemini និងកត់ត្រាជាដុល្លារ និងរៀល។',
     problem: 'Small shop owners still record sales and expenses by hand, which is slow, error-prone, and makes dual-currency (USD/KHR) bookkeeping difficult.',
@@ -102,7 +106,7 @@ export const projects = [
     ],
     technologies: ['React', 'TypeScript', 'Vite', 'Express.js', 'PostgreSQL', 'Gemini AI', 'JWT', 'Tailwind CSS', 'Render'],
     github: 'https://github.com/NgetMeas22',
-    live: null,
+    live: 'https://ai-ledger-one.vercel.app',
     category: ['React', 'Express', 'PostgreSQL', 'AI', 'Full Stack'],
     isTeamProject: false,
     featured: true,
@@ -113,7 +117,8 @@ export const projects = [
   {
     id: 'omniinput',
     slug: 'omniinput',
-    title: 'OmniInput — Multimodal AI Assistant',
+    builtWith: 'Claude',
+    title: 'OmniInput',
     description: 'In-progress AI assistant that accepts text, voice, image, and file input, built with Next.js, an Express API, PostgreSQL (Neon), and a custom MCP server.',
     descriptionKh: 'ជំនួយការ AI (កំពុងអភិវឌ្ឍ) ដែលទទួលអត្ថបទ សំឡេង រូបភាព និងឯកសារ បង្កើតឡើងដោយ Next.js, Express API, PostgreSQL (Neon) និង MCP Server។',
     problem: 'Most chat tools handle one input type at a time and cannot call external tools, so users switch between apps to get work done.',
@@ -145,6 +150,8 @@ export const projects = [
   {
     id: 'lom-or-studio',
     slug: 'lom-or-studio',
+    cover: '/projects/lom-or-studio.webp',
+    builtWith: 'Claude',
     title: 'LOM-OR Studio',
     description: 'Company website for a Phnom Penh architecture, interior design, and construction studio, built with Next.js and TypeScript.',
     descriptionKh: 'គេហទំព័រក្រុមហ៊ុនស្ថាបត្យកម្ម រចនាផ្ទៃក្នុង និងសំណង់នៅភ្នំពេញ បង្កើតឡើងដោយ Next.js និង TypeScript។',
@@ -168,6 +175,40 @@ export const projects = [
     github: 'https://github.com/NgetMeas22',
     live: 'https://lom-or-studio.vercel.app',
     category: ['Next.js', 'Frontend'],
+    isTeamProject: false,
+    featured: true,
+    year: '2026'
+  },
+
+  // 0. ECOTECH TEAM PORTFOLIO
+  {
+    id: 'ecotech-team-portfolio',
+    slug: 'ecotech-team-portfolio',
+    cover: '/projects/ecotech-team-portfolio.webp',
+    builtWith: 'Claude',
+    title: 'Ecotech Team Portfolio',
+    description: 'Bilingual company and team portfolio for Ecotech — an enterprise tech, talent, and transformation team — built with React, Vite, and Tailwind CSS.',
+    descriptionKh: 'គេហទំព័រក្រុមហ៊ុន និងក្រុមការងារ Ecotech ពីរភាសា ដែលផ្តោតលើបច្ចេកវិទ្យា ធនធានមនុស្ស និងការផ្លាស់ប្តូរឌីជីថល បង្កើតឡើងដោយ React, Vite និង Tailwind CSS។',
+    problem: 'The team needed one professional site to present its services, industries, AI capabilities, past projects, and members to enterprise clients in both English and Khmer.',
+    problemKh: 'ក្រុមការងារត្រូវការគេហទំព័រវិជ្ជាជីវៈមួយ ដើម្បីបង្ហាញសេវាកម្ម វិស័យ សមត្ថភាព AI គម្រោង និងសមាជិក ដល់អតិថិជនជាភាសាអង់គ្លេស និងខ្មែរ។',
+    solution: 'Built a component-driven React SPA with i18next localization, reusable section components, an animated AI workflow network, and dark/light theming, deployed on Vercel.',
+    solutionKh: 'បានបង្កើត React SPA ផ្អែកលើ Component ជាមួយ i18next សម្រាប់ពីរភាសា Section ដែលប្រើឡើងវិញបាន បណ្តាញ AI Workflow មាន Animation និង Dark/Light Theme ដាក់លើ Vercel។',
+    features: [
+      'English / Khmer localization with i18next',
+      'Services, industries, AI lab, and architecture sections',
+      'Team member profiles and project showcase',
+      'Animated AI workflow network hero and responsive layout'
+    ],
+    featuresKh: [
+      'ពីរភាសា អង់គ្លេស / ខ្មែរ ជាមួយ i18next',
+      'ផ្នែកសេវាកម្ម វិស័យ AI Lab និងស្ថាបត្យកម្ម',
+      'ប្រវត្តិរូបសមាជិកក្រុម និងការបង្ហាញគម្រោង',
+      'Hero បណ្តាញ AI Workflow មាន Animation និងប្លង់ឆ្លើយតប'
+    ],
+    technologies: ['React', 'Vite', 'Tailwind CSS', 'i18next', 'React Router', 'Vercel'],
+    github: 'https://github.com/NgetMeas22',
+    live: 'https://team-portfolios-one.vercel.app',
+    category: ['React', 'Frontend'],
     isTeamProject: false,
     featured: true,
     year: '2026'
@@ -248,6 +289,7 @@ export const projects = [
   {
     id: 'portfolio-dark',
     slug: 'portfolio-dark',
+    cover: '/projects/portfolio-dark.webp',
     title: 'Personal Portfolio II',
     description: 'Personal cyber-terminal styled developer portfolio engineered with React and Tailwind CSS, featuring telemetry stats, bilingual support, and dark theme toggles.',
     descriptionKh: 'គេហទំព័រ Portfolio ផ្ទាល់ខ្លួន បង្កើតឡើងដោយ React និង Tailwind CSS ជាមួយមុខងារប្តូរភាសា និង Theme។',
@@ -285,6 +327,7 @@ export const projects = [
   {
     id: 'employee-management-system',
     slug: 'employee-management-system',
+    cover: '/projects/employee-management-system.webp',
     title: 'Employee Management System',
     description: 'Software that manages employee records, tracks attendance and leave, handles payroll, and monitors work performance.',
     descriptionKh: 'កម្មវិធីដែលគ្រប់គ្រងកំណត់ត្រាបុគ្គលិក តាមដានវត្តមាន និងច្បាប់ឈប់សម្រាក គ្រប់គ្រងប្រាក់ខែ និងតាមដានសម្តែងការងារ។',
@@ -317,6 +360,7 @@ export const projects = [
   {
     id: 'daily-planner',
     slug: 'daily-planner',
+    cover: '/projects/daily-planner.webp',
     title: 'Daily Planner',
     description: 'Personal dashboard for tracking finances, academic subjects, and daily goals.',
     descriptionKh: 'ផ្ទាំងគ្រប់គ្រងផ្ទាល់ខ្លួនសម្រាប់តាមដានហិរញ្ញវត្ថុ មុខវិជ្ជារៀន និងគោលបំណងប្រចាំថ្ងៃ។',
@@ -348,6 +392,7 @@ export const projects = [
   {
     id: 'g2-2-sun-mpos',
     slug: 'g2-2-sun-mpos',
+    cover: '/projects/g2-2-sun-mpos.webp',
     title: 'G2-2-Sun MPOS',
     description: 'Modern Point of Sale (POS) and inventory control solution built as a collaborative team application using Vue.js, Tailwind CSS, Laravel API, and MySQL.',
     descriptionKh: 'ប្រព័ន្ធចំណុចលក់ (POS) ទំនើបសាងសង់ជាក្រុមជាមួយ Vue.js, Tailwind CSS, Laravel backend, និង REST API។',
@@ -402,7 +447,7 @@ export const projects = [
     ],
     technologies: ['PHP', 'MySQL', 'JavaScript', 'CSS'],
     github: 'https://github.com/NgetMeas22/MeXas-Restaurant',
-    live: 'https://me-xas-restaurant.vercel.app',
+    live: null, // https://me-xas-restaurant.vercel.app returns 404 — redeploy then restore
     category: ['PHP', 'MySQL'],
     isTeamProject: false,
     featured: false,
@@ -434,7 +479,7 @@ export const projects = [
     ],
     technologies: ['React', 'Vite', 'JavaScript', 'HTML5', 'CSS3'],
     github: 'https://github.com/NgetMeas22/portfolio',
-    live: 'https://portfolio-eight-kappa-69.vercel.app',
+    live: null, // old Vercel URL now serves a different site
     category: ['Frontend'],
     isTeamProject: false,
     featured: true,
@@ -465,7 +510,7 @@ export const projects = [
     ],
     technologies: ['React', 'Vite', 'JavaScript', 'Tailwind CSS'],
     github: 'https://github.com/NgetMeas22/Cafe-Golden',
-    live: 'https://cafe-golden.vercel.app',
+    live: null, // https://cafe-golden.vercel.app returns 404 — redeploy then restore
     category: ['React', 'Frontend'],
     isTeamProject: false,
     featured: false,
@@ -475,6 +520,7 @@ export const projects = [
   {
     id: 'car-dealership',
     slug: 'car-dealership',
+    cover: '/projects/car-dealership.webp',
     title: 'Car Dealership',
     description: 'High-performance automotive showroom web portal built purely with semantic HTML5 structures and custom CSS3 responsive layouts.',
     descriptionKh: 'គេហទំព័របង្ហាញរថយន្ត និងសេវាកម្មទិញលក់រថយន្ត បង្កើតឡើងដោយ HTML5 និង CSS3 សុទ្ធ។',
@@ -508,6 +554,7 @@ export const projects = [
   {
     id: 'accessories-shop',
     slug: 'accessories-shop',
+    cover: '/projects/accessories-shop.webp',
     title: 'Accessories Shop',
     description: 'Clean e-commerce product catalog designed strictly with semantic HTML (56.1%) and structured custom CSS (43.9%) for zero-dependency payload efficiency.',
     descriptionKh: 'ហាងលក់គ្រឿងបន្លាស់ និងសម្ភារៈអេឡិចត្រូនិក បង្កើតឡើងដោយប្រើប្រាស់ HTML (56.1%) និង CSS (43.9%) សុទ្ធ។',
@@ -560,7 +607,7 @@ export const projects = [
     ],
     technologies: ['HTML5', 'CSS', 'JavaScript'],
     github: 'https://github.com/NgetMeas22/GenZ_Shop_E-commerce',
-    live: 'https://genz-shop-psi.vercel.app',
+    live: null, // https://genz-shop-psi.vercel.app returns 404 — redeploy then restore
     category: ['Frontend'],
     isTeamProject: false,
     featured: false,
@@ -578,6 +625,7 @@ export const projects = [
   {
     id: 'pressmart',
     slug: 'pressmart',
+    cover: '/projects/pressmart.webp',
     title: 'PressMart',
     description: 'Clean e-commerce digital marketplace platform project for merchandise discovery and order transactions.',
     descriptionKh: 'គម្រោងវេទិកាពាណិជ្ជកម្មអេឡិចត្រូនិចទំនើបសម្រាប់ការលក់ផលិតផល។',

@@ -22,6 +22,7 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import { projects } from '../../data/projects';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
+import ProjectCover from '../../components/ProjectCover/ProjectCover.jsx';
 
 export default function ProjectDetails() {
   const { id } = useParams();
@@ -220,6 +221,29 @@ export default function ProjectDetails() {
             )}
           </div>
         </header>
+
+        {/* COVER PREVIEW */}
+        <div data-aos="fade-up" className="group mx-auto mb-12 max-w-5xl">
+          {project.live ? (
+            <a href={project.live} target="_blank" rel="noopener noreferrer" className="block">
+              <ProjectCover
+                project={project}
+                isDark={isDark}
+                size="hero"
+                className={isDark ? 'shadow-[0_0_40px_rgba(16,185,129,0.12)]' : 'shadow-lg'}
+              />
+            </a>
+          ) : (
+            <ProjectCover project={project} isDark={isDark} size="hero" />
+          )}
+          {project.builtWith && (
+            <p className={`mt-3 text-xs ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
+              {isKh
+                ? `✦ បង្កើតដោយមានជំនួយពី AI (${project.builtWith}) សម្រាប់ការសរសេរកូដ និងដោះស្រាយបញ្ហា។`
+                : `✦ Built with AI assistance from ${project.builtWith} for coding, refactoring, and debugging.`}
+            </p>
+          )}
+        </div>
 
         {/* TELEMETRY HUD STRIP */}
         <div
