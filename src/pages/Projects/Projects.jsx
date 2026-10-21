@@ -18,6 +18,9 @@ import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 const filterTabs = [
   { id: 'all', label: 'All', labelKh: 'ទាំងអស់' },
   { id: 'Full Stack', label: 'Full Stack', labelKh: 'Full Stack' },
+  { id: 'Next.js', label: 'Next.js', labelKh: 'Next.js' },
+  { id: 'Express', label: 'Express', labelKh: 'Express' },
+  { id: 'PostgreSQL', label: 'PostgreSQL', labelKh: 'PostgreSQL' },
   { id: 'React', label: 'React', labelKh: 'React' },
   { id: 'Laravel', label: 'Laravel', labelKh: 'Laravel' },
   { id: 'Spring Boot', label: 'Spring Boot', labelKh: 'Spring Boot' },

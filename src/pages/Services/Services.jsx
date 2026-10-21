@@ -19,11 +19,11 @@ import { useTheme } from '../../hooks/useTheme';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 
 const serviceItems = [
-  { icon: Globe, titleKey: 'webDev', descKey: 'webDevDesc', tags: ['React', 'Laravel'] },
+  { icon: Globe, titleKey: 'webDev', descKey: 'webDevDesc', tags: ['Next.js', 'React', 'Laravel'] },
   { icon: Layout, titleKey: 'frontend', descKey: 'frontendDesc', tags: ['React', 'Tailwind'] },
-  { icon: Server, titleKey: 'backend', descKey: 'backendDesc', tags: ['PHP', 'Laravel'] },
+  { icon: Server, titleKey: 'backend', descKey: 'backendDesc', tags: ['Express', 'Node.js', 'Laravel'] },
   { icon: Code, titleKey: 'api', descKey: 'apiDesc', tags: ['REST', 'JSON'] },
-  { icon: Database, titleKey: 'database', descKey: 'databaseDesc', tags: ['MySQL', 'SQL'] },
+  { icon: Database, titleKey: 'database', descKey: 'databaseDesc', tags: ['PostgreSQL', 'MySQL', 'Neon'] },
   { icon: Smartphone, titleKey: 'responsive', descKey: 'responsiveDesc', tags: ['Mobile-First'] },
   { icon: Settings, titleKey: 'maintenance', descKey: 'maintenanceDesc', tags: ['Bugfix', 'Speed'] },
 ];

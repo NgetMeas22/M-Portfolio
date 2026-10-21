@@ -50,6 +50,26 @@ export const skills = [
     color: '#3178c6'
   },
   {
+    name: 'TypeScript',
+    short: 'TS',
+    category: 'Frontend',
+    level: 'familiar',
+    percentage: 65,
+    description: 'Static typing for safer, self-documenting JavaScript on both client and server.',
+    icon: 'typescript',
+    color: '#3178c6'
+  },
+  {
+    name: 'Next.js',
+    short: 'NEXT',
+    category: 'Frontend',
+    level: 'familiar',
+    percentage: 65,
+    description: 'App Router, server components, SSR, and SEO-friendly full-stack React apps.',
+    icon: 'nextjs',
+    color: '#000000'
+  },
+  {
     name: 'Vue.js',
     short: 'VUE',
     category: 'Frontend',
@@ -100,6 +120,36 @@ export const skills = [
     color: '#ff2d20'
   },
   {
+    name: 'Node.js',
+    short: 'NODE',
+    category: 'Backend',
+    level: 'familiar',
+    percentage: 65,
+    description: 'JavaScript runtime for APIs, tooling, and server-side scripts.',
+    icon: 'nodejs',
+    color: '#5fa04e'
+  },
+  {
+    name: 'Express.js',
+    short: 'EXP',
+    category: 'Backend',
+    level: 'familiar',
+    percentage: 65,
+    description: 'REST APIs with routing, middleware, JWT auth, Zod validation, and Helmet.',
+    icon: 'express',
+    color: '#000000'
+  },
+  {
+    name: 'Prisma ORM',
+    short: 'PRSM',
+    category: 'Backend',
+    level: 'familiar',
+    percentage: 60,
+    description: 'Type-safe database client, schema modeling, and migrations for PostgreSQL.',
+    icon: 'prisma',
+    color: '#2d3748'
+  },
+  {
     name: 'REST API',
     short: 'API',
     category: 'Backend',
@@ -118,6 +168,16 @@ export const skills = [
     description: 'Relational database design, queries, joins.',
     icon: 'mysql',
     color: '#4479a1'
+  },
+  {
+    name: 'PostgreSQL',
+    short: 'PG',
+    category: 'Database',
+    level: 'familiar',
+    percentage: 65,
+    description: 'Relational schemas, foreign keys, indexes, and migrations for production apps.',
+    icon: 'postgresql',
+    color: '#4169e1'
   },
   {
     name: 'SQL',
@@ -190,16 +250,6 @@ export const skills = [
     color: '#2496ed'
   },
   {
-    name: 'Vercel',
-    short: 'VCL',
-    category: 'Tools',
-    level: 'comfortable',
-    percentage: 90,
-    description: 'Deployment and hosting for frontend applications.',
-    icon: 'vercel',
-    color: '#000000'
-  },
-  {
     name: 'Figma',
     short: 'FIG',
     category: 'Tools',
@@ -208,7 +258,87 @@ export const skills = [
     description: 'UI/UX interface prototyping, wireframing, and component design.',
     icon: 'figma',
     color: '#f24e1e'
-  },  
+  },
+  {
+    name: 'Postman',
+    short: 'PM',
+    category: 'Tools',
+    level: 'comfortable',
+    percentage: 75,
+    description: 'Testing, documenting, and debugging REST API endpoints.',
+    icon: 'postman',
+    color: '#ff6c37'
+  },
+  {
+    name: 'npm',
+    short: 'NPM',
+    category: 'Tools',
+    level: 'comfortable',
+    percentage: 75,
+    description: 'Package management, scripts, and monorepo workspaces.',
+    icon: 'npm',
+    color: '#cb3837'
+  },
+  {
+    name: 'AI Coding Tools',
+    short: 'AI',
+    category: 'Tools',
+    level: 'familiar',
+    percentage: 70,
+    description: 'Claude Code and Gemini for faster prototyping, refactoring, and debugging.',
+    icon: 'ai',
+    color: '#d97757'
+  },
+  {
+    name: 'Vercel',
+    short: 'VCL',
+    category: 'Cloud',
+    level: 'comfortable',
+    percentage: 90,
+    description: 'Deploying React, Vite, and Next.js frontends with preview builds.',
+    icon: 'vercel',
+    color: '#000000'
+  },
+  {
+    name: 'Render',
+    short: 'RNDR',
+    category: 'Cloud',
+    level: 'familiar',
+    percentage: 65,
+    description: 'Hosting Node.js / Express APIs with health checks and auto deploys.',
+    icon: 'render',
+    color: '#46e3b7'
+  },
+  {
+    name: 'Neon',
+    short: 'NEON',
+    category: 'Cloud',
+    level: 'familiar',
+    percentage: 65,
+    description: 'Serverless PostgreSQL databases with branching for development.',
+    icon: 'neon',
+    color: '#00e599'
+  },
+  {
+    name: 'Cloudinary',
+    short: 'CLD',
+    category: 'Cloud',
+    level: 'familiar',
+    percentage: 55,
+    description: 'Image upload, storage, and optimized delivery via CDN.',
+    icon: 'cloudinary',
+    color: '#3448c5'
+  },
+  {
+    name: 'InfinityFree',
+    short: 'IFH',
+    category: 'Cloud',
+    level: 'familiar',
+    percentage: 60,
+    description: 'Free PHP & MySQL hosting for server-rendered projects.',
+    icon: 'hosting',
+    color: '#2563eb'
+  },
   {
     name: 'Microsoft Word',
     short: 'DOC',
@@ -240,36 +370,6 @@ export const skills = [
     color: '#d24726'
   },
   {
-    name: 'Next.js',
-    short: 'NEXT',
-    category: 'Learning',
-    level: 'learning',
-    percentage: 10,
-    description: 'Server-side rendering, App Router, and full-stack React framework.',
-    icon: 'nextjs',
-    color: '#000000'
-  },
-  {
-    name: 'Express.js',
-    short: 'EXP',
-    category: 'Learning',
-    level: 'learning',
-    percentage: 10,
-    description: 'Node.js backend framework, middleware, and REST APIs.',
-    icon: 'express',
-    color: '#000000'
-  },
-  {
-    name: 'PostgreSQL',
-    short: 'PG',
-    category: 'Learning',
-    level: 'learning',
-    percentage: 10,
-    description: 'Advanced open-source relational database management.',
-    icon: 'postgresql',
-    color: '#4169e1'
-  },
-  {
     name: 'Python',
     short: 'PY',
     category: 'Learning',
@@ -285,9 +385,19 @@ export const skills = [
     category: 'Learning',
     level: 'learning',
     percentage: 30,
-    description: 'Artificial Intelligence concepts and applications.',
+    description: 'Integrating LLM APIs (Gemini) into apps: receipt scanning, chat, and automation.',
     icon: 'ai',
     color: '#ff6f00'
+  },
+  {
+    name: 'MCP (Model Context Protocol)',
+    short: 'MCP',
+    category: 'Learning',
+    level: 'learning',
+    percentage: 30,
+    description: 'Building MCP servers that expose tools and data to AI assistants.',
+    icon: 'mcp',
+    color: '#8b5cf6'
   },
   {
     name: 'C# .NET',
@@ -317,6 +427,7 @@ export const skillCategories = [
   { id: 'Backend', label: 'Backend', labelKh: 'Backend' },
   { id: 'Database', label: 'Database', labelKh: 'Database' },
   { id: 'Tools', label: 'Tools', labelKh: 'ឧបករណ៍' },
+  { id: 'Cloud', label: 'Cloud & Deploy', labelKh: 'Cloud និង Deploy' },
   { id: 'Productivity', label: 'Productivity', labelKh: 'ការងាររដ្ឋបាល' },
   { id: 'Learning', label: 'Learning', labelKh: 'កំពុងរៀន' }
 ];

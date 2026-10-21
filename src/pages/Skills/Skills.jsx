@@ -18,6 +18,7 @@ import {
   FolderTree,
   CheckCircle2,
   GraduationCap,
+  Cloud,
 } from 'lucide-react';
 import { skills, skillCategories, skillLevelLabels } from '../../data/skills';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -29,6 +30,7 @@ const categoryIcons = {
   Backend: Server,
   Database: Database,
   Tools: Wrench,
+  Cloud: Cloud,
   Productivity: Briefcase,
   Learning: BookOpen,
 };

@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   BriefcaseBusiness,
-  Check,
   ChevronDown,
   Code2,
   Contact,
   FileBadge,
+  FileText,
   GraduationCap,
   Home as HomeIcon,
   Languages,
@@ -14,29 +14,44 @@ import {
   Menu,
   Moon,
   Newspaper,
-  Settings,
-  Shield,
   Sparkles,
   Sun,
   Terminal,
   User,
   X,
-  Radio,
 } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { useTheme } from '../../hooks/useTheme.jsx';
 
-const navItems = [
+// Shown directly in the desktop bar
+const primaryNav = [
   { to: '/', label: 'home', end: true, icon: HomeIcon },
   { to: '/about', label: 'about', icon: User },
   { to: '/skills', label: 'skills', icon: Code2 },
   { to: '/projects', label: 'projects', icon: Layers3 },
   { to: '/experience', label: 'experience', icon: BriefcaseBusiness },
-  { to: '/certificates', label: 'certificates', icon: FileBadge },
-  { to: '/education', label: 'education', icon: GraduationCap },
-  { to: '/services', label: 'services', icon: Sparkles },
   { to: '/blog', label: 'blog', icon: Newspaper },
   { to: '/contact', label: 'contact', icon: Contact },
+];
+
+// Grouped under the desktop "More" dropdown
+const moreNav = [
+  { to: '/services', label: 'services', icon: Sparkles },
+  { to: '/certificates', label: 'certificates', icon: FileBadge },
+  { to: '/education', label: 'education', icon: GraduationCap },
+  { to: '/resume', label: 'resume', icon: FileText },
+];
+
+const allNav = [...primaryNav, ...moreNav];
+
+const languages = [
+  { id: 'en', label: 'English', hint: 'EN' },
+  { id: 'kh', label: 'ខ្មែរ', hint: 'KH' },
+];
+
+const themes = [
+  { id: 'dark', label: 'Dark', icon: Moon },
+  { id: 'light', label: 'Light', icon: Sun },
 ];
 
 const matrixChars = '01<>[]{}#$%ABCDEFNGETMEAS';
@@ -51,7 +66,7 @@ function MatrixBackground({ isDark }) {
 
     const resize = () => {
       canvas.width = window.innerWidth;
-      canvas.height = 72;
+      canvas.height = 80;
     };
     resize();
     window.addEventListener('resize', resize);
@@ -94,7 +109,7 @@ function MatrixBackground({ isDark }) {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none opacity-40"
+      className="absolute inset-0 pointer-events-none opacity-30"
       aria-hidden="true"
     />
   );
@@ -102,19 +117,23 @@ function MatrixBackground({ isDark }) {
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const dropdownRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const moreRef = useRef(null);
+  const location = useLocation();
 
   const langContext = useLanguage();
   const language = langContext?.language || 'en';
-  const setLanguage = langContext?.setLanguage || langContext?.changeLanguage || langContext?.setLang;
+  const setLanguage = langContext?.setLanguage;
   const t = langContext?.t || {};
 
   const themeContext = useTheme();
   const theme = themeContext?.theme || 'dark';
-  const setTheme = themeContext?.setTheme || themeContext?.toggleTheme;
+  const setTheme = themeContext?.setTheme;
   const isDark = theme === 'dark';
+
+  const label = (key) => t?.nav?.[key] ?? key;
 
   useEffect(() => {
     const root = document.documentElement;
@@ -126,11 +145,23 @@ export default function Navbar() {
   }, [theme]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrolled(window.scrollY > 20);
+      setProgress(max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0);
+    };
     handleScroll();
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close menus whenever the route changes
+  const [lastPath, setLastPath] = useState(location.pathname);
+  if (lastPath !== location.pathname) {
+    setLastPath(location.pathname);
+    setIsOpen(false);
+    setMoreOpen(false);
+  }
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
@@ -141,293 +172,350 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setSettingsOpen(false);
+      if (moreRef.current && !moreRef.current.contains(event.target)) {
+        setMoreOpen(false);
+      }
+    };
+    const handleKey = (event) => {
+      if (event.key === 'Escape') {
+        setMoreOpen(false);
+        setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKey);
+    };
   }, []);
 
-  const closeMenu = () => setIsOpen(false);
+  const toggleLanguage = () => setLanguage?.(language === 'en' ? 'kh' : 'en');
+  const toggleTheme = () => setTheme?.(isDark ? 'light' : 'dark');
 
-  const handleLanguageSelect = (langId) => {
-    if (typeof setLanguage === 'function') {
-      setLanguage(langId);
-    }
-    setSettingsOpen(false);
-  };
-
-  const handleThemeSelect = (themeId) => {
-    if (typeof setTheme === 'function') {
-      setTheme(themeId);
-    }
-    setSettingsOpen(false);
-  };
+  const moreActive = moreNav.some((item) => location.pathname.startsWith(item.to));
+  const activeMore = moreNav.find((item) => location.pathname.startsWith(item.to));
 
   const headerClass = scrolled
     ? isDark
-      ? 'bg-[#030504]/95 backdrop-blur-xl border-b border-emerald-500/25 shadow-2xl shadow-black/80'
-      : 'bg-[#f4f7f5]/95 backdrop-blur-xl border-b border-emerald-600/20 shadow-md shadow-emerald-950/5'
+      ? 'bg-[#030504]/90 backdrop-blur-xl border-b border-emerald-500/25 shadow-2xl shadow-black/80'
+      : 'bg-[#f4f7f5]/90 backdrop-blur-xl border-b border-emerald-600/20 shadow-md shadow-emerald-950/5'
     : isDark
-      ? 'bg-[#030504]/75 border-b border-emerald-500/15 backdrop-blur-md'
-      : 'bg-[#f4f7f5]/85 border-b border-emerald-600/15 backdrop-blur-md';
+      ? 'bg-[#030504]/70 border-b border-emerald-500/10 backdrop-blur-md'
+      : 'bg-[#f4f7f5]/80 border-b border-emerald-600/10 backdrop-blur-md';
 
-  const controlButtonClass = `inline-flex h-9 items-center justify-center gap-2 rounded-xl border px-3 text-xs font-bold transition-all duration-200 font-mono tracking-wider cursor-pointer ${
+  const iconButtonClass = `inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border px-2.5 text-[11px] font-bold font-mono tracking-wider transition-all duration-200 cursor-pointer ${
     isDark
-      ? 'border-emerald-500/40 bg-black/90 text-emerald-400 hover:border-emerald-400 hover:bg-emerald-950/40 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
-      : 'border-emerald-500/40 bg-white text-emerald-900 hover:border-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 shadow-xs'
+      ? 'border-emerald-500/30 bg-black/70 text-emerald-400 hover:border-emerald-400 hover:bg-emerald-950/50 hover:shadow-[0_0_14px_rgba(16,185,129,0.25)]'
+      : 'border-emerald-500/30 bg-white text-emerald-800 hover:border-emerald-600 hover:bg-emerald-50'
   }`;
 
-  const desktopLinkClass = ({ isActive }) =>
-    `relative inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 text-[11px] xl:text-xs font-bold rounded-lg transition-all duration-150 font-mono uppercase tracking-wider ${
+  const desktopLinkClass = (isActive) =>
+    `group relative inline-flex items-center gap-1.5 rounded-lg px-2 xl:px-2.5 py-2 text-[11px] xl:text-xs font-bold font-mono uppercase tracking-wider whitespace-nowrap transition-colors duration-150 cursor-pointer ${
       isActive
         ? isDark
-          ? 'text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 shadow-[0_0_14px_rgba(16,185,129,0.25)]'
-          : 'text-emerald-900 bg-emerald-100/90 border border-emerald-400 shadow-xs font-black'
+          ? 'text-emerald-300 bg-emerald-500/10'
+          : 'text-emerald-800 bg-emerald-100/80'
         : isDark
-          ? 'text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/30'
-          : 'text-slate-700 hover:text-emerald-900 hover:bg-emerald-50/70'
+          ? 'text-slate-400 hover:text-emerald-300 hover:bg-emerald-500/5'
+          : 'text-slate-600 hover:text-emerald-800 hover:bg-emerald-50'
     }`;
 
-  const mobileLinkClass = ({ isActive }) =>
-    `flex items-center justify-between px-4 py-3 text-xs font-bold rounded-xl transition-all duration-150 font-mono uppercase tracking-wider ${
-      isActive
-        ? isDark
-          ? 'text-emerald-400 bg-emerald-950/60 border-l-4 border-emerald-400'
-          : 'text-emerald-900 bg-emerald-100/90 border-l-4 border-emerald-600'
-        : isDark
-          ? 'text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/30'
-          : 'text-slate-700 hover:text-emerald-900 hover:bg-slate-100'
-    }`;
-
-  const renderLinks = (linkClass, onNavigate) =>
-    navItems.map((item) => {
-      const Icon = item.icon;
-      return (
-        <NavLink
-          key={item.to}
-          to={item.to}
-          end={item.end}
-          className={linkClass}
-          onClick={onNavigate}
-        >
-          <span className="flex items-center gap-1.5">
-            <Icon className="h-3.5 w-3.5 opacity-80" />
-            {t?.nav?.[item.label] ?? item.label}
-          </span>
-        </NavLink>
-      );
-    });
-
-  const renderSettingsMenu = () => (
-    <div
-      className={`absolute right-0 top-full mt-3 w-64 rounded-xl border p-3.5 shadow-2xl z-[100] transition-all font-mono ${
-        isDark
-          ? 'border-emerald-500/40 bg-[#030504] shadow-[0_0_30px_rgba(0,0,0,0.9)] text-slate-200'
-          : 'border-emerald-300 bg-white shadow-xl text-slate-900'
+  // Glowing bar under the active desktop link
+  const activeBar = (isActive) => (
+    <span
+      aria-hidden="true"
+      className={`absolute inset-x-2 -bottom-px h-0.5 rounded-full transition-all duration-200 ${
+        isActive
+          ? isDark
+            ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.9)] opacity-100'
+            : 'bg-emerald-600 opacity-100'
+          : 'bg-emerald-500 opacity-0 scale-x-50 group-hover:opacity-40 group-hover:scale-x-100'
       }`}
-    >
-      {/* LANGUAGE SELECTOR */}
-      <div className="mb-3.5 border-b border-emerald-500/20 pb-3">
-        <p className="mb-2.5 flex items-center gap-2 text-[11px] uppercase tracking-widest text-emerald-500 font-bold">
-          <Languages className="h-3.5 w-3.5" />
-          Language // ភាសា
-        </p>
-        <div className="space-y-1.5">
-          {[
-            { id: 'en', label: 'English', hint: 'EN' },
-            { id: 'kh', label: 'Khmer (ខ្មែរ)', hint: 'KH' },
-          ].map((item) => {
-            const isSelected = language === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleLanguageSelect(item.id);
-                }}
-                className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold transition-all ${
-                  isSelected
-                    ? isDark
-                      ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                      : 'bg-emerald-100 text-emerald-900 border border-emerald-400 font-bold'
-                    : isDark
-                      ? 'text-slate-400 hover:bg-emerald-950/40 hover:text-emerald-300'
-                      : 'text-slate-700 hover:bg-emerald-50'
-                }`}
-              >
-                <span>{item.label}</span>
-                <span className="flex items-center gap-2">
-                  <span className="text-[10px] text-slate-500">{item.hint}</span>
-                  {isSelected && <Check className="h-3.5 w-3.5 text-emerald-500" />}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* THEME SELECTOR */}
-      <div>
-        <p className="mb-2.5 flex items-center gap-2 text-[11px] uppercase tracking-widest text-emerald-500 font-bold">
-          <Shield className="h-3.5 w-3.5" />
-          Theme Mode
-        </p>
-        <div className="space-y-1.5">
-          {[
-            { id: 'dark', label: 'Black Hacker', icon: Moon },
-            { id: 'light', label: 'Light Mode', icon: Sun },
-          ].map((item) => {
-            const Icon = item.icon;
-            const isSelected = theme === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleThemeSelect(item.id);
-                }}
-                className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold transition-all ${
-                  isSelected
-                    ? isDark
-                      ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                      : 'bg-emerald-100 text-emerald-900 border border-emerald-400 font-bold'
-                    : isDark
-                      ? 'text-slate-400 hover:bg-emerald-950/40 hover:text-emerald-300'
-                      : 'text-slate-700 hover:bg-emerald-50'
-                }`}
-              >
-                <span className="flex items-center gap-2">
-                  <Icon className="h-3.5 w-3.5" />
-                  {item.label}
-                </span>
-                {isSelected && <Check className="h-3.5 w-3.5 text-emerald-500" />}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
+    />
   );
+
+  const segmentClass = (active) =>
+    `flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-xs font-bold transition-all cursor-pointer ${
+      active
+        ? isDark
+          ? 'bg-emerald-500/15 text-emerald-300 shadow-[inset_0_0_0_1px_rgba(16,185,129,0.5)]'
+          : 'bg-white text-emerald-800 shadow-sm ring-1 ring-emerald-300'
+        : isDark
+          ? 'text-slate-400 hover:text-emerald-300'
+          : 'text-slate-600 hover:text-emerald-800'
+    }`;
 
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerClass}`}>
         <MatrixBackground isDark={isDark} />
-        <nav className="relative mx-auto flex h-16 max-w-[1700px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-20 lg:px-12">
-          
+        <nav
+          aria-label="Main navigation"
+          className="relative mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-4 sm:px-6 lg:h-[72px] lg:px-8"
+        >
           {/* LOGO */}
-          <NavLink to="/" end onClick={closeMenu} className="flex items-center gap-2.5 shrink-0 z-10 group">
+          <NavLink to="/" end className="group z-10 flex shrink-0 items-center gap-2.5">
             <span
-              className={`relative flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-300 group-hover:scale-105 ${
+              className={`relative flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-300 group-hover:rotate-6 group-hover:scale-105 ${
                 isDark
                   ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
                   : 'border-emerald-500/50 bg-emerald-100 text-emerald-800 shadow-xs'
               }`}
             >
               <Terminal className="h-4 w-4" />
+              <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              </span>
             </span>
-            <span className="text-base sm:text-lg font-black tracking-wider font-mono">
+            <span className="font-mono text-base font-black tracking-wider sm:text-lg">
               <span className="text-emerald-500">&lt;</span>
-              <span className={isDark ? 'text-white' : 'text-slate-900'}>
-                NGET
-              </span>
-              <span className={isDark ? 'text-emerald-400' : 'text-emerald-600'}>
-                MEAS
-              </span>
+              <span className={isDark ? 'text-white' : 'text-slate-900'}>NGET</span>
+              <span className={isDark ? 'text-emerald-400' : 'text-emerald-600'}>MEAS</span>
               <span className="text-emerald-500">/&gt;</span>
             </span>
           </NavLink>
 
-          {/* DESKTOP NAVIGATION LINKS */}
-          <div className="hidden items-center gap-1 xl:gap-1.5 lg:flex z-10">
-            {renderLinks(desktopLinkClass)}
+          {/* DESKTOP NAVIGATION */}
+          <div className="z-10 hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
+            {primaryNav.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.end}
+                  className={({ isActive }) => desktopLinkClass(isActive)}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <Icon className="hidden h-3.5 w-3.5 opacity-80 xl:block" />
+                      {label(item.label)}
+                      {activeBar(isActive)}
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
+
+            {/* MORE DROPDOWN */}
+            <div ref={moreRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setMoreOpen((prev) => !prev)}
+                className={desktopLinkClass(moreActive)}
+                aria-expanded={moreOpen}
+                aria-haspopup="menu"
+              >
+                {activeMore ? label(activeMore.label) : label('more')}
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} />
+                {activeBar(moreActive)}
+              </button>
+
+              <div
+                role="menu"
+                className={`absolute right-0 top-full mt-3 w-60 origin-top-right rounded-xl border p-1.5 font-mono transition-all duration-150 ${
+                  moreOpen ? 'visible scale-100 opacity-100' : 'invisible scale-95 opacity-0'
+                } ${
+                  isDark
+                    ? 'border-emerald-500/30 bg-[#030504]/95 shadow-[0_10px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl'
+                    : 'border-emerald-200 bg-white shadow-xl'
+                }`}
+              >
+                {moreNav.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.to}
+                      to={item.to}
+                      role="menuitem"
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+                          isActive
+                            ? isDark
+                              ? 'bg-emerald-500/10 text-emerald-300'
+                              : 'bg-emerald-50 text-emerald-800'
+                            : isDark
+                              ? 'text-slate-400 hover:bg-emerald-500/5 hover:text-emerald-300'
+                              : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'
+                        }`
+                      }
+                    >
+                      <span
+                        className={`flex h-7 w-7 items-center justify-center rounded-md border ${
+                          isDark ? 'border-emerald-500/25 bg-emerald-950/40' : 'border-emerald-200 bg-emerald-50'
+                        }`}
+                      >
+                        <Icon className="h-3.5 w-3.5" />
+                      </span>
+                      {label(item.label)}
+                    </NavLink>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-          {/* DESKTOP CONTROLS */}
-          <div ref={dropdownRef} className="hidden lg:flex items-center gap-3 relative z-10">
-            {/* LIVE PULSE STATUS BADGE */}
-            <div
-              className={`hidden xl:flex items-center gap-2 border px-3 py-1.5 rounded-xl text-[11px] font-mono font-bold tracking-wider ${
-                isDark 
-                  ? 'border-emerald-900/80 bg-black/80 text-emerald-400 shadow-inner' 
-                  : 'border-emerald-400 bg-white text-emerald-900 shadow-xs'
+          {/* CONTROLS */}
+          <div className="z-10 flex shrink-0 items-center gap-2">
+            <span
+              className={`hidden items-center gap-2 rounded-lg border px-2.5 py-1.5 font-mono text-[11px] font-bold tracking-wider 2xl:flex ${
+                isDark ? 'border-emerald-900/80 bg-black/70 text-emerald-400' : 'border-emerald-300 bg-white text-emerald-800'
               }`}
             >
-              <Radio className="h-3.5 w-3.5 animate-pulse text-emerald-500" />
-              <span>ONLINE</span>
-            </div>
+              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+              OPEN TO WORK
+            </span>
 
-            {/* SETTINGS MENU TRIGGER */}
             <button
               type="button"
-              onClick={() => setSettingsOpen((prev) => !prev)}
-              className={controlButtonClass}
-              aria-expanded={settingsOpen}
-              aria-label="Configuration settings"
+              onClick={toggleLanguage}
+              className={`${iconButtonClass} hidden sm:inline-flex`}
+              aria-label={language === 'en' ? 'Switch to Khmer' : 'Switch to English'}
+              title={language === 'en' ? 'ភាសាខ្មែរ' : 'English'}
             >
-              <Settings className="h-3.5 w-3.5 text-emerald-500" />
-              <span>{language ? language.toUpperCase() : 'EN'}</span>
-              {isDark ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5 text-emerald-600" />}
-              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
+              <Languages className="h-3.5 w-3.5" />
+              {language.toUpperCase()}
             </button>
 
-            {settingsOpen && renderSettingsMenu()}
-          </div>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={`${iconButtonClass} hidden w-9 px-0 sm:inline-flex`}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={isDark ? 'Light mode' : 'Dark mode'}
+            >
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
 
-          {/* MOBILE HAMBURGER TOGGLE */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            className={`${controlButtonClass} lg:hidden z-10 px-2.5`}
-            aria-label="Open Navigation"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              className={`${iconButtonClass} w-9 px-0 lg:hidden`}
+              aria-label="Open navigation"
+              aria-expanded={isOpen}
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
         </nav>
+
+        {/* SCROLL PROGRESS */}
+        <div className="absolute inset-x-0 bottom-0 h-px overflow-hidden" aria-hidden="true">
+          <div
+            className={`h-full transition-[width] duration-150 ${
+              isDark ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]' : 'bg-emerald-600'
+            }`}
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </header>
 
       {/* MOBILE DRAWER */}
-      <div className={`fixed inset-0 z-60 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeMenu} />
+      <div
+        className={`fixed inset-0 z-60 transition-opacity duration-300 lg:hidden ${
+          isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        aria-hidden={!isOpen}
+      >
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
 
         <aside
-          className={`absolute right-0 top-0 h-full w-80 max-w-[85vw] overflow-y-auto p-6 transition-transform duration-300 ease-in-out font-mono ${
+          className={`absolute right-0 top-0 flex h-full w-80 max-w-[85vw] flex-col font-mono transition-transform duration-300 ease-out ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
-          } ${isDark ? 'bg-[#050807] border-l border-emerald-500/30' : 'bg-[#f4f7f5] border-l border-emerald-300 shadow-2xl'}`}
+          } ${isDark ? 'border-l border-emerald-500/30 bg-[#050807]' : 'border-l border-emerald-300 bg-[#f4f7f5] shadow-2xl'}`}
         >
-          <div className="flex items-center justify-between pb-5 border-b border-emerald-500/20">
-            <div className="flex items-center gap-2">
-              <span className={`p-1.5 rounded-lg border ${isDark ? 'border-emerald-500/40 bg-emerald-950/40 text-emerald-400' : 'border-emerald-400 bg-emerald-100 text-emerald-800'}`}>
-                <Terminal className="h-4 w-4" />
-              </span>
-              <span className={`font-black tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                &lt;Dev/&gt;
-              </span>
-            </div>
+          <div className="flex items-center justify-between border-b border-emerald-500/20 px-5 py-4">
+            <span className="text-base font-black tracking-wider">
+              <span className="text-emerald-500">&lt;</span>
+              <span className={isDark ? 'text-white' : 'text-slate-900'}>NGET</span>
+              <span className={isDark ? 'text-emerald-400' : 'text-emerald-600'}>MEAS</span>
+              <span className="text-emerald-500">/&gt;</span>
+            </span>
             <button
               type="button"
-              onClick={closeMenu}
-              className={`${controlButtonClass} px-2.5`}
-              aria-label="Close menu"
+              onClick={() => setIsOpen(false)}
+              className={`${iconButtonClass} w-9 px-0`}
+              aria-label="Close navigation"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
-          <div className="py-6 space-y-1.5">{renderLinks(mobileLinkClass, closeMenu)}</div>
+          <div className="flex-1 overflow-y-auto px-4 py-4">
+            <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-emerald-600">{'// navigate'}</p>
+            <div className="space-y-1">
+              {allNav.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 rounded-lg border px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+                        isActive
+                          ? isDark
+                            ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
+                            : 'border-emerald-300 bg-emerald-100/80 text-emerald-900'
+                          : isDark
+                            ? 'border-transparent text-slate-400 hover:bg-emerald-500/5 hover:text-emerald-300'
+                            : 'border-transparent text-slate-700 hover:bg-white hover:text-emerald-800'
+                      }`
+                    }
+                  >
+                    <span className="w-5 text-[10px] text-emerald-600/70">{String(i + 1).padStart(2, '0')}</span>
+                    <Icon className="h-4 w-4 opacity-80" />
+                    {label(item.label)}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
 
-          <div className="pt-6 border-t border-emerald-500/20">
-            <span className="block mb-3 text-xs uppercase tracking-widest text-emerald-500 font-bold">
-              // SYS_CONFIG
-            </span>
-            <div className="relative">
-              {renderSettingsMenu()}
+          {/* SETTINGS */}
+          <div className="space-y-4 border-t border-emerald-500/20 px-5 py-5">
+            <div>
+              <p className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-emerald-600">
+                <Languages className="h-3.5 w-3.5" />
+                Language // ភាសា
+              </p>
+              <div className={`flex gap-1 rounded-lg border p-1 ${isDark ? 'border-emerald-900/70 bg-black/60' : 'border-emerald-200 bg-emerald-50/60'}`}>
+                {languages.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setLanguage?.(item.id)}
+                    className={segmentClass(language === item.id)}
+                    aria-pressed={language === item.id}
+                  >
+                    {item.label}
+                    <span className="text-[10px] opacity-60">{item.hint}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-emerald-600">Theme</p>
+              <div className={`flex gap-1 rounded-lg border p-1 ${isDark ? 'border-emerald-900/70 bg-black/60' : 'border-emerald-200 bg-emerald-50/60'}`}>
+                {themes.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setTheme?.(item.id)}
+                      className={segmentClass(theme === item.id)}
+                      aria-pressed={theme === item.id}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </aside>

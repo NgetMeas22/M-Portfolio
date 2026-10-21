@@ -39,14 +39,14 @@ const protocolVectors = [
     code: '01',
     badge: 'FRONTEND',
     title: 'Modern UI Architecture',
-    desc: 'Responsive, fast interfaces using React, Vue, and Tailwind with clean component state.',
+    desc: 'Responsive, fast interfaces using Next.js, React, Vue, and Tailwind with clean component state.',
   },
   {
     icon: Binary,
     code: '02',
     badge: 'BACKEND',
     title: 'Secure REST APIs',
-    desc: 'Scalable backend services, authentication, and secure endpoints with Laravel & Node.',
+    desc: 'Scalable backend services, authentication, and secure endpoints with Express, Node.js & Laravel.',
   },
   {
     icon: ShieldAlert,
@@ -59,14 +59,15 @@ const protocolVectors = [
 
 const terminalLogs = [
   { command: 'whoami', output: 'Nget Meas // Full Stack Developer' },
-  { command: 'cat stack.txt', output: 'React • Node.js • Laravel • PostgreSQL • Docker' },
+  { command: 'cat stack.txt', output: 'Next.js • React • Express • PostgreSQL • Laravel' },
   { command: 'status', output: 'Available for freelance & full-time roles' },
   { command: 'contact', output: 'measm2519@gmail.com | Phnom Penh, KH' },
 ];
 
 const MARQUEE_ITEMS = [
   'FULL_STACK_DEVELOPER',
-  'REACT // VUE',
+  'NEXT.JS // REACT',
+  'EXPRESS // NODE.JS',
   'LARAVEL // SPRING_BOOT',
   'REST_APIS',
   'POSTGRESQL // MYSQL',

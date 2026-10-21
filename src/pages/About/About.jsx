@@ -43,13 +43,13 @@ const About = () => {
     });
   }, []);
 
-  const learningTags = ['AI / LLMs', 'Python', 'C# .NET', 'Java Spring Boot'];
+  const learningTags = ['AI / LLMs', 'MCP', 'Java Spring Boot', 'C# .NET'];
 
   const focusAreas = [
-    { icon: Code2, title: 'Frontend Architecture', text: 'React, Vue.js, Tailwind CSS, responsive & accessible UI' },
-    { icon: Server, title: 'Backend & APIs', text: 'Laravel, Node.js, secure REST APIs & auth middleware' },
-    { icon: Database, title: 'Data Persistence', text: 'MySQL, PostgreSQL, relational schemas & query tuning' },
-    { icon: ShieldCheck, title: 'DevOps & Tooling', text: 'Git, GitHub, Docker, CI/CD and deployment workflows' },
+    { icon: Code2, title: 'Frontend Architecture', text: 'Next.js, React, Vue.js, Tailwind CSS, responsive & accessible UI' },
+    { icon: Server, title: 'Backend & APIs', text: 'Express, Node.js, Laravel, Prisma, secure REST APIs & JWT auth' },
+    { icon: Database, title: 'Data Persistence', text: 'PostgreSQL, MySQL, Neon, relational schemas & query tuning' },
+    { icon: ShieldCheck, title: 'DevOps & Tooling', text: 'Git, Docker, Vercel, Render, Neon & deployment workflows' },
   ];
 
   const softSkills = [

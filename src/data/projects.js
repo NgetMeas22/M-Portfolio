@@ -37,6 +37,142 @@ export const projects = [
   //   year: '2026'
   // },
 
+  // ================================================================
+  // កម្រិតទី ០៖ MODERN FULL STACK (NEXT.JS + EXPRESS + POSTGRESQL)
+  // ================================================================
+
+  // 0. DYD PROPERTY
+  {
+    id: 'dyd-property',
+    slug: 'dyd-property',
+    title: 'DYD Property',
+    description: 'Full-stack real estate marketplace for Cambodia built with Next.js, an Express REST API, and PostgreSQL — featuring map-based search, a listing wizard, agent dashboards, and an admin moderation console.',
+    descriptionKh: 'វេទិកាទីផ្សារអចលនទ្រព្យពេញលេញសម្រាប់កម្ពុជា បង្កើតឡើងដោយ Next.js, Express REST API និង PostgreSQL ជាមួយការស្វែងរកលើផែនទី ផ្ទាំងភ្នាក់ងារ និងផ្ទាំងគ្រប់គ្រង Admin។',
+    problem: 'Property buyers in Cambodia lack a trustworthy, bilingual platform to search verified listings by location, compare prices, and contact certified agents.',
+    problemKh: 'អ្នកទិញអចលនទ្រព្យនៅកម្ពុជាខ្វះវេទិកាពីរភាសាដែលគួរឱ្យទុកចិត្ត ដើម្បីស្វែងរកអចលនទ្រព្យតាមទីតាំង ប្រៀបធៀបតម្លៃ និងទាក់ទងភ្នាក់ងារដែលបានផ្ទៀងផ្ទាត់។',
+    solution: 'Built a monorepo with a Next.js App Router frontend and a TypeScript Express API using Prisma ORM on PostgreSQL, with JWT role-based auth, Zod validation, and Cloudinary image storage. Deployed on Vercel, Render, and Neon.',
+    solutionKh: 'បានបង្កើត Monorepo ជាមួយ Next.js App Router និង Express API (TypeScript) ដោយប្រើ Prisma ORM លើ PostgreSQL, JWT role-based auth, Zod validation និង Cloudinary។ ដាក់ឱ្យដំណើរការលើ Vercel, Render និង Neon។',
+    features: [
+      'Zillow-style split view: property results synced with an interactive Leaflet map',
+      'Guided 5-step listing wizard with photo uploads saved to PostgreSQL',
+      'Role-based dashboards for buyers, sellers, agents, and admins',
+      'Admin moderation queue, agent verification, and security audit logs',
+      'Mortgage & affordability calculator with Khmer / English toggle'
+    ],
+    featuresKh: [
+      'ការស្វែងរកបែប Zillow ជាមួយផែនទី Leaflet អន្តរកម្ម',
+      'ទម្រង់ដាក់លក់ ៥ ជំហាន ជាមួយការ Upload រូបភាពទៅ PostgreSQL',
+      'ផ្ទាំងគ្រប់គ្រងតាមតួនាទី៖ អ្នកទិញ អ្នកលក់ ភ្នាក់ងារ និង Admin',
+      'ការត្រួតពិនិត្យការដាក់លក់ ការផ្ទៀងផ្ទាត់ភ្នាក់ងារ និង Audit Logs',
+      'ម៉ាស៊ីនគណនាប្រាក់កម្ចី និងប្តូរភាសាខ្មែរ / អង់គ្លេស'
+    ],
+    technologies: ['Next.js', 'TypeScript', 'Express.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'Leaflet', 'JWT', 'Neon', 'Render'],
+    github: 'https://github.com/NgetMeas22',
+    live: 'https://dyd-property.vercel.app',
+    category: ['Next.js', 'Express', 'PostgreSQL', 'Full Stack'],
+    isTeamProject: false,
+    featured: true,
+    year: '2026'
+  },
+
+  // 0. PHSAR LEDGER (AI LEDGER)
+  {
+    id: 'phsar-ai-ledger',
+    slug: 'phsar-ai-ledger',
+    title: 'Phsar Ledger — AI Bookkeeping',
+    description: 'AI-powered income and expense ledger for Cambodian small businesses that scans receipts with Google Gemini and records transactions in USD and KHR.',
+    descriptionKh: 'សៀវភៅកត់ត្រាចំណូលចំណាយដោយ AI សម្រាប់អាជីវកម្មខ្នាតតូចនៅកម្ពុជា ដែលស្កេនវិក្កយបត្រជាមួយ Google Gemini និងកត់ត្រាជាដុល្លារ និងរៀល។',
+    problem: 'Small shop owners still record sales and expenses by hand, which is slow, error-prone, and makes dual-currency (USD/KHR) bookkeeping difficult.',
+    problemKh: 'ម្ចាស់ហាងតូចៗនៅតែកត់ត្រាចំណូលចំណាយដោយដៃ ដែលយឺត ងាយខុស និងពិបាកគ្រប់គ្រងរូបិយប័ណ្ណពីរ (ដុល្លារ/រៀល)។',
+    solution: 'Built a React + TypeScript client served by an Express API on PostgreSQL. Receipts are photographed and parsed by Gemini into structured ledger entries with categories, VAT, and an AI explanation.',
+    solutionKh: 'បានបង្កើតកម្មវិធី React + TypeScript ជាមួយ Express API និង PostgreSQL។ វិក្កយបត្រត្រូវបានថតរូប ហើយ Gemini បំប្លែងទៅជាទិន្នន័យកត់ត្រា ដែលមានប្រភេទ VAT និងការពន្យល់ពី AI។',
+    features: [
+      'Receipt photo scanning and data extraction with Gemini AI',
+      'Dual-currency ledger (USD / KHR) with live exchange rate',
+      'JWT authentication with password and OTP login',
+      'Dashboard, transaction history, and in-app notifications',
+      'Khmer-first, mobile-friendly interface'
+    ],
+    featuresKh: [
+      'ស្កេនរូបវិក្កយបត្រ និងទាញទិន្នន័យដោយ Gemini AI',
+      'កត់ត្រារូបិយប័ណ្ណពីរ (ដុល្លារ / រៀល) ជាមួយអត្រាប្តូរប្រាក់',
+      'ការចូលប្រើដោយ JWT ជាមួយពាក្យសម្ងាត់ និង OTP',
+      'ផ្ទាំងសង្ខេប ប្រវត្តិប្រតិបត្តិការ និងការជូនដំណឹង',
+      'ចំណុចប្រទាក់ភាសាខ្មែរ ងាយប្រើលើទូរស័ព្ទ'
+    ],
+    technologies: ['React', 'TypeScript', 'Vite', 'Express.js', 'PostgreSQL', 'Gemini AI', 'JWT', 'Tailwind CSS', 'Render'],
+    github: 'https://github.com/NgetMeas22',
+    live: null,
+    category: ['React', 'Express', 'PostgreSQL', 'AI', 'Full Stack'],
+    isTeamProject: false,
+    featured: true,
+    year: '2026'
+  },
+
+  // 0. OMNIINPUT
+  {
+    id: 'omniinput',
+    slug: 'omniinput',
+    title: 'OmniInput — Multimodal AI Assistant',
+    description: 'In-progress AI assistant that accepts text, voice, image, and file input, built with Next.js, an Express API, PostgreSQL (Neon), and a custom MCP server.',
+    descriptionKh: 'ជំនួយការ AI (កំពុងអភិវឌ្ឍ) ដែលទទួលអត្ថបទ សំឡេង រូបភាព និងឯកសារ បង្កើតឡើងដោយ Next.js, Express API, PostgreSQL (Neon) និង MCP Server។',
+    problem: 'Most chat tools handle one input type at a time and cannot call external tools, so users switch between apps to get work done.',
+    problemKh: 'កម្មវិធី Chat ភាគច្រើនទទួលបានតែប្រភេទទិន្នន័យមួយ ហើយមិនអាចហៅឧបករណ៍ខាងក្រៅបាន ដែលធ្វើឱ្យអ្នកប្រើត្រូវប្តូរកម្មវិធីច្រើន។',
+    solution: 'Designed a layered architecture: a Next.js frontend for multimodal input, an Express + Prisma backend for auth and conversations, and a Model Context Protocol server that exposes tools to the AI.',
+    solutionKh: 'បានរចនាស្ថាបត្យកម្មជាស្រទាប់៖ Next.js សម្រាប់បញ្ចូលទិន្នន័យច្រើនប្រភេទ Express + Prisma សម្រាប់ Auth និងការសន្ទនា និង MCP Server សម្រាប់ផ្តល់ឧបករណ៍ដល់ AI។',
+    features: [
+      'Text, voice, image, and file input in one conversation',
+      'Google OAuth and JWT authentication',
+      'Conversation history stored in PostgreSQL via Prisma',
+      'Custom MCP server exposing tools to the AI model'
+    ],
+    featuresKh: [
+      'បញ្ចូលអត្ថបទ សំឡេង រូបភាព និងឯកសារក្នុងការសន្ទនាតែមួយ',
+      'ការចូលប្រើដោយ Google OAuth និង JWT',
+      'រក្សាទុកប្រវត្តិការសន្ទនាក្នុង PostgreSQL តាម Prisma',
+      'MCP Server ផ្ទាល់ខ្លួនសម្រាប់ផ្តល់ឧបករណ៍ដល់ AI'
+    ],
+    technologies: ['Next.js', 'TypeScript', 'Express.js', 'PostgreSQL', 'Prisma', 'Neon', 'Gemini AI', 'MCP'],
+    github: 'https://github.com/NgetMeas22',
+    live: null,
+    category: ['Next.js', 'Express', 'PostgreSQL', 'AI', 'Full Stack'],
+    isTeamProject: false,
+    featured: true,
+    year: '2026'
+  },
+
+  // 0. LOM-OR STUDIO
+  {
+    id: 'lom-or-studio',
+    slug: 'lom-or-studio',
+    title: 'LOM-OR Studio',
+    description: 'Company website for a Phnom Penh architecture, interior design, and construction studio, built with Next.js and TypeScript.',
+    descriptionKh: 'គេហទំព័រក្រុមហ៊ុនស្ថាបត្យកម្ម រចនាផ្ទៃក្នុង និងសំណង់នៅភ្នំពេញ បង្កើតឡើងដោយ Next.js និង TypeScript។',
+    problem: 'The studio needed a professional online presence to present its services, leadership team, and completed projects to new clients.',
+    problemKh: 'ក្រុមហ៊ុនត្រូវការវត្តមានអនឡាញប្រកបដោយវិជ្ជាជីវៈ ដើម្បីបង្ហាញសេវាកម្ម ក្រុមដឹកនាំ និងគម្រោងដែលបានបញ្ចប់ដល់អតិថិជនថ្មី។',
+    solution: 'Developed a fast, SEO-friendly Next.js App Router site with a project portfolio, project detail modals, and scroll animations, deployed on Vercel.',
+    solutionKh: 'បានអភិវឌ្ឍគេហទំព័រ Next.js App Router ដែលលឿន និងល្អសម្រាប់ SEO ជាមួយផ្ទាំងបង្ហាញគម្រោង Modal លម្អិត និង Animation ពេល Scroll ដាក់លើ Vercel។',
+    features: [
+      'Pages for services, portfolio, about, and contact',
+      'Project gallery with detail modals',
+      'Leadership and managing director sections',
+      'Sticky header, scroll animations, and SEO metadata'
+    ],
+    featuresKh: [
+      'ទំព័រសេវាកម្ម គម្រោង អំពីយើង និងទំនាក់ទំនង',
+      'វិចិត្រសាលគម្រោងជាមួយ Modal លម្អិត',
+      'ផ្នែកក្រុមដឹកនាំ និងនាយកគ្រប់គ្រង',
+      'Header ជាប់ពេល Scroll, Animation និង SEO Metadata'
+    ],
+    technologies: ['Next.js', 'TypeScript', 'React', 'AOS', 'Vercel'],
+    github: 'https://github.com/NgetMeas22',
+    live: 'https://lom-or-studio.vercel.app',
+    category: ['Next.js', 'Frontend'],
+    isTeamProject: false,
+    featured: true,
+    year: '2026'
+  },
+
   // 2. CINEMA MANAGEMENT SYSTEM (TEAM PROJECT)
   {
     id: 'cinema-management-system',
@@ -132,8 +268,8 @@ export const projects = [
       'ទំព័របង្ហាញព័ត៌មានលម្អិតនៃគម្រោងនីមួយៗ'
     ],
     technologies: ['React', 'Vite', 'Tailwind CSS'],
-    github: 'https://github.com/NgetMeas22',
-    live: 'm-portfolio-nine-mu.vercel.app',
+    github: 'https://github.com/NgetMeas22/M-Portfolio',
+    live: 'https://m-portfolio-one-ebon.vercel.app',
     category: ['React', 'Frontend'],
     isTeamProject: false,
     featured: true,
@@ -266,7 +402,7 @@ export const projects = [
     ],
     technologies: ['PHP', 'MySQL', 'JavaScript', 'CSS'],
     github: 'https://github.com/NgetMeas22/MeXas-Restaurant',
-    live: null,
+    live: 'https://me-xas-restaurant.vercel.app',
     category: ['PHP', 'MySQL'],
     isTeamProject: false,
     featured: false,
@@ -392,7 +528,7 @@ export const projects = [
       'ការបែងចែកប្រភេទផលិតផល និងស្លាកតម្លៃច្បាស់លាស់'
     ],
     technologies: ['HTML5', 'CSS3'],
-    github: 'https://github.com/NgetMeas22',
+    github: 'https://github.com/NgetMeas22/AccessoriesShop',
     live: 'https://accessories-shop-two.vercel.app',
     category: ['Frontend'],
     isTeamProject: false,
@@ -463,7 +599,7 @@ export const projects = [
     ],
     technologies: ['HTML', 'CSS', 'JavaScript'],
     github: 'https://github.com/NgetMeas22/PressMart',
-    live: null,
+    live: 'https://press-mart-eta.vercel.app',
     category: ['Frontend'],
     isTeamProject: false,
     featured: false,
