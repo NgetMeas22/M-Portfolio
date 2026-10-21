@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Mail,
   Download,
   ArrowRight,
-  Terminal as TerminalIcon,
   ShieldAlert,
   Network,
   Binary,
@@ -19,11 +18,11 @@ import {
   Cpu,
   GraduationCap,
   CheckCircle2,
-  Zap,
 } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../../components/SocialIcons.jsx';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 import GitHubSnake from '../../components/GitHubSnake/GitHubSnake.jsx';
+import HeroPortrait from '../../components/HeroPortrait/HeroPortrait.jsx';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
 import AOS from 'aos';
@@ -55,13 +54,6 @@ const protocolVectors = [
     title: 'Database & Performance',
     desc: 'Normalized SQL schemas, query tuning, and reliable data persistence with MySQL & PostgreSQL.',
   },
-];
-
-const terminalLogs = [
-  { command: 'whoami', output: 'Nget Meas // Full Stack Developer' },
-  { command: 'cat stack.txt', output: 'Next.js • React • Express • PostgreSQL • Laravel' },
-  { command: 'status', output: 'Available for freelance & full-time roles' },
-  { command: 'contact', output: 'measm2519@gmail.com | Phnom Penh, KH' },
 ];
 
 const MARQUEE_ITEMS = [
@@ -117,57 +109,6 @@ function useRotatingRole(roleText, { typeSpeed = 45, hold = 2200, transition = 2
   return { typed, visible };
 }
 
-function useTerminalTyping(lines) {
-  const [shown, setShown] = useState([]);
-  const [currentLine, setCurrentLine] = useState(0);
-  const [currentChar, setCurrentChar] = useState(0);
-  const [showOutput, setShowOutput] = useState(false);
-
-  useEffect(() => {
-    if (currentLine >= lines.length) return;
-    const line = lines[currentLine];
-
-    if (!showOutput) {
-      if (currentChar < line.command.length) {
-        const t1 = setTimeout(() => {
-          setShown((prev) => {
-            const next = [...prev];
-            if (next[currentLine]) {
-              next[currentLine] = { ...next[currentLine], command: line.command.slice(0, currentChar + 1) };
-            } else {
-              next[currentLine] = { command: line.command.slice(0, currentChar + 1), output: '' };
-            }
-            return next;
-          });
-          setCurrentChar((c) => c + 1);
-        }, 26);
-        return () => clearTimeout(t1);
-      }
-      const t2 = setTimeout(() => setShowOutput(true), 120);
-      return () => clearTimeout(t2);
-    }
-
-    const t3 = setTimeout(() => {
-      setShown((prev) => {
-        const next = [...prev];
-        if (next[currentLine]) next[currentLine] = { ...next[currentLine], output: line.output };
-        return next;
-      });
-    }, 0);
-    const t4 = setTimeout(() => {
-      setShowOutput(false);
-      setCurrentChar(0);
-      setCurrentLine((l) => l + 1);
-    }, 170);
-    return () => {
-      clearTimeout(t3);
-      clearTimeout(t4);
-    };
-  }, [currentLine, currentChar, showOutput, lines]);
-
-  return { shown, done: currentLine >= lines.length };
-}
-
 /* ------------------------------------------------------------------ */
 /*  PAGE                                                               */
 /* ------------------------------------------------------------------ */
@@ -179,7 +120,6 @@ export default function Home() {
 
   const nameParts = t.hero.name.split(' ');
   const role = useRotatingRole(t.hero.role);
-  const { shown: terminalShown, done: terminalDone } = useTerminalTyping(terminalLogs);
 
   useEffect(() => {
     if (!document.documentElement.classList.contains('aos-init')) {
@@ -361,100 +301,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* ---------- RIGHT COLUMN: TERMINAL HUD ---------- */}
+            {/* ---------- RIGHT COLUMN: INTERACTIVE PORTRAIT ---------- */}
             <div data-aos="fade-left" className="lg:col-span-5 w-full">
-              <div
-                className={`relative rounded-2xl border-2 transition-all duration-200 overflow-hidden ${
-                  isDark
-                    ? 'border-emerald-400/60 bg-[#050b08] shadow-[0_0_35px_rgba(16,185,129,0.2)]'
-                    : 'border-emerald-600/40 bg-white shadow-xl'
-                }`}
-              >
-                <span className={`absolute top-2 left-2 h-3.5 w-3.5 border-t-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute top-2 right-2 h-3.5 w-3.5 border-t-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute bottom-2 left-2 h-3.5 w-3.5 border-b-2 border-l-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-                <span className={`absolute bottom-2 right-2 h-3.5 w-3.5 border-b-2 border-r-2 ${isDark ? 'border-emerald-400' : 'border-emerald-700'}`} />
-
-                {/* HEADER */}
-                <div
-                  className={`flex flex-wrap items-center justify-between border-b px-3.5 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-xs gap-2 ${
-                    isDark
-                      ? 'border-emerald-500/30 bg-emerald-950/60 text-slate-100'
-                      : 'border-emerald-100 bg-emerald-50/90 text-slate-800'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="flex gap-1.5">
-                      <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-                    </span>
-                    <TerminalIcon className={`h-4 w-4 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
-                    <span className="font-bold tracking-wider truncate">BASH_PORTAL_SESSION.sh</span>
-                  </div>
-                  <span
-                    className={`flex items-center gap-1.5 text-[10px] font-bold border px-2 py-0.5 rounded ${
-                      isDark
-                        ? 'text-emerald-300 bg-emerald-950 border-emerald-500/50'
-                        : 'text-emerald-800 bg-white border-emerald-300'
-                    }`}
-                  >
-                    <Activity className="h-3 w-3 animate-spin text-emerald-400" /> ACTIVE
-                  </span>
-                </div>
-
-                {/* BUFFER */}
-                <div className="min-h-[160px] sm:min-h-[210px] p-3.5 sm:p-5 space-y-2.5 sm:space-y-3 text-xs sm:text-sm leading-relaxed overflow-y-auto">
-                  <p className={isDark ? 'text-emerald-400/80 font-bold' : 'text-emerald-700 font-semibold'}>
-                    // Session established. Terminal ready.
-                  </p>
-
-                  {terminalShown.map((line, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <p className={`break-all ${isDark ? 'text-white font-semibold' : 'text-slate-900 font-semibold'}`}>
-                        <span className={`font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-                          root@sec-gateway:~#
-                        </span>{' '}
-                        {line.command}
-                      </p>
-                      {line.output && (
-                        <p
-                          className={`pl-3 border-l-2 break-all text-xs ${
-                            isDark
-                              ? 'text-emerald-300 border-emerald-400 bg-emerald-950/20 py-1'
-                              : 'text-emerald-900 border-emerald-600 bg-emerald-50/70 py-1 font-semibold'
-                          }`}
-                        >
-                          {line.output}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-
-                  {!terminalDone ? (
-                    <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400 shadow-[0_0_8px_#10b981]' : 'bg-emerald-700'}`} />
-                  ) : (
-                    <p className={`pt-2 border-t text-xs ${isDark ? 'text-emerald-400 border-emerald-900/60' : 'text-emerald-700 border-emerald-100'}`}>
-                      root@sec-gateway:~#{' '}
-                      <span className={`inline-block h-4 w-2 animate-pulse ${isDark ? 'bg-emerald-400' : 'bg-emerald-700'}`} />
-                    </p>
-                  )}
-                </div>
-
-                {/* STATUS BAR */}
-                <div
-                  className={`grid grid-cols-2 sm:grid-cols-4 border-t px-3.5 sm:px-4 py-2 sm:py-2.5 text-[10px] sm:text-[11px] font-bold gap-2 ${
-                    isDark
-                      ? 'border-emerald-500/30 bg-emerald-950/40 text-emerald-400'
-                      : 'border-emerald-100 bg-emerald-50 text-emerald-800'
-                  }`}
-                >
-                  <div>HOST: <span className={isDark ? 'text-white' : 'text-slate-900'}>sec-gateway</span></div>
-                  <div>PORT: <span className={isDark ? 'text-white' : 'text-slate-900'}>443/TLS</span></div>
-                  <div>STATUS: <span className={isDark ? 'text-white' : 'text-slate-900'}>ONLINE</span></div>
-                  <div className={`text-right font-black ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>READY</div>
-                </div>
-              </div>
+              <HeroPortrait isDark={isDark} language={language} name={t.hero.name} />
             </div>
           </div>
         </div>
