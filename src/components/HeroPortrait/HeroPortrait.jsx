@@ -18,6 +18,8 @@ const CHIPS = [
   { label: 'PostgreSQL', dot: '#60a5fa', pos: { right: '-2%', top: '44%' }, depth: 18, delay: '1.8s' },
 ];
 
+const TRAIL_CHARS = '01<>/{}#;';
+
 const silhouetteMask = {
   WebkitMaskImage: `url(${portrait})`,
   maskImage: `url(${portrait})`,
@@ -57,7 +59,32 @@ export default function HeroPortrait({ isDark, language, name }) {
   const artFilter = typeof style.filter === 'string' ? style.filter : style.filter[isDark ? 'dark' : 'light'];
   const isKh = language === 'kh';
 
+  const trailRef = useRef(null);
+  const readoutRef = useRef(null);
+  const lastSpawn = useRef(0);
+
   const nextStyle = () => setStyleIdx((i) => (i + 1) % STYLES.length);
+
+  // Short-lived DOM nodes (no React state) so the trail stays cheap at 60fps
+  const spawn = (className, x, y, text = '') => {
+    const box = trailRef.current;
+    if (!box) return;
+    const node = document.createElement('span');
+    node.className = className;
+    node.textContent = text;
+    node.style.left = `${x}px`;
+    node.style.top = `${y}px`;
+    node.style.setProperty('--dx', `${(Math.random() - 0.5) * 44}px`);
+    box.appendChild(node);
+    node.addEventListener('animationend', () => node.remove());
+  };
+
+  const spawnTrail = (x, y) => {
+    const now = performance.now();
+    if (now - lastSpawn.current < 35 || (trailRef.current?.childElementCount ?? 0) > 32) return;
+    lastSpawn.current = now;
+    spawn('hp-particle', x, y, TRAIL_CHARS[Math.floor(Math.random() * TRAIL_CHARS.length)]);
+  };
 
   // Idle: sweep the divider slowly and reset tilt/parallax
   useEffect(() => {
@@ -65,6 +92,7 @@ export default function HeroPortrait({ isDark, language, name }) {
     if (!el || hovering) return undefined;
     ['--rx', '--ry'].forEach((v) => el.style.setProperty(v, '0deg'));
     ['--px', '--py'].forEach((v) => el.style.setProperty(v, '0'));
+    el.style.setProperty('--hy', '46%');
     if (reduced) {
       el.style.setProperty('--split', '50%');
       return undefined;
@@ -92,8 +120,18 @@ export default function HeroPortrait({ isDark, language, name }) {
     const r = el.getBoundingClientRect();
     const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
     const y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    const px = e.clientX - r.left;
+    const py = e.clientY - r.top;
     el.style.setProperty('--split', `${x * 100}%`);
+    el.style.setProperty('--mx', `${px}px`);
+    el.style.setProperty('--my', `${py}px`);
+    el.style.setProperty('--hy', `${Math.min(84, Math.max(6, y * 100))}%`);
+    if (readoutRef.current) {
+      const pad = (n) => String(Math.round(n * 100)).padStart(3, '0');
+      readoutRef.current.textContent = `x:${pad(x)} y:${pad(y)}`;
+    }
     if (!reduced) {
+      spawnTrail(px, py);
       el.style.setProperty('--ry', `${(x - 0.5) * 12}deg`);
       el.style.setProperty('--rx', `${(0.5 - y) * 8}deg`);
       el.style.setProperty('--px', String((x - 0.5) * 2));
@@ -151,7 +189,9 @@ export default function HeroPortrait({ isDark, language, name }) {
         onPointerEnter={handlePointerEnter}
         onPointerMove={handlePointerMove}
         onPointerLeave={() => setHovering(false)}
-        onClick={() => {
+        onClick={(e) => {
+          const r = stageRef.current.getBoundingClientRect();
+          if (!reduced) spawn('hp-ripple', e.clientX - r.left, e.clientY - r.top);
           setPinned(false);
           nextStyle();
         }}
@@ -182,6 +222,11 @@ export default function HeroPortrait({ isDark, language, name }) {
           <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
         </div>
 
+        <div
+          className={`hp-spot pointer-events-none absolute inset-0 transition-opacity duration-500 ${hovering ? 'opacity-100' : 'opacity-0'}`}
+          aria-hidden="true"
+        />
+
         {/* PORTRAIT (TILTS) */}
         <div className="hp-tilt relative">
           <img
@@ -200,14 +245,18 @@ export default function HeroPortrait({ isDark, language, name }) {
             <img src={portrait} alt="" draggable="false" className="hp-fade absolute inset-0 h-full w-full" style={{ filter: artFilter }} />
 
             {style.id === 'matrix' && (
-              <div className="absolute inset-0" style={silhouetteMask}>
-                <div className="hp-scanlines absolute inset-0" />
-                <div className="hp-beam absolute inset-x-0 h-16" />
+              <div className="hp-fade absolute inset-0">
+                <div className="absolute inset-0" style={silhouetteMask}>
+                  <div className="hp-scanlines absolute inset-0" />
+                  <div className="hp-beam absolute inset-x-0 h-16" />
+                </div>
               </div>
             )}
 
             {style.id === 'blueprint' && (
-              <div className="hp-grid absolute inset-0" style={silhouetteMask} />
+              <div className="hp-fade absolute inset-0">
+                <div className="hp-grid absolute inset-0" style={silhouetteMask} />
+              </div>
             )}
 
             {style.id === 'glitch' && (
@@ -219,10 +268,15 @@ export default function HeroPortrait({ isDark, language, name }) {
             )}
           </div>
 
+          {/* SHINE ON REAL PHOTO (follows cursor) */}
+          <div className={`hp-fade pointer-events-none absolute inset-0 transition-opacity duration-500 ${hovering ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">
+            <div className="hp-shine absolute inset-0" style={silhouetteMask} />
+          </div>
+
           {/* DIVIDER */}
           <div className="hp-divider pointer-events-none absolute bottom-[10%] top-[2%] w-0.5 -translate-x-1/2" aria-hidden="true">
             <span
-              className={`absolute left-1/2 top-[46%] flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border backdrop-blur-md ${
+              className={`hp-handle absolute left-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border backdrop-blur-md ${
                 isDark
                   ? 'border-emerald-400/70 bg-black/70 text-emerald-300 shadow-[0_0_18px_rgba(52,211,153,0.6)]'
                   : 'border-emerald-500 bg-white/90 text-emerald-700 shadow-md'
@@ -279,6 +333,26 @@ export default function HeroPortrait({ isDark, language, name }) {
             {isKh ? 'ទទួលគម្រោងថ្មី' : 'Open for Projects'}
           </span>
         </div>
+
+        {/* CURSOR HALO + TRAIL */}
+        <div
+          className={`hp-halo pointer-events-none absolute z-20 hidden sm:block transition-opacity duration-300 ${hovering && !reduced ? 'opacity-100' : 'opacity-0'}`}
+          aria-hidden="true"
+        >
+          <span className="hp-halo-ring absolute inset-0 rounded-full border border-dashed border-emerald-300/80" />
+          <span className="absolute left-1/2 top-0 h-2 w-px -translate-x-1/2 bg-emerald-300" />
+          <span className="absolute bottom-0 left-1/2 h-2 w-px -translate-x-1/2 bg-emerald-300" />
+          <span className="absolute left-0 top-1/2 h-px w-2 -translate-y-1/2 bg-emerald-300" />
+          <span className="absolute right-0 top-1/2 h-px w-2 -translate-y-1/2 bg-emerald-300" />
+          <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300 shadow-[0_0_8px_#6ee7b7]" />
+          <span
+            ref={readoutRef}
+            className="absolute left-[110%] top-[110%] whitespace-nowrap rounded border border-emerald-500/40 bg-black/75 px-1.5 py-0.5 text-[9px] font-bold text-emerald-300"
+          >
+            x:050 y:050
+          </span>
+        </div>
+        <div ref={trailRef} className="pointer-events-none absolute inset-0 z-20" aria-hidden="true" />
       </div>
 
       {/* STYLE SWITCHER */}
@@ -328,8 +402,53 @@ export default function HeroPortrait({ isDark, language, name }) {
           transition: transform 0.35s ease-out;
         }
         .hp-fade {
-          -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%), linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+          -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to bottom, #000 78%, transparent 100%), linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+          mask-composite: intersect;
+        }
+        .hp-spot {
+          background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), rgba(16,185,129,0.3), transparent 70%);
+        }
+        .hp-shine {
+          background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 40%), rgba(255,255,255,0.25), transparent 70%);
+          mix-blend-mode: soft-light;
+        }
+        .hp-handle { top: var(--hy, 46%); transition: top 0.15s ease-out; }
+        .hp-halo {
+          left: var(--mx, 50%);
+          top: var(--my, 50%);
+          width: 54px;
+          height: 54px;
+          transform: translate(-50%, -50%);
+        }
+        .hp-halo-ring { animation: hp-spin 5s linear infinite; }
+        .hp-particle {
+          position: absolute;
+          font-size: 14px;
+          font-weight: 800;
+          color: #a7f3d0;
+          text-shadow: 0 1px 2px rgba(0,0,0,0.95), 0 0 2px rgba(0,0,0,0.9), 0 0 12px rgba(16,185,129,0.95);
+          transform: translate(-50%, -50%);
+          animation: hp-particle 1.2s ease-out forwards;
+        }
+        .hp-ripple {
+          position: absolute;
+          width: 14px;
+          height: 14px;
+          border-radius: 9999px;
+          border: 2px solid #34d399;
+          transform: translate(-50%, -50%);
+          animation: hp-ripple 0.65s ease-out forwards;
+        }
+        @keyframes hp-particle {
+          0% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+          60% { opacity: 0.85; }
+          100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% - 42px)) scale(0.7); }
+        }
+        @keyframes hp-ripple {
+          from { opacity: 0.9; width: 14px; height: 14px; }
+          to { opacity: 0; width: 180px; height: 180px; }
         }
         .hp-art {
           clip-path: polygon(-20% -20%, var(--split) -20%, var(--split) 120%, -20% 120%);

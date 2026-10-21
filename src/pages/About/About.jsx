@@ -3,21 +3,18 @@ import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import {
-  Brain,
+  Briefcase,
   Code2,
+  Crosshair,
   Database,
   Download,
-  Eye,
   GraduationCap,
-  Lightbulb,
+  Languages,
   Mail,
   MapPin,
-  RefreshCw,
   Server,
-  Sparkles,
   Target,
   Terminal,
-  Users,
   Wrench,
 } from 'lucide-react';
 import profilePhoto from '../../assets/image/profile2.webp';
@@ -33,8 +30,6 @@ const techStack = [
   { icon: Database, label: 'Database', items: ['PostgreSQL', 'MySQL', 'Neon'] },
   { icon: Wrench, label: 'DevOps & Tools', items: ['Git', 'Docker', 'Vercel', 'Render', 'Railway', 'Claude'] },
 ];
-
-const learningTags = ['AI / LLMs', 'MCP', 'Java Spring Boot', 'C# .NET'];
 
 // Markdown-style "## heading"
 function Heading({ children, isDark }) {
@@ -56,18 +51,28 @@ const About = () => {
     AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
   }, []);
 
-  const softSkills = [
-    { icon: Brain, name: t.about.problemSolving },
-    { icon: Eye, name: t.about.analyticalThinking },
-    { icon: Users, name: t.about.communication },
-    { icon: Lightbulb, name: t.about.attentionToDetail },
-    { icon: RefreshCw, name: t.about.continuousLearning },
-  ];
-
-  const facts = [
-    { icon: GraduationCap, label: t.about.education, value: t.about.educationText },
+  const glance = [
+    {
+      icon: GraduationCap,
+      label: t.about.education,
+      value: isKh ? 'បរិញ្ញាបត្រ IT · សាកលវិទ្យាល័យភូមិន្ទភ្នំពេញ · ឆ្នាំទី៣ (បញ្ចប់ 2028)' : 'BSc IT · Royal University of Phnom Penh · Year 3 (grad. 2028)',
+    },
+    {
+      icon: Crosshair,
+      label: isKh ? 'ផ្តោតលើ' : 'Focus',
+      value: isKh ? 'Full-stack TypeScript — Next.js · Express · PostgreSQL' : 'Full-stack TypeScript — Next.js · Express · PostgreSQL',
+    },
+    {
+      icon: Languages,
+      label: isKh ? 'ភាសា' : 'Languages',
+      value: isKh ? 'ខ្មែរ (ភាសាកំណើត) · អង់គ្លេស (មធ្យម, ACE 7B)' : 'Khmer (native) · English (intermediate, ACE 7B)',
+    },
     { icon: Target, label: t.about.careerGoal, value: t.about.careerGoalText },
-    { icon: Sparkles, label: t.about.interests, value: t.about.interestsText },
+    {
+      icon: Briefcase,
+      label: isKh ? 'ទទួល' : 'Open to',
+      value: isKh ? 'Freelance · ការងារពេញម៉ោង' : 'Freelance projects · Full-time roles',
+    },
   ];
 
   const stats = [
@@ -82,7 +87,7 @@ const About = () => {
   const body = isDark ? 'text-slate-300' : 'text-slate-700';
   const accent = isDark ? 'text-emerald-400' : 'text-emerald-700';
   const line = isDark ? 'border-emerald-900/50' : 'border-emerald-100';
-  const panel = isDark ? 'border-emerald-900/50 bg-emerald-950/15' : 'border-emerald-100 bg-emerald-50/40';
+  const table = isDark ? 'divide-emerald-900/50 border-emerald-900/50' : 'divide-emerald-100 border-emerald-100';
   const chip = `inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] font-semibold ${
     isDark ? 'border-emerald-900/70 bg-emerald-950/30 text-emerald-300' : 'border-emerald-200 bg-emerald-50 text-emerald-800'
   }`;
@@ -207,23 +212,23 @@ const About = () => {
               </section>
 
               <section>
-                <Heading isDark={isDark}>{isKh ? 'ព័ត៌មានសង្ខេប' : 'Quick Facts'}</Heading>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {facts.map(({ icon: Icon, label, value }) => (
-                    <div key={label} className={`rounded-xl border p-3.5 ${panel}`}>
-                      <p className={`mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider ${accent}`}>
-                        <Icon className="h-3.5 w-3.5" />
+                <Heading isDark={isDark}>{isKh ? 'ព័ត៌មានសង្ខេប' : 'At a Glance'}</Heading>
+                <dl className={`divide-y rounded-xl border ${table}`}>
+                  {glance.map(({ icon: Icon, label, value }) => (
+                    <div key={label} className="flex flex-col gap-1 px-3.5 py-3 sm:flex-row sm:items-center sm:gap-4">
+                      <dt className={`flex w-36 shrink-0 items-center gap-2 text-xs font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                        <Icon className={`h-4 w-4 ${accent}`} />
                         {label}
-                      </p>
-                      <p className={`text-xs leading-relaxed ${body}`}>{value}</p>
+                      </dt>
+                      <dd className={`text-xs sm:text-[13px] leading-relaxed ${body}`}>{value}</dd>
                     </div>
                   ))}
-                </div>
+                </dl>
               </section>
 
               <section>
                 <Heading isDark={isDark}>{isKh ? 'បច្ចេកវិទ្យាដែលប្រើ' : 'Tech Stack'}</Heading>
-                <div className={`divide-y rounded-xl border ${isDark ? 'divide-emerald-900/50 border-emerald-900/50' : 'divide-emerald-100 border-emerald-100'}`}>
+                <div className={`divide-y rounded-xl border ${table}`}>
                   {techStack.map(({ icon: Icon, label, items }) => (
                     <div key={label} className="flex flex-col gap-2 px-3.5 py-3 sm:flex-row sm:items-center sm:gap-4">
                       <span className={`flex w-36 shrink-0 items-center gap-2 text-xs font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
@@ -239,36 +244,6 @@ const About = () => {
                   ))}
                 </div>
               </section>
-
-              <div className="grid gap-8 md:grid-cols-2">
-                <section>
-                  <Heading isDark={isDark}>{t.about.softSkills}</Heading>
-                  <div className="flex flex-wrap gap-1.5">
-                    {softSkills.map(({ icon: Icon, name }) => (
-                      <span key={name} className={chip}>
-                        <Icon className="h-3.5 w-3.5" />
-                        {name}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-
-                <section>
-                  <Heading isDark={isDark}>{t.about.currentLearning}</Heading>
-                  <div className="flex flex-wrap gap-1.5">
-                    {learningTags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={`rounded-md border border-dashed px-2 py-1 text-[11px] font-semibold ${
-                          isDark ? 'border-slate-600 text-slate-300' : 'border-slate-300 text-slate-700'
-                        }`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-              </div>
             </div>
           </div>
         </article>
