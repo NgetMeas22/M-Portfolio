@@ -11,9 +11,12 @@ import {
   Activity,
   Sparkles,
   Users,
+  Lock,
+  PlayCircle,
 } from 'lucide-react';
 import { GitHubIcon } from '../../components/SocialIcons.jsx';
 import ProjectCover from '../../components/ProjectCover/ProjectCover.jsx';
+import VideoModal from '../../components/VideoModal/VideoModal.jsx';
 import { projects } from '../../data/projects';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useTheme } from '../../hooks/useTheme';
@@ -37,6 +40,7 @@ export default function Projects() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [videoProject, setVideoProject] = useState(null);
 
   const isDark = theme === 'dark';
 
@@ -48,7 +52,6 @@ export default function Projects() {
     AOS.refresh();
   }, [activeFilter, searchQuery]);
 
-  const categoryLabel = (cat) => (cat === 'Team Project' ? t.projects.teamProject : cat);
 
   const filteredProjects = useMemo(() => {
     let result = projects;
@@ -297,6 +300,18 @@ export default function Projects() {
                         Live
                       </span>
                     )}
+                    {!project.live && project.video && (
+                      <span className="ml-auto inline-flex items-center gap-1 rounded border border-sky-300/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold uppercase text-sky-200 backdrop-blur-sm">
+                        <PlayCircle className="h-3 w-3" />
+                        Video
+                      </span>
+                    )}
+                    {!project.live && !project.video && project.privateDemo && (
+                      <span className="ml-auto inline-flex items-center gap-1 rounded border border-slate-400/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold uppercase text-slate-200 backdrop-blur-sm">
+                        <Lock className="h-3 w-3" />
+                        {t.projects.privateDemo}
+                      </span>
+                    )}
                   </div>
                 </button>
 
@@ -398,6 +413,31 @@ export default function Projects() {
                         {t.projects.viewLive}
                       </a>
                     )}
+                    {project.video && (
+                      <button
+                        type="button"
+                        onClick={() => setVideoProject(project)}
+                        className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 text-[11px] font-bold uppercase tracking-wider transition-all ${
+                          isDark
+                            ? 'border-sky-400/50 bg-sky-500/10 text-sky-300 hover:bg-sky-500 hover:text-black'
+                            : 'border-sky-500 bg-sky-600 text-white hover:bg-sky-700'
+                        }`}
+                      >
+                        <PlayCircle className="h-3.5 w-3.5" />
+                        {t.projects.watchDemo}
+                      </button>
+                    )}
+                    {!project.live && !project.video && project.privateDemo && (
+                      <span
+                        className={`inline-flex h-8 items-center gap-1.5 rounded-lg border border-dashed px-2.5 text-[11px] font-bold uppercase tracking-wider ${
+                          isDark ? 'border-slate-600 text-slate-500' : 'border-slate-300 text-slate-500'
+                        }`}
+                        title={t.projects.privateNote}
+                      >
+                        <PlayCircle className="h-3.5 w-3.5" />
+                        {t.projects.videoSoon}
+                      </span>
+                    )}
                   </div>
                 </div>
               </article>
@@ -436,6 +476,14 @@ export default function Projects() {
           </div>
         )}
       </div>
+
+      <VideoModal
+        open={Boolean(videoProject)}
+        onClose={() => setVideoProject(null)}
+        src={videoProject?.video}
+        title={videoProject?.title}
+        isDark={isDark}
+      />
     </section>
   );
 }

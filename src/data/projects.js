@@ -70,7 +70,9 @@ export const projects = [
     ],
     technologies: ['Next.js', 'TypeScript', 'Express.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'Leaflet', 'JWT', 'Neon', 'Render'],
     github: 'https://github.com/NgetMeas22',
-    live: 'https://dyd-property.vercel.app',
+    live: null, // live site hidden: contains private info
+    privateDemo: true,
+    video: null, // add '/projects/videos/dyd-property.mp4' or a YouTube / Drive link
     category: ['Next.js', 'Express', 'PostgreSQL', 'Full Stack'],
     isTeamProject: false,
     featured: true,
@@ -174,7 +176,9 @@ export const projects = [
     ],
     technologies: ['Next.js', 'TypeScript', 'React', 'AOS', 'Vercel'],
     github: 'https://github.com/NgetMeas22',
-    live: 'https://lom-or-studio.vercel.app',
+    live: null, // live site hidden: contains private info
+    privateDemo: true,
+    video: null, // add '/projects/videos/lom-or-studio.mp4' or a YouTube / Drive link
     category: ['Next.js', 'Frontend'],
     isTeamProject: false,
     featured: true,
@@ -208,7 +212,9 @@ export const projects = [
     ],
     technologies: ['React', 'Vite', 'Tailwind CSS', 'i18next', 'React Router', 'Vercel'],
     github: 'https://github.com/NgetMeas22',
-    live: 'https://team-portfolios-one.vercel.app',
+    live: null, // live site hidden: contains private info
+    privateDemo: true,
+    video: null, // add '/projects/videos/ecotech-team-portfolio.mp4' or a YouTube / Drive link
     category: ['React', 'Frontend'],
     isTeamProject: false,
     featured: true,

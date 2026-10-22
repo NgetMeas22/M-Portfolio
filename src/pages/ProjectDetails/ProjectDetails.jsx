@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, 
@@ -9,11 +9,10 @@ import {
   AlertTriangle,
   Terminal,
   Activity,
-  FolderGit2,
   Layers,
   FileCode,
-  Radio,
-  Cpu
+  Lock,
+  PlayCircle,
 } from 'lucide-react';
 import { GitHubIcon } from '../../components/SocialIcons.jsx';
 import AOS from 'aos';
@@ -23,12 +22,14 @@ import { useTheme } from '../../hooks/useTheme';
 import { projects } from '../../data/projects';
 import PageBackground from '../../components/PageBackground/PageBackground.jsx';
 import ProjectCover from '../../components/ProjectCover/ProjectCover.jsx';
+import VideoModal from '../../components/VideoModal/VideoModal.jsx';
 
 export default function ProjectDetails() {
   const { id } = useParams();
   const { language, t } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [videoOpen, setVideoOpen] = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
@@ -204,6 +205,30 @@ export default function ProjectDetails() {
                 <ExternalLink size={16} />
               </a>
             )}
+            {project.video && (
+              <button
+                type="button"
+                onClick={() => setVideoOpen(true)}
+                className={`inline-flex cursor-pointer items-center gap-2 px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition-all shadow-md ${
+                  isDark
+                    ? 'bg-sky-400 text-black hover:bg-sky-300 hover:shadow-[0_0_25px_rgba(56,189,248,0.5)]'
+                    : 'bg-sky-600 text-white hover:bg-sky-700 hover:shadow-lg'
+                }`}
+              >
+                <PlayCircle size={16} />
+                {t.projects.watchDemo}
+              </button>
+            )}
+            {!project.live && !project.video && project.privateDemo && (
+              <span
+                className={`inline-flex items-center gap-2 px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl border border-dashed ${
+                  isDark ? 'border-slate-600 text-slate-500' : 'border-slate-300 text-slate-500'
+                }`}
+              >
+                <PlayCircle size={16} />
+                {t.projects.videoSoon}
+              </span>
+            )}
             {project.github && (
               <a
                 href={project.github}
@@ -233,8 +258,23 @@ export default function ProjectDetails() {
                 className={isDark ? 'shadow-[0_0_40px_rgba(16,185,129,0.12)]' : 'shadow-lg'}
               />
             </a>
+          ) : project.video ? (
+            <button type="button" onClick={() => setVideoOpen(true)} className="relative block w-full cursor-pointer text-left" aria-label={t.projects.watchDemo}>
+              <ProjectCover project={project} isDark={isDark} size="hero" />
+              <span className="absolute inset-0 flex items-center justify-center">
+                <span className="flex h-20 w-20 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-md transition-transform duration-300 group-hover:scale-110 shadow-[0_0_40px_rgba(56,189,248,0.45)]">
+                  <PlayCircle className="h-10 w-10" />
+                </span>
+              </span>
+            </button>
           ) : (
             <ProjectCover project={project} isDark={isDark} size="hero" />
+          )}
+          {project.privateDemo && (
+            <p className={`mt-3 flex items-start gap-2 text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
+              {t.projects.privateNote}
+            </p>
           )}
           {project.builtWith && (
             <p className={`mt-3 text-xs ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
@@ -480,6 +520,13 @@ export default function ProjectDetails() {
         </div>
 
       </div>
+      <VideoModal
+        open={videoOpen}
+        onClose={() => setVideoOpen(false)}
+        src={project.video}
+        title={project.title}
+        isDark={isDark}
+      />
     </section>
   );
 }
