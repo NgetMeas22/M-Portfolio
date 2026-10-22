@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './hooks/useTheme.jsx';
 import { LanguageProvider } from './hooks/useLanguage.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
@@ -16,7 +16,6 @@ import Services from './pages/Services/Services.jsx';
 import Blog from './pages/Blog/Blog.jsx';
 import BlogPost from './pages/Blog/BlogPost.jsx';
 import Contact from './pages/Contact/Contact.jsx';
-import Resume from './pages/Resume/Resume.jsx';
 import NotFound from './pages/NotFound/NotFound.jsx';
 
 function App() {
@@ -39,7 +38,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/resume" element={<Resume />} />
+            <Route path="/resume" element={<Navigate to="/about" replace />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

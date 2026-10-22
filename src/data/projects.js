@@ -117,6 +117,7 @@ export const projects = [
   {
     id: 'omniinput',
     slug: 'omniinput',
+    cover: '/projects/omniinput.webp',
     builtWith: 'Claude',
     title: 'OmniInput',
     description: 'In-progress AI assistant that accepts text, voice, image, and file input, built with Next.js, an Express API, PostgreSQL (Neon), and a custom MCP server.',

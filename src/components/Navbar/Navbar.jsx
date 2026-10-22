@@ -6,7 +6,6 @@ import {
   Code2,
   Contact,
   FileBadge,
-  FileText,
   GraduationCap,
   Home as HomeIcon,
   Languages,
@@ -39,7 +38,6 @@ const moreNav = [
   { to: '/services', label: 'services', icon: Sparkles },
   { to: '/certificates', label: 'certificates', icon: FileBadge },
   { to: '/education', label: 'education', icon: GraduationCap },
-  { to: '/resume', label: 'resume', icon: FileText },
 ];
 
 const allNav = [...primaryNav, ...moreNav];
