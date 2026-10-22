@@ -225,6 +225,7 @@ export const projects = [
   {
     id: 'cinema-management-system',
     slug: 'cinema-management-system',
+    cover: '/projects/cinema-management-system.webp',
     title: 'Cinema Management System',
     description: 'Collaborative team platform engineering a comprehensive cinema booking and screening control system built with React TypeScript, Java Spring Boot, MySQL, and Docker.',
     descriptionKh: 'ប្រព័ន្ធគ្រប់គ្រងរោងភាពយន្តសាងសង់ជាក្រុមជាមួយ React TypeScript, Java Spring Boot, MySQL, និង Docker។',
