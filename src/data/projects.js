@@ -90,8 +90,8 @@ export const projects = [
     descriptionKh: 'សៀវភៅកត់ត្រាចំណូលចំណាយដោយ AI សម្រាប់អាជីវកម្មខ្នាតតូចនៅកម្ពុជា ដែលស្កេនវិក្កយបត្រជាមួយ Google Gemini និងកត់ត្រាជាដុល្លារ និងរៀល។',
     problem: 'Small shop owners still record sales and expenses by hand, which is slow, error-prone, and makes dual-currency (USD/KHR) bookkeeping difficult.',
     problemKh: 'ម្ចាស់ហាងតូចៗនៅតែកត់ត្រាចំណូលចំណាយដោយដៃ ដែលយឺត ងាយខុស និងពិបាកគ្រប់គ្រងរូបិយប័ណ្ណពីរ (ដុល្លារ/រៀល)។',
-    solution: 'Built a React + TypeScript client served by an Express API on PostgreSQL. Receipts are photographed and parsed by Gemini into structured ledger entries with categories, VAT, and an AI explanation.',
-    solutionKh: 'បានបង្កើតកម្មវិធី React + TypeScript ជាមួយ Express API និង PostgreSQL។ វិក្កយបត្រត្រូវបានថតរូប ហើយ Gemini បំប្លែងទៅជាទិន្នន័យកត់ត្រា ដែលមានប្រភេទ VAT និងការពន្យល់ពី AI។',
+    solution: 'Built a Next.js + TypeScript frontend backed by an Express API on PostgreSQL. Receipts are photographed and parsed by Gemini into structured ledger entries with categories, VAT, and an AI explanation.',
+    solutionKh: 'បានបង្កើតកម្មវិធី Next.js + TypeScript ជាមួយ Express API និង PostgreSQL។ វិក្កយបត្រត្រូវបានថតរូប ហើយ Gemini បំប្លែងទៅជាទិន្នន័យកត់ត្រា ដែលមានប្រភេទ VAT និងការពន្យល់ពី AI។',
     features: [
       'Receipt photo scanning and data extraction with Gemini AI',
       'Dual-currency ledger (USD / KHR) with live exchange rate',
@@ -106,10 +106,10 @@ export const projects = [
       'ផ្ទាំងសង្ខេប ប្រវត្តិប្រតិបត្តិការ និងការជូនដំណឹង',
       'ចំណុចប្រទាក់ភាសាខ្មែរ ងាយប្រើលើទូរស័ព្ទ'
     ],
-    technologies: ['React', 'TypeScript', 'Vite', 'Express.js', 'PostgreSQL', 'Gemini AI', 'JWT', 'Tailwind CSS', 'Render'],
+    technologies: ['Next.js', 'TypeScript', 'Express.js', 'PostgreSQL', 'Gemini AI', 'JWT', 'Tailwind CSS', 'Render'],
     github: 'https://github.com/NgetMeas22',
     live: 'https://ai-ledger-one.vercel.app',
-    category: ['React', 'Express', 'PostgreSQL', 'AI', 'Full Stack'],
+    category: ['Next.js', 'Express', 'PostgreSQL', 'AI', 'Full Stack'],
     isTeamProject: false,
     featured: true,
     year: '2026'

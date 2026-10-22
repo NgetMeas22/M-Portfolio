@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   BriefcaseBusiness,
-  ChevronDown,
   Code2,
   Contact,
   FileBadge,
@@ -22,25 +21,18 @@ import {
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { useTheme } from '../../hooks/useTheme.jsx';
 
-// Shown directly in the desktop bar
-const primaryNav = [
+const navItems = [
   { to: '/', label: 'home', end: true, icon: HomeIcon },
   { to: '/about', label: 'about', icon: User },
   { to: '/skills', label: 'skills', icon: Code2 },
   { to: '/projects', label: 'projects', icon: Layers3 },
   { to: '/experience', label: 'experience', icon: BriefcaseBusiness },
-  { to: '/blog', label: 'blog', icon: Newspaper },
-  { to: '/contact', label: 'contact', icon: Contact },
-];
-
-// Grouped under the desktop "More" dropdown
-const moreNav = [
   { to: '/services', label: 'services', icon: Sparkles },
   { to: '/certificates', label: 'certificates', icon: FileBadge },
   { to: '/education', label: 'education', icon: GraduationCap },
+  { to: '/blog', label: 'blog', icon: Newspaper },
+  { to: '/contact', label: 'contact', icon: Contact },
 ];
-
-const allNav = [...primaryNav, ...moreNav];
 
 const languages = [
   { id: 'en', label: 'English', hint: 'EN' },
@@ -115,10 +107,8 @@ function MatrixBackground({ isDark }) {
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
-  const moreRef = useRef(null);
   const location = useLocation();
 
   const langContext = useLanguage();
@@ -158,7 +148,6 @@ export default function Navbar() {
   if (lastPath !== location.pathname) {
     setLastPath(location.pathname);
     setIsOpen(false);
-    setMoreOpen(false);
   }
 
   useEffect(() => {
@@ -169,30 +158,15 @@ export default function Navbar() {
   }, [isOpen]);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (moreRef.current && !moreRef.current.contains(event.target)) {
-        setMoreOpen(false);
-      }
-    };
     const handleKey = (event) => {
-      if (event.key === 'Escape') {
-        setMoreOpen(false);
-        setIsOpen(false);
-      }
+      if (event.key === 'Escape') setIsOpen(false);
     };
-    document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleKey);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKey);
-    };
+    return () => document.removeEventListener('keydown', handleKey);
   }, []);
 
   const toggleLanguage = () => setLanguage?.(language === 'en' ? 'kh' : 'en');
   const toggleTheme = () => setTheme?.(isDark ? 'light' : 'dark');
-
-  const moreActive = moreNav.some((item) => location.pathname.startsWith(item.to));
-  const activeMore = moreNav.find((item) => location.pathname.startsWith(item.to));
 
   const headerClass = scrolled
     ? isDark
@@ -209,7 +183,7 @@ export default function Navbar() {
   }`;
 
   const desktopLinkClass = (isActive) =>
-    `group relative inline-flex items-center gap-1.5 rounded-lg px-2 xl:px-2.5 py-2 text-[11px] xl:text-xs font-bold font-mono uppercase tracking-wider whitespace-nowrap transition-colors duration-150 cursor-pointer ${
+    `group relative inline-flex items-center gap-1.5 rounded-lg px-2 2xl:px-2.5 py-2 text-[11px] 2xl:text-xs font-bold font-mono uppercase tracking-wider whitespace-nowrap transition-colors duration-150 cursor-pointer ${
       isActive
         ? isDark
           ? 'text-emerald-300 bg-emerald-500/10'
@@ -276,8 +250,8 @@ export default function Navbar() {
           </NavLink>
 
           {/* DESKTOP NAVIGATION */}
-          <div className="z-10 hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1">
-            {primaryNav.map((item) => {
+          <div className="z-10 hidden min-w-0 items-center gap-0.5 xl:flex 2xl:gap-1">
+            {navItems.map((item) => {
               const Icon = item.icon;
               return (
                 <NavLink
@@ -288,7 +262,7 @@ export default function Navbar() {
                 >
                   {({ isActive }) => (
                     <>
-                      <Icon className="hidden h-3.5 w-3.5 opacity-80 xl:block" />
+                      <Icon className="hidden h-3.5 w-3.5 opacity-80 2xl:block" />
                       {label(item.label)}
                       {activeBar(isActive)}
                     </>
@@ -296,63 +270,6 @@ export default function Navbar() {
                 </NavLink>
               );
             })}
-
-            {/* MORE DROPDOWN */}
-            <div ref={moreRef} className="relative">
-              <button
-                type="button"
-                onClick={() => setMoreOpen((prev) => !prev)}
-                className={desktopLinkClass(moreActive)}
-                aria-expanded={moreOpen}
-                aria-haspopup="menu"
-              >
-                {activeMore ? label(activeMore.label) : label('more')}
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`} />
-                {activeBar(moreActive)}
-              </button>
-
-              <div
-                role="menu"
-                className={`absolute right-0 top-full mt-3 w-60 origin-top-right rounded-xl border p-1.5 font-mono transition-all duration-150 ${
-                  moreOpen ? 'visible scale-100 opacity-100' : 'invisible scale-95 opacity-0'
-                } ${
-                  isDark
-                    ? 'border-emerald-500/30 bg-[#030504]/95 shadow-[0_10px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl'
-                    : 'border-emerald-200 bg-white shadow-xl'
-                }`}
-              >
-                {moreNav.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <NavLink
-                      key={item.to}
-                      to={item.to}
-                      role="menuitem"
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors ${
-                          isActive
-                            ? isDark
-                              ? 'bg-emerald-500/10 text-emerald-300'
-                              : 'bg-emerald-50 text-emerald-800'
-                            : isDark
-                              ? 'text-slate-400 hover:bg-emerald-500/5 hover:text-emerald-300'
-                              : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'
-                        }`
-                      }
-                    >
-                      <span
-                        className={`flex h-7 w-7 items-center justify-center rounded-md border ${
-                          isDark ? 'border-emerald-500/25 bg-emerald-950/40' : 'border-emerald-200 bg-emerald-50'
-                        }`}
-                      >
-                        <Icon className="h-3.5 w-3.5" />
-                      </span>
-                      {label(item.label)}
-                    </NavLink>
-                  );
-                })}
-              </div>
-            </div>
           </div>
 
           {/* CONTROLS */}
@@ -390,7 +307,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setIsOpen(true)}
-              className={`${iconButtonClass} w-9 px-0 lg:hidden`}
+              className={`${iconButtonClass} w-9 px-0 xl:hidden`}
               aria-label="Open navigation"
               aria-expanded={isOpen}
             >
@@ -412,7 +329,7 @@ export default function Navbar() {
 
       {/* MOBILE DRAWER */}
       <div
-        className={`fixed inset-0 z-60 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-60 transition-opacity duration-300 xl:hidden ${
           isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
         aria-hidden={!isOpen}
@@ -444,7 +361,7 @@ export default function Navbar() {
           <div className="flex-1 overflow-y-auto px-4 py-4">
             <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest text-emerald-600">{'// navigate'}</p>
             <div className="space-y-1">
-              {allNav.map((item, i) => {
+              {navItems.map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <NavLink
