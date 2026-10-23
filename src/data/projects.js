@@ -320,6 +320,7 @@ export const projects = [
     technologies: ['React', 'Vite', 'Tailwind CSS'],
     github: 'https://github.com/NgetMeas22/M-Portfolio',
     live: 'https://m-portfolio-one-ebon.vercel.app',
+    video: '/projects/videos/IMG_0307.MOV',
     category: ['React', 'Frontend'],
     isTeamProject: false,
     featured: true,

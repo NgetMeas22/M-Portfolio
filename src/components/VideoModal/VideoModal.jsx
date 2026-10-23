@@ -80,7 +80,19 @@ export default function VideoModal({ open, onClose, src, title, isDark }) {
               allowFullScreen
             />
           ) : (
-            <video src={video.url} className="h-full w-full" controls autoPlay muted playsInline />
+            <video
+              key={video.url}
+              src={video.url}
+              className="h-full w-full"
+              controls
+              autoPlay
+              muted
+              playsInline
+            >
+              <source src={video.url} type="video/mp4" />
+              <source src={video.url} type="video/quicktime" />
+              Your browser does not support the video tag.
+            </video>
           )}
         </div>
       </div>

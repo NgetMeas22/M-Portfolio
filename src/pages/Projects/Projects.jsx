@@ -300,8 +300,8 @@ export default function Projects() {
                         Live
                       </span>
                     )}
-                    {!project.live && project.video && (
-                      <span className="ml-auto inline-flex items-center gap-1 rounded border border-sky-300/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold uppercase text-sky-200 backdrop-blur-sm">
+                    {project.video && (
+                      <span className={`${project.live ? '' : 'ml-auto'} inline-flex items-center gap-1 rounded border border-sky-300/40 bg-black/70 px-1.5 py-0.5 text-[10px] font-bold uppercase text-sky-200 backdrop-blur-sm`}>
                         <PlayCircle className="h-3 w-3" />
                         Video
                       </span>

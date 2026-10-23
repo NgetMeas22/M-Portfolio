@@ -250,14 +250,27 @@ export default function ProjectDetails() {
         {/* COVER PREVIEW */}
         <div data-aos="fade-up" className="group mx-auto mb-12 max-w-5xl">
           {project.live ? (
-            <a href={project.live} target="_blank" rel="noopener noreferrer" className="block">
-              <ProjectCover
-                project={project}
-                isDark={isDark}
-                size="hero"
-                className={isDark ? 'shadow-[0_0_40px_rgba(16,185,129,0.12)]' : 'shadow-lg'}
-              />
-            </a>
+            <div className="relative">
+              <a href={project.live} target="_blank" rel="noopener noreferrer" className="block">
+                <ProjectCover
+                  project={project}
+                  isDark={isDark}
+                  size="hero"
+                  className={isDark ? 'shadow-[0_0_40px_rgba(16,185,129,0.12)]' : 'shadow-lg'}
+                />
+              </a>
+              {project.video && (
+                <button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
+                  className="absolute bottom-4 right-4 inline-flex cursor-pointer items-center gap-2 rounded-xl border border-sky-400/50 bg-black/85 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-sky-300 backdrop-blur-md transition-all hover:bg-sky-500 hover:text-black hover:shadow-[0_0_25px_rgba(56,189,248,0.5)] shadow-xl"
+                  aria-label={t.projects.watchDemo}
+                >
+                  <PlayCircle className="h-4 w-4" />
+                  {t.projects.watchDemo}
+                </button>
+              )}
+            </div>
           ) : project.video ? (
             <button type="button" onClick={() => setVideoOpen(true)} className="relative block w-full cursor-pointer text-left" aria-label={t.projects.watchDemo}>
               <ProjectCover project={project} isDark={isDark} size="hero" />
