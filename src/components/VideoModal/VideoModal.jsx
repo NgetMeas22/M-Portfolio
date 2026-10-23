@@ -80,7 +80,7 @@ export default function VideoModal({ open, onClose, src, title, isDark }) {
               allowFullScreen
             />
           ) : (
-            <video src={video.url} className="h-full w-full" controls autoPlay playsInline />
+            <video src={video.url} className="h-full w-full" controls autoPlay muted playsInline />
           )}
         </div>
       </div>

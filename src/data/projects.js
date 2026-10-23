@@ -72,7 +72,7 @@ export const projects = [
     github: 'https://github.com/NgetMeas22',
     live: null, // live site hidden: contains private info
     privateDemo: true,
-    video: null, // add '/projects/videos/dyd-property.mp4' or a YouTube / Drive link
+    video: '/projects/videos/dyd-property.mp4',
     category: ['Next.js', 'Express', 'PostgreSQL', 'Full Stack'],
     isTeamProject: false,
     featured: true,
@@ -178,7 +178,7 @@ export const projects = [
     github: 'https://github.com/NgetMeas22',
     live: null, // live site hidden: contains private info
     privateDemo: true,
-    video: null, // add '/projects/videos/lom-or-studio.mp4' or a YouTube / Drive link
+    video: '/projects/videos/lom-or-studio.mp4',
     category: ['Next.js', 'Frontend'],
     isTeamProject: false,
     featured: true,
