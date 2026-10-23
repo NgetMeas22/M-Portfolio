@@ -248,6 +248,7 @@ export const projects = [
     technologies: ['React TypeScript', 'Java', 'Spring Boot', 'MySQL', 'Docker'],
     github: 'https://github.com/NgetMeas22',
     live: null,
+    video: '/projects/videos/cinema-management-system.mp4',
     category: ['React TS','Java Spring Boot', 'MySQL', 'Team Project'],
     isTeamProject: true,
     featured: true,
